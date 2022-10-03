@@ -40,9 +40,13 @@ const TeamIcon = React.memo(function TeamIcon({
                 height: 34,
                 padding: 2,
                 backgroundColor:
-                    player.name === activePlayerName ? 'purple' : undefined,
+                    player.name.toLowerCase() ===
+                    activePlayerName?.toLowerCase()
+                        ? 'purple'
+                        : undefined,
                 border:
-                    player.name === activePlayerName
+                    player.name.toLowerCase() ===
+                    activePlayerName?.toLowerCase()
                         ? '2px solid purple'
                         : undefined,
             }}

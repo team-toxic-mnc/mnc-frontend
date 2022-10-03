@@ -2,6 +2,7 @@ import { Button, Flex, Image, Text } from '@chakra-ui/react';
 import React, { useCallback } from 'react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import { Error } from '../components/Error';
+import { Loading } from '../components/Loading';
 import { DataDragonService } from '../services/dataDragon/DataDragonService';
 import { ToxicDataService } from '../services/toxicData/ToxicDataService';
 import { MatchHistoryChampion } from '../types/domain/Match';
@@ -108,6 +109,10 @@ export const MatchScreen = React.memo(function MatchHistory() {
     const championIdMap = championIdMapResponse.data ?? {};
 
     const rawMatch = matchHistory.find((match) => match.id === matchId);
+
+    if (matchHistoryResponse.isLoading) {
+        return <Loading />;
+    }
 
     if (rawMatch === undefined) {
         return <Error error={'Game not found!'} />;

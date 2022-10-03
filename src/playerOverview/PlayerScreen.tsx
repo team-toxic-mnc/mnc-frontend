@@ -45,6 +45,7 @@ import {
     playerMatchHistoryColumns,
 } from '../matchHistory/matchHistoryColumnHelper';
 import { Match } from '../types/domain/Match';
+import { Loading } from '../components/Loading';
 
 ChartJS.register(
     RadialLinearScale,
@@ -84,10 +85,12 @@ const processPlayerChampions = (
 function isPlayerMatchWinner(player: Player, match: Match) {
     return match.winner === 'Team 1'
         ? match.team1.players.findIndex(
-              (matchPlayer) => matchPlayer.name === player.name
+              (matchPlayer) =>
+                  matchPlayer.name.toLowerCase() === player.name.toLowerCase()
           ) > -1
         : match.team2.players.findIndex(
-              (matchPlayer) => matchPlayer.name === player.name
+              (matchPlayer) =>
+                  matchPlayer.name.toLowerCase() === player.name.toLowerCase()
           ) > -1;
 }
 
@@ -151,6 +154,14 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
         });
     }, [playerClasses]);
 
+    if (playerResponse.isError) {
+        return <Error error={'Something went wrong! Try again later.'} />;
+    }
+
+    if (playerResponse.isLoading) {
+        return <Loading />;
+    }
+
     if (player === undefined) {
         return <Error error={'Player not found!'} />;
     }
@@ -164,10 +175,14 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
         .filter((match) => {
             return (
                 match.team1.players.findIndex(
-                    (matchPlayer) => matchPlayer.name === player.name
+                    (matchPlayer) =>
+                        matchPlayer.name.toLowerCase() ===
+                        player.name.toLowerCase()
                 ) > -1 ||
                 match.team2.players.findIndex(
-                    (matchPlayer) => matchPlayer.name === player.name
+                    (matchPlayer) =>
+                        matchPlayer.name.toLowerCase() ===
+                        player.name.toLowerCase()
                 ) > -1
             );
         })
@@ -178,8 +193,6 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                 playerName: player.name,
             };
         });
-
-    console.log('render');
 
     const playerTeammateData: PlayerRecord[] = Object.values(
         player.teammates ?? []
