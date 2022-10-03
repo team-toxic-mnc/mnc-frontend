@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback } from 'react';
+import React, { ReactNode, useCallback, useState } from 'react';
 import {
     IconButton,
     Avatar,
@@ -93,6 +93,7 @@ interface SidebarProps extends BoxProps {
 }
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
+    const [selectedNavRoute, setSelectedNavRoute] = useState(LinkItems[0].name);
     return (
         <Box
             transition='3s ease'
@@ -130,6 +131,8 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
                     icon={link.icon}
                     route={link.route}
                     onClose={onClose}
+                    selectedNavRoute={selectedNavRoute}
+                    setSelectedNavRoute={setSelectedNavRoute}
                 >
                     {link.name}
                 </NavItem>
@@ -139,18 +142,34 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
 };
 
 interface NavItemProps extends FlexProps {
+    key: string;
     icon: IconType;
     children: ReactText;
     route: string;
     onClose: () => void;
+    selectedNavRoute: string;
+    setSelectedNavRoute: (navKey: string) => void;
 }
-const NavItem = ({ icon, children, route, onClose, ...rest }: NavItemProps) => {
+
+const NavItem = ({
+    icon,
+    children,
+    route,
+    onClose,
+    selectedNavRoute,
+    setSelectedNavRoute,
+    ...rest
+}: NavItemProps) => {
     const navigate = useNavigate();
+    const isSelected = () => {
+        return selectedNavRoute === route;
+    };
 
     const onClick = useCallback(() => {
+        setSelectedNavRoute(route);
         navigate(route);
         onClose();
-    }, [route, navigate]);
+    }, [setSelectedNavRoute, route, navigate, onClose]);
 
     return (
         <Link
@@ -165,9 +184,17 @@ const NavItem = ({ icon, children, route, onClose, ...rest }: NavItemProps) => {
                 borderRadius='lg'
                 role='group'
                 cursor='pointer'
+                color={isSelected() ? 'white' : 'black'}
+                bg={isSelected() ? 'primary' : 'white'}
+                opacity={isSelected() ? 1 : 0.5}
                 _hover={{
-                    bg: 'cyan.400',
+                    bg: 'primary',
                     color: 'white',
+                    opacity: isSelected() ? 1 : 0.5,
+                }}
+                _active={{
+                    bg: 'primary',
+                    opacity: 1,
                 }}
                 onClick={onClick}
                 {...rest}
