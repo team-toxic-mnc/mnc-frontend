@@ -2,6 +2,7 @@ import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import React from 'react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import { Error } from '../components/Error';
+import { Loading } from '../components/Loading';
 import { SortableTable } from '../components/SortableTable';
 import { StatsCard } from '../components/StatsCard';
 import { ChampionClassMap } from '../data/championClasses';
@@ -113,6 +114,10 @@ export const ChampionScreen = React.memo(function ChampionScreen() {
         champion,
         players
     );
+
+    if (playersResponse.isLoading) {
+        return <Loading />;
+    }
 
     if (champion === undefined) {
         return <Error error={'Champion not found!'} />;
