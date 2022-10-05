@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { SortableTable } from '../components/SortableTable';
 import { ToxicDataService } from '../services/toxicData/ToxicDataService';
 import { Player } from '../types/domain/Player';
-import { getMmrColor } from '../utils/mmrColorHelpers';
+import { getMmrColor } from '../utils/mmrHelpers';
 import './PlayerOverview.css';
 
 type PlayerTableData = {

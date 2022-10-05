@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { getMmrColor } from '../../utils/mmrColorHelpers';
+import { getMmrColor } from '../../utils/mmrHelpers';
 
 import CSS from 'csstype';
 import { Player } from '../../types/domain/Player';

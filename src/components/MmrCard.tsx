@@ -1,6 +1,6 @@
 import React from 'react';
 import { Player } from '../types/domain/Player';
-import { getMmrColor } from '../utils/mmrColorHelpers';
+import { getMmrColor } from '../utils/mmrHelpers';
 
 export const MmrCard = React.memo(function MmrCard({
     player,

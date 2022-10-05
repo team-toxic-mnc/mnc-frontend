@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getMmrColor } from '../utils/mmrColorHelpers';
+import { getMmrColor } from '../utils/mmrHelpers';
 
 import CSS from 'csstype';
 import { PlayerCard } from './slideshow/PlayerCard';
