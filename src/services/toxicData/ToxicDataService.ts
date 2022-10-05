@@ -2,15 +2,18 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { Champion } from '../../types/domain/Champion';
 import { Match } from '../../types/domain/Match';
+import { MmrHistoryItem } from '../../types/domain/MmrHistoryItem';
 import { Player } from '../../types/domain/Player';
 import { MatchData } from '../../types/service/toxicData/MatchData';
 import { MmrData } from '../../types/service/toxicData/MmrData';
+import { MmrPerMatchData } from '../../types/service/toxicData/MmrPerMatchData';
 import { StatsData } from '../../types/service/toxicData/StatsData';
-import { mapMatchHistory, mapStats } from './dataMapper';
+import { mapMatchHistory, mapMmrPerMatch, mapStats } from './dataMapper';
 
 const placementEndpoint =
     'https://toxic-api-production.gggrunt16.workers.dev/placement';
-const mmrEndpoint = 'https://toxic-api-production.gggrunt16.workers.dev/mmr';
+const mmrPerMatchEndpoint =
+    'https://toxic-api-production.gggrunt16.workers.dev/mmr_per_match';
 const statsEndpoint =
     'https://toxic-api-production.gggrunt16.workers.dev/stats';
 const matchHistoryEndpoint =
@@ -34,9 +37,9 @@ export const fetchStats = () =>
         })
         .then((res) => res.data);
 
-const fetchMMR = () =>
+const fetchMmrPerMatch = () =>
     axios
-        .get<MmrData>(mmrEndpoint, {
+        .get<MmrPerMatchData[]>(mmrPerMatchEndpoint, {
             headers: {
                 Accept: 'application/json',
             },
@@ -75,6 +78,16 @@ const useMatchHistory = () => {
     return useQuery<MatchData, Error>(['matchHistory'], fetchMatchHistory, {
         staleTime: 2000,
     });
+};
+
+const useMmrPerMatch = () => {
+    return useQuery<MmrPerMatchData[], Error>(
+        ['mmrPerMatch'],
+        fetchMmrPerMatch,
+        {
+            staleTime: 2000,
+        }
+    );
 };
 
 type ServiceResponseBase = {
@@ -135,7 +148,7 @@ export const ToxicDataService = {
                 return player.name === id;
             });
 
-            const mmrData = mmrResponse.data.mmr[id];
+            const mmrData = Math.round(mmrResponse.data.mmr[id]);
 
             return {
                 data: {
@@ -229,6 +242,26 @@ export const ToxicDataService = {
                 data: undefined,
                 isLoading: matchHistoryResponse.isLoading,
                 isError: matchHistoryResponse.isError,
+            };
+        }
+    },
+    useMmrPerMatch: (): {
+        data: MmrHistoryItem[] | undefined;
+    } & ServiceResponseBase => {
+        const mmrPerMatchResponse = useMmrPerMatch();
+
+        if (mmrPerMatchResponse.data) {
+            const mmrData = mmrPerMatchResponse.data;
+            return {
+                data: mapMmrPerMatch(mmrData),
+                isLoading: mmrPerMatchResponse.isLoading,
+                isError: mmrPerMatchResponse.isError,
+            };
+        } else {
+            return {
+                data: undefined,
+                isLoading: mmrPerMatchResponse.isLoading,
+                isError: mmrPerMatchResponse.isError,
             };
         }
     },

@@ -1,7 +1,9 @@
 import { Champion } from '../../types/domain/Champion';
 import { Match } from '../../types/domain/Match';
+import { MmrHistoryItem } from '../../types/domain/MmrHistoryItem';
 import { Player, PlayerRecord } from '../../types/domain/Player';
 import { MatchData } from '../../types/service/toxicData/MatchData';
+import { MmrPerMatchData } from '../../types/service/toxicData/MmrPerMatchData';
 import { StatsData } from '../../types/service/toxicData/StatsData';
 
 export function mapStats(data: StatsData): {
@@ -216,4 +218,19 @@ export function mapMatchHistory(data: MatchData): Match[] {
         (a, b) => b.date.getTime() - a.date.getTime()
     );
     return sortedHistory;
+}
+
+export function mapMmrPerMatch(data: MmrPerMatchData[]): MmrHistoryItem[] {
+    return data.map((value, index) => {
+        const players: { [key: string]: number } = {};
+
+        for (const [k, v] of Object.entries(value.mmr)) {
+            players[k] = Math.round(v);
+        }
+
+        return {
+            id: index.toString(),
+            players: players,
+        };
+    });
 }
