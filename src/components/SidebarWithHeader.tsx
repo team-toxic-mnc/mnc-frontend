@@ -22,6 +22,9 @@ import {
     MenuItem,
     MenuList,
     Center,
+    Button,
+    ButtonGroup,
+    Stack,
 } from '@chakra-ui/react';
 import {
     FiHome,
@@ -125,18 +128,19 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
                     onClick={onClose}
                 />
             </Flex>
-            {LinkItems.map((link) => (
-                <NavItem
-                    key={link.name}
-                    icon={link.icon}
-                    route={link.route}
-                    onClose={onClose}
-                    selectedNavRoute={selectedNavRoute}
-                    setSelectedNavRoute={setSelectedNavRoute}
-                >
-                    {link.name}
-                </NavItem>
-            ))}
+            <VStack spacing='24px' align='stretch' justify='flex-start'>
+                {LinkItems.map((link) => (
+                    <NavItem
+                        key={link.name}
+                        icon={link.icon}
+                        route={link.route}
+                        onClose={onClose}
+                        selectedNavRoute={selectedNavRoute}
+                        setSelectedNavRoute={setSelectedNavRoute}
+                        label={link.name}
+                    ></NavItem>
+                ))}
+            </VStack>
         </Box>
     );
 };
@@ -144,7 +148,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
 interface NavItemProps extends FlexProps {
     key: string;
     icon: IconType;
-    children: ReactText;
+    label: string;
     route: string;
     onClose: () => void;
     selectedNavRoute: string;
@@ -153,12 +157,11 @@ interface NavItemProps extends FlexProps {
 
 const NavItem = ({
     icon,
-    children,
+    label,
     route,
     onClose,
     selectedNavRoute,
     setSelectedNavRoute,
-    ...rest
 }: NavItemProps) => {
     const navigate = useNavigate();
     const isSelected = () => {
@@ -177,39 +180,17 @@ const NavItem = ({
             style={{ textDecoration: 'none' }}
             _focus={{ boxShadow: 'none' }}
         >
-            <Flex
-                align='center'
-                p='4'
-                mx='4'
-                borderRadius='lg'
-                role='group'
-                cursor='pointer'
-                color={isSelected() ? 'white' : 'black'}
-                bg={isSelected() ? 'primary' : 'white'}
-                opacity={isSelected() ? 1 : 0.5}
-                _hover={{
-                    bg: 'primary',
-                    color: 'white',
-                    opacity: isSelected() ? 1 : 0.5,
-                }}
-                _active={{
-                    bg: 'primary',
-                    opacity: 1,
-                }}
-                onClick={onClick}
-                {...rest}
-            >
-                {icon && (
-                    <Icon
-                        mr='4'
-                        fontSize='16'
-                        _groupHover={{
-                            color: 'white',
-                        }}
-                        as={icon}
-                    />
-                )}
-                {children}
+            <Flex direction='column'>
+                <Button
+                    leftIcon={<Icon as={icon}></Icon>}
+                    onClick={onClick}
+                    variant={isSelected() ? 'solid' : 'ghost'}
+                    size='lg'
+                    borderRadius='0'
+                    justifyContent='flex-start'
+                >
+                    <Text>{label}</Text>
+                </Button>
             </Flex>
         </Link>
     );
