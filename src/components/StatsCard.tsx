@@ -1,6 +1,5 @@
-import { registerables } from 'chart.js';
 import React from 'react';
-import { getMmrColor } from '../utils/mmrColorHelpers';
+import { getMmrColor } from '../utils/mmrHelpers';
 
 export const StatsCard = React.memo(function StatsCard({
     stats,
