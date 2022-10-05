@@ -125,14 +125,14 @@ export const Slideshow = React.memo(function Slideshow({
     // sort the players by MMR
     const sortedPlayers = players
         ? players
-              .filter((value) => (value.wins ?? 0) + (value.losses ?? 0) > 10)
+              .filter((value) => (value.wins ?? 0) + (value.losses ?? 0) >= 10)
               .sort((a, b) => (b.mmr ?? 0) - (a.mmr ?? 0))
         : [];
 
     // sort the champions by win rate
     const sortedChampions = champions
         ? champions
-              .filter((value) => value.totalGames > 10)
+              .filter((value) => value.totalGames >= 10)
               .sort((a, b) => b.winPercentage - a.winPercentage)
         : [];
 

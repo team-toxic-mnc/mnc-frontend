@@ -11,7 +11,7 @@ import {
 } from '../utils/championImageHelpers';
 
 import { championClassWinRates, ChampionClass } from '../data/championClasses';
-import { Radar } from 'react-chartjs-2';
+import { Line, Radar } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
     RadialLinearScale,
@@ -21,6 +21,8 @@ import {
     Tooltip,
     Legend,
     ChartData,
+    CategoryScale,
+    LinearScale,
 } from 'chart.js';
 import { getMmrColor } from '../utils/mmrColorHelpers';
 import { SummonerCollage } from '../components/SummonerCollage';
@@ -46,11 +48,16 @@ import {
 } from '../matchHistory/matchHistoryColumnHelper';
 import { Match } from '../types/domain/Match';
 import { Loading } from '../components/Loading';
+import { MmrHistoryItem } from '../types/domain/MmrHistoryItem';
+import { MmrCard } from '../components/MmrCard';
+import { FiChevronDown, FiChevronUp, FiMinus } from 'react-icons/fi';
 
 ChartJS.register(
     RadialLinearScale,
     PointElement,
     LineElement,
+    CategoryScale,
+    LinearScale,
     Filler,
     Tooltip,
     Legend
@@ -60,7 +67,30 @@ export async function loader(data: { params: any }) {
     return data.params.playerId;
 }
 
-const MAX_CONTENT_WIDTH = 1024;
+const processMmrChanges = (data: MmrHistoryItem[]) => {
+    const playerMMR: { [key: string]: { gameId: number; mmr: number }[] } = {};
+
+    for (let i = 0; i < data.length; i++) {
+        const match = data[i];
+        for (const playerName of Object.keys(match.players)) {
+            if (playerMMR[playerName] === undefined) {
+                playerMMR[playerName] = [];
+            }
+
+            if (playerMMR[playerName].length > 0) {
+                let mostRecent =
+                    playerMMR[playerName][playerMMR[playerName].length - 1];
+                if (mostRecent.mmr === match.players[playerName]) continue;
+            }
+
+            playerMMR[playerName].push({
+                gameId: i + 1,
+                mmr: match.players[playerName],
+            });
+        }
+    }
+    return playerMMR;
+};
 
 /**
  * Given a player, create an array of champions that player has played with image url populated
@@ -106,6 +136,39 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
     const matchHistoryResponse = ToxicDataService.useMatchHistory();
     const matchHistory = matchHistoryResponse.data ?? [];
 
+    const mmrPerMatchResponse = ToxicDataService.useMmrPerMatch();
+    const mmrPerMatch = mmrPerMatchResponse.data ?? [];
+    const mmrPerMatchMap = processMmrChanges(mmrPerMatch);
+    const playerMmrPerMatch = mmrPerMatchMap[playerId] ?? [];
+    const playerMmrPerMatchSliced = playerMmrPerMatch.slice(10).map((value) => {
+        return { x: value.gameId, y: value.mmr };
+    });
+    const last5Matches = playerMmrPerMatchSliced.slice(-5);
+    const mmrChangePercentage =
+        last5Matches.length > 0
+            ? Math.round(
+                  ((last5Matches[last5Matches.length - 1].y -
+                      last5Matches[0].y) /
+                      last5Matches[0].y) *
+                      10000
+              ) / 100
+            : 0;
+
+    const playerMmrPerMatchData = {
+        datasets: [
+            {
+                data: playerMmrPerMatchSliced,
+                fill: true,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgb(255, 99, 132)',
+                pointBackgroundColor: 'rgb(255, 99, 132)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgb(255, 99, 132)',
+            },
+        ],
+    };
+
     // only recompute the player classes when are looking at a new player
     const playerClasses = useMemo(
         () => championClassWinRates(Object.values(player?.champions ?? {})),
@@ -116,43 +179,35 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
         return value.toString();
     });
 
-    const [chartData, setChartData] = useState<
-        ChartData<'radar', (number | null)[], unknown>
-    >({ datasets: [], labels: chartLabels });
-
-    useEffect(() => {
-        setChartData({
-            labels: chartLabels,
-            datasets: [
-                {
-                    label: 'Wins',
-                    data: Object.values(playerClasses).map(
-                        (value) => value.wins
-                    ),
-                    fill: true,
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    borderColor: 'rgb(255, 99, 132)',
-                    pointBackgroundColor: 'rgb(255, 99, 132)',
-                    pointBorderColor: '#fff',
-                    pointHoverBackgroundColor: '#fff',
-                    pointHoverBorderColor: 'rgb(255, 99, 132)',
-                },
-                {
-                    label: 'Total Games',
-                    data: Object.values(playerClasses).map(
-                        (value) => value.losses + value.wins
-                    ),
-                    fill: true,
-                    backgroundColor: 'rgba(99, 132, 255, 0.5)',
-                    borderColor: 'rgb(99, 132, 255, 0.5)',
-                    pointBackgroundColor: 'rgb(99, 132, 255)',
-                    pointBorderColor: '#fff',
-                    pointHoverBackgroundColor: '#fff',
-                    pointHoverBorderColor: 'rgb(99, 132, 225)',
-                },
-            ],
-        });
-    }, [playerClasses]);
+    const chartData: ChartData<'radar', (number | null)[], unknown> = {
+        labels: chartLabels,
+        datasets: [
+            {
+                label: 'Wins',
+                data: Object.values(playerClasses).map((value) => value.wins),
+                fill: true,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgb(255, 99, 132)',
+                pointBackgroundColor: 'rgb(255, 99, 132)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgb(255, 99, 132)',
+            },
+            {
+                label: 'Total Games',
+                data: Object.values(playerClasses).map(
+                    (value) => value.losses + value.wins
+                ),
+                fill: true,
+                backgroundColor: 'rgba(99, 132, 255, 0.5)',
+                borderColor: 'rgb(99, 132, 255, 0.5)',
+                pointBackgroundColor: 'rgb(99, 132, 255)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgb(99, 132, 225)',
+            },
+        ],
+    };
 
     if (playerResponse.isError) {
         return <Error error={'Something went wrong! Try again later.'} />;
@@ -257,41 +312,7 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                         <div style={{ marginLeft: 16 }}>
                             <StatsCard stats={player} hideName={true} />
                         </div>
-                        <div
-                            style={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                flex: 1,
-                                maxWidth: 150,
-                                marginLeft: 32,
-                                padding: 16,
-                                marginRight: 32,
-                                alignItems: 'center',
-                            }}
-                        >
-                            <h1
-                                style={
-                                    player.mmr
-                                        ? {
-                                              fontSize: 60,
-                                              backgroundColor: getMmrColor(
-                                                  player.mmr
-                                              ),
-                                              borderRadius: 10,
-                                              paddingLeft: 4,
-                                              paddingRight: 4,
-                                          }
-                                        : {
-                                              fontSize: 30,
-                                          }
-                                }
-                            >
-                                {player.mmr
-                                    ? Math.round(player.mmr)
-                                    : 'Not Placed'}
-                            </h1>
-                            <h1>{'MMR'}</h1>
-                        </div>
+                        <MmrCard player={player} />
                         <div
                             style={{
                                 display: 'flex',
@@ -317,6 +338,7 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                 <TabList style={{ maxWidth: 1024 }}>
                     <Tab>Champion Overview</Tab>
                     <Tab>Match History</Tab>
+                    <Tab>MMR Summary</Tab>
                     <Tab>Teammate Record</Tab>
                     <Tab>Opponent Record</Tab>
                 </TabList>
@@ -353,6 +375,71 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                                 };
                             }}
                         />
+                    </TabPanel>
+                    <TabPanel>
+                        <Flex direction={'column'}>
+                            <Flex
+                                direction={'row'}
+                                justifyContent={'center'}
+                                alignItems={'center'}
+                            >
+                                {playerMmrPerMatchSliced.length > 0 ? (
+                                    <>
+                                        <h1 style={{ fontSize: 60 }}>
+                                            {`${mmrChangePercentage}%`}
+                                        </h1>
+                                        {mmrChangePercentage == 0 ? (
+                                            <FiMinus
+                                                size={'60'}
+                                                color={'orange'}
+                                            />
+                                        ) : mmrChangePercentage > 0 ? (
+                                            <FiChevronUp
+                                                size={'60'}
+                                                color={'green'}
+                                            />
+                                        ) : (
+                                            <FiChevronDown
+                                                size={'60'}
+                                                color={'red'}
+                                            />
+                                        )}
+                                    </>
+                                ) : (
+                                    <h1 style={{ fontSize: 30 }}>
+                                        {`Not Placed! Player must complete 10 Games...`}
+                                    </h1>
+                                )}
+                            </Flex>
+                            {playerMmrPerMatchSliced.length > 0 ? (
+                                <Line
+                                    data={playerMmrPerMatchData}
+                                    style={{ maxHeight: 300 }}
+                                    options={{
+                                        scales: {
+                                            x: {
+                                                type: 'linear',
+                                                min: playerMmrPerMatchSliced[0]
+                                                    ?.x,
+                                                max: playerMmrPerMatchSliced[
+                                                    playerMmrPerMatchSliced.length -
+                                                        1
+                                                ]?.x,
+                                            },
+                                            y: {
+                                                suggestedMin: 1300,
+                                                suggestedMax: 1800,
+                                            },
+                                        },
+                                        plugins: {
+                                            legend: {
+                                                display: false,
+                                            },
+                                        },
+                                    }}
+                                />
+                            ) : null}
+                        </Flex>
                     </TabPanel>
                     <TabPanel>
                         <SortableTable
