@@ -10,50 +10,34 @@ import {
     getMatchWithImages,
 } from '../utils/championImageHelpers';
 
-import { championClassWinRates, ChampionClass } from '../data/championClasses';
-import { Radar } from 'react-chartjs-2';
 import {
-    Chart as ChartJS,
-    RadialLinearScale,
-    PointElement,
-    LineElement,
-    Filler,
-    Tooltip,
-    Legend,
-    ChartData,
-    CategoryScale,
-    LinearScale,
-} from 'chart.js';
-import { SummonerCollage } from '../components/SummonerCollage';
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
     Heading,
-import { PlayerScreenChampion } from './types/PlayerScreenChampion';
+    Tab,
+    TabList,
+    TabPanel,
+    TabPanels,
+    Tabs,
+} from '@chakra-ui/react';
+import { ChartData } from 'chart.js';
+import { Radar } from 'react-chartjs-2';
+import { Loading } from '../components/Loading';
+import { MmrCard } from '../components/MmrCard';
+import { SummonerCollage } from '../components/SummonerCollage';
+import { ChampionClass, championClassWinRates } from '../data/championClasses';
+import {
+    MatchWithImages,
+    playerMatchHistoryColumns,
+} from '../matchHistory/matchHistoryColumnHelper';
+import { DataDragonService } from '../services/dataDragon/DataDragonService';
+import { ToxicDataService } from '../services/toxicData/ToxicDataService';
+import { Match } from '../types/domain/Match';
+import { PlayerMmrSummary } from './PlayerMmrSummary';
 import {
     championColumns,
     opponentColumns,
     teammateColumns,
 } from './playerScreenColumnHelper';
-import { DataDragonService } from '../services/dataDragon/DataDragonService';
-import { ToxicDataService } from '../services/toxicData/ToxicDataService';
-import {
-    MatchWithImages,
-    playerMatchHistoryColumns,
-} from '../matchHistory/matchHistoryColumnHelper';
-import { Match } from '../types/domain/Match';
-import { Loading } from '../components/Loading';
-import { MmrCard } from '../components/MmrCard';
-import { PlayerMmrSummary } from './PlayerMmrSummary';
-
-ChartJS.register(
-    RadialLinearScale,
-    PointElement,
-    LineElement,
-    CategoryScale,
-    LinearScale,
-    Filler,
-    Tooltip,
-    Legend
-);
+import { PlayerScreenChampion } from './types/PlayerScreenChampion';
 
 export async function loader(data: { params: any }) {
     return data.params.playerId;
