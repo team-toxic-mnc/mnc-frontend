@@ -4,7 +4,7 @@ export const Alert: ComponentStyleConfig = {
     variants: {
         solid: {
             container: {
-                bg: 'secondary',
+                bg: 'secondary.500',
             },
         },
     },

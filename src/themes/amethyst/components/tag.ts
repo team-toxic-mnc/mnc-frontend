@@ -4,7 +4,7 @@ export const Tag: ComponentStyleConfig = {
     variants: {
         subtle: {
             container: {
-                bg: 'secondary',
+                bg: 'secondary.500',
                 color: 'white',
             },
         },

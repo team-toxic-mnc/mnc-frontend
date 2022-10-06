@@ -121,7 +121,7 @@ export const Matchmaker = () => {
                         align='flex-start'
                         padding='3'
                     >
-                        <Text color='gray.600'>
+                        <Text color='bodyFont'>
                             Players selected: {selectedPlayers.length}/10
                         </Text>
                         <Button

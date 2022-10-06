@@ -1,45 +1,32 @@
-import React, { ReactNode, useCallback } from 'react';
 import {
-    IconButton,
-    Avatar,
     Box,
+    BoxProps,
+    Button,
     CloseButton,
-    Flex,
-    HStack,
-    VStack,
-    Icon,
-    useColorModeValue,
-    Link,
     Drawer,
     DrawerContent,
-    Text,
-    useDisclosure,
-    BoxProps,
+    Flex,
     FlexProps,
-    Menu,
-    MenuButton,
-    MenuDivider,
-    MenuItem,
-    MenuList,
-    Center,
+    HStack,
+    Icon,
+    IconButton,
+    Link,
+    Text,
+    useColorModeValue,
+    useDisclosure,
+    VStack,
 } from '@chakra-ui/react';
+import { ReactNode, useCallback } from 'react';
+import { IconType } from 'react-icons';
 import {
+    FiCalendar,
     FiHome,
-    FiTrendingUp,
-    FiCompass,
-    FiStar,
-    FiSettings,
     FiMenu,
-    FiBell,
-    FiChevronDown,
+    FiShield,
     FiUsers,
     FiZap,
-    FiShield,
-    FiCalendar,
 } from 'react-icons/fi';
-import { IconType } from 'react-icons';
-import { ReactText } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface LinkItemProps {
     name: string;
@@ -124,33 +111,40 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
                     onClick={onClose}
                 />
             </Flex>
-            {LinkItems.map((link) => (
-                <NavItem
-                    key={link.name}
-                    icon={link.icon}
-                    route={link.route}
-                    onClose={onClose}
-                >
-                    {link.name}
-                </NavItem>
-            ))}
+            <VStack spacing='24px' align='stretch' justify='flex-start'>
+                {LinkItems.map((link) => (
+                    <NavItem
+                        key={link.name}
+                        icon={link.icon}
+                        route={link.route}
+                        onClose={onClose}
+                        label={link.name}
+                    ></NavItem>
+                ))}
+            </VStack>
         </Box>
     );
 };
 
 interface NavItemProps extends FlexProps {
+    key: string;
     icon: IconType;
-    children: ReactText;
+    label: string;
     route: string;
     onClose: () => void;
 }
-const NavItem = ({ icon, children, route, onClose, ...rest }: NavItemProps) => {
+
+const NavItem = ({ icon, label, route, onClose }: NavItemProps) => {
+    const location = useLocation();
     const navigate = useNavigate();
+    const isSelected = () => {
+        return location.pathname === route;
+    };
 
     const onClick = useCallback(() => {
         navigate(route);
         onClose();
-    }, [route, navigate]);
+    }, [route, navigate, onClose]);
 
     return (
         <Link
@@ -158,31 +152,17 @@ const NavItem = ({ icon, children, route, onClose, ...rest }: NavItemProps) => {
             style={{ textDecoration: 'none' }}
             _focus={{ boxShadow: 'none' }}
         >
-            <Flex
-                align='center'
-                p='4'
-                mx='4'
-                borderRadius='lg'
-                role='group'
-                cursor='pointer'
-                _hover={{
-                    bg: 'cyan.400',
-                    color: 'white',
-                }}
-                onClick={onClick}
-                {...rest}
-            >
-                {icon && (
-                    <Icon
-                        mr='4'
-                        fontSize='16'
-                        _groupHover={{
-                            color: 'white',
-                        }}
-                        as={icon}
-                    />
-                )}
-                {children}
+            <Flex direction='column'>
+                <Button
+                    leftIcon={<Icon as={icon}></Icon>}
+                    onClick={onClick}
+                    variant={isSelected() ? 'solid' : 'ghost'}
+                    size='lg'
+                    borderRadius='0'
+                    justifyContent='flex-start'
+                >
+                    <Text>{label}</Text>
+                </Button>
             </Flex>
         </Link>
     );
