@@ -1,6 +1,5 @@
 import { Heading } from '@chakra-ui/react';
 import React from 'react';
-import { getMmrColor } from '../utils/mmrHelpers';
 
 export const StatsCard = React.memo(function StatsCard({
     stats,
@@ -69,19 +68,7 @@ export const StatsCard = React.memo(function StatsCard({
                           <div
                               style={{ display: 'flex', flexDirection: 'row' }}
                           >
-                              <h1>{`${kv[0]}: `}</h1>
-                              <h1
-                                  style={{
-                                      backgroundColor:
-                                          kv[0] === 'mmr' ? 'black' : undefined,
-                                      color:
-                                          kv[0] === 'mmr'
-                                              ? getMmrColor(
-                                                    Number.parseInt(kv[1]) ?? 0
-                                                )
-                                              : undefined,
-                                  }}
-                              >{`${kv[1]}`}</h1>
+                              <h1>{`${kv[0]}: ${kv[1]}`}</h1>
                           </div>
                       ))
                     : null}
