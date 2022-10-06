@@ -74,8 +74,6 @@ export const PlayerMmrSummary = React.memo(function PlayerMmrSummary({
         ],
     };
 
-    console.log(playerMmrPerMatchData);
-
     return (
         <Flex direction={'column'}>
             {playerMmrPerMatchSliced.length > 1 ? (
