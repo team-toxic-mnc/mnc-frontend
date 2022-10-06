@@ -16,7 +16,6 @@ import {
     getMmrTrendingChange,
     mapMmrHistoryCollectionToPlayerMmrHistoryMap,
 } from '../utils/mmrHelpers';
-import './PlayerOverview.css';
 
 type PlayerTableData = {
     name: string;

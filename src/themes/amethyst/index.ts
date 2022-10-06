@@ -2,6 +2,7 @@ import { Alert } from './components/alert';
 import { Tag } from './components/tag';
 import { Button } from './components/button';
 import { extendTheme } from '@chakra-ui/react';
+import { Table } from './components/table';
 
 export const amethyst = extendTheme({
     colors: {
@@ -36,5 +37,6 @@ export const amethyst = extendTheme({
         Button,
         Tag,
         Alert,
+        Table,
     },
 });

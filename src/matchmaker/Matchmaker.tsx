@@ -3,7 +3,6 @@ import { CreatableSelect } from 'chakra-react-select';
 import { useState } from 'react';
 import { ToxicDataService } from '../services/toxicData/ToxicDataService';
 import { Player } from '../types/domain/Player';
-import './Matchmaker.css';
 import MatchTable from './MatchTable';
 
 export const Matchmaker = () => {
