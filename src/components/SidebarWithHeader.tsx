@@ -101,8 +101,8 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
                     fontSize='2xl'
                     fontFamily='monospace'
                     fontWeight='bold'
-                    fontStyle='italic'
                     textTransform='uppercase'
+                    color='gray.600'
                 >
                     MNC Hub
                 </Text>
@@ -195,7 +195,10 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
             <Text
                 display={{ base: 'flex', md: 'none' }}
                 fontSize='2xl'
+                fontFamily='monospace'
                 fontWeight='bold'
+                textTransform='uppercase'
+                color='gray.600'
             >
                 MNC Hub
             </Text>
