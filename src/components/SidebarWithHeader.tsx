@@ -1,48 +1,32 @@
-import React, { ReactNode, useCallback, useState } from 'react';
 import {
-    IconButton,
-    Avatar,
     Box,
+    BoxProps,
+    Button,
     CloseButton,
-    Flex,
-    HStack,
-    VStack,
-    Icon,
-    useColorModeValue,
-    Link,
     Drawer,
     DrawerContent,
-    Text,
-    useDisclosure,
-    BoxProps,
+    Flex,
     FlexProps,
-    Menu,
-    MenuButton,
-    MenuDivider,
-    MenuItem,
-    MenuList,
-    Center,
-    Button,
-    ButtonGroup,
-    Stack,
+    HStack,
+    Icon,
+    IconButton,
+    Link,
+    Text,
+    useColorModeValue,
+    useDisclosure,
+    VStack,
 } from '@chakra-ui/react';
+import { ReactNode, useCallback } from 'react';
+import { IconType } from 'react-icons';
 import {
+    FiCalendar,
     FiHome,
-    FiTrendingUp,
-    FiCompass,
-    FiStar,
-    FiSettings,
     FiMenu,
-    FiBell,
-    FiChevronDown,
+    FiShield,
     FiUsers,
     FiZap,
-    FiShield,
-    FiCalendar,
 } from 'react-icons/fi';
-import { IconType } from 'react-icons';
-import { ReactText } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface LinkItemProps {
     name: string;
@@ -96,7 +80,6 @@ interface SidebarProps extends BoxProps {
 }
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
-    const [selectedNavRoute, setSelectedNavRoute] = useState(LinkItems[0].name);
     return (
         <Box
             transition='3s ease'
@@ -135,8 +118,6 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
                         icon={link.icon}
                         route={link.route}
                         onClose={onClose}
-                        selectedNavRoute={selectedNavRoute}
-                        setSelectedNavRoute={setSelectedNavRoute}
                         label={link.name}
                     ></NavItem>
                 ))}
@@ -151,28 +132,19 @@ interface NavItemProps extends FlexProps {
     label: string;
     route: string;
     onClose: () => void;
-    selectedNavRoute: string;
-    setSelectedNavRoute: (navKey: string) => void;
 }
 
-const NavItem = ({
-    icon,
-    label,
-    route,
-    onClose,
-    selectedNavRoute,
-    setSelectedNavRoute,
-}: NavItemProps) => {
+const NavItem = ({ icon, label, route, onClose }: NavItemProps) => {
+    const location = useLocation();
     const navigate = useNavigate();
     const isSelected = () => {
-        return selectedNavRoute === route;
+        return location.pathname === route;
     };
 
     const onClick = useCallback(() => {
-        setSelectedNavRoute(route);
         navigate(route);
         onClose();
-    }, [setSelectedNavRoute, route, navigate, onClose]);
+    }, [route, navigate, onClose]);
 
     return (
         <Link
