@@ -1,4 +1,4 @@
-import { Button, Flex, Image, Text } from '@chakra-ui/react';
+import { Button, Flex, Heading, Image, Text } from '@chakra-ui/react';
 import React, { useCallback } from 'react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import { Error } from '../components/Error';
@@ -145,7 +145,7 @@ export const MatchScreen = React.memo(function MatchHistory() {
                 alignItems: 'center',
             }}
         >
-            <h1>{`Game ${match.id}`}</h1>
+            <Heading color='bodyFont' padding='6'>{`Game ${match.id}`}</Heading>
             <Flex direction={'column'}>
                 <h1
                     style={{

@@ -26,6 +26,7 @@ import {
 } from 'chart.js';
 import { SummonerCollage } from '../components/SummonerCollage';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+    Heading,
 import { PlayerScreenChampion } from './types/PlayerScreenChampion';
 import {
     championColumns,
@@ -208,17 +209,15 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                     alignItems: 'center',
                 }}
             >
-                <h1
-                    style={{
-                        paddingLeft: 8,
-                        fontSize: 32,
-                        fontWeight: 'bold',
-                        fontStyle: 'italic',
-                        alignSelf: 'flex-start',
-                    }}
+                <Heading
+                    color='bodyFont'
+                    paddingLeft='8'
+                    fontWeight='bold'
+                    fontStyle='italic'
+                    alignSelf='flex-start'
                 >
                     {player.name.toUpperCase()}
-                </h1>
+                </Heading>
                 <div
                     style={{
                         display: 'flex',
@@ -254,7 +253,7 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                                 padding: 16,
                             }}
                         >
-                            <Radar data={chartData as any} />
+                            <Radar data={chartData} />
                         </div>
                     </div>
                 </div>

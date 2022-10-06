@@ -1,3 +1,4 @@
+import { Heading } from '@chakra-ui/react';
 import React from 'react';
 import { getMmrColor } from '../utils/mmrHelpers';
 
@@ -51,15 +52,13 @@ export const StatsCard = React.memo(function StatsCard({
                 }}
             >
                 {hideName === true ? null : (
-                    <h1
-                        style={{
-                            fontSize: 32,
-                            fontWeight: 'bold',
-                            fontStyle: 'italic',
-                        }}
+                    <Heading
+                        color='bodyFont'
+                        fontWeight='bold'
+                        fontStyle='italic'
                     >
                         {stats.name.toUpperCase()}
-                    </h1>
+                    </Heading>
                 )}
                 <h1>{'Wins: ' + stats.wins}</h1>
                 <h1>{'Losses: ' + stats.losses}</h1>

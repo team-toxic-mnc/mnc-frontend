@@ -74,14 +74,14 @@ export const Matchmaker = () => {
     return (
         <>
             <Flex direction='column' justify='center' align='flex-start'>
-                <Heading color='gray.500'>Matchmaker</Heading>
+                <Heading color='bodyFont' padding='6'>
+                    Matchmaker
+                </Heading>
                 <Flex
                     direction='column'
                     justify='center'
                     align='stretch'
                     alignSelf='stretch'
-                    paddingTop='6'
-                    paddingBottom='6'
                 >
                     <Flex
                         direction='row'

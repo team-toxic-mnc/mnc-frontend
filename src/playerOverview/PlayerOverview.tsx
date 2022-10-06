@@ -1,4 +1,4 @@
-import { chakra } from '@chakra-ui/react';
+import { chakra, Heading, Spacer } from '@chakra-ui/react';
 import {
     Cell,
     ColumnDef,
@@ -160,7 +160,9 @@ export const PlayerOverview = React.memo(function PlayerOverview() {
                 alignItems: 'center',
             }}
         >
-            <chakra.h1>Player Overview</chakra.h1>
+            <Heading color='bodyFont' padding='6'>
+                Player Overview
+            </Heading>
             <SortableTable
                 columns={columns}
                 data={processedData}
