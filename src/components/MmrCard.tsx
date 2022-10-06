@@ -1,12 +1,13 @@
 import React from 'react';
 import { Player } from '../types/domain/Player';
-import { getMmrColor } from '../utils/mmrHelpers';
+import { getMmrColor, getMmrValue } from '../utils/mmrHelpers';
 
 export const MmrCard = React.memo(function MmrCard({
     player,
 }: {
     player: Player;
 }) {
+    const mmr = getMmrValue(player);
     return (
         <div
             style={{
@@ -35,9 +36,7 @@ export const MmrCard = React.memo(function MmrCard({
                           }
                 }
             >
-                {player.mmr && (player.wins ?? 0) + (player.losses ?? 0) >= 10
-                    ? Math.round(player.mmr)
-                    : 'Not Placed'}
+                {mmr > 0 ? mmr : 'N/A'}
             </h1>
             <h1>{'MMR'}</h1>
         </div>

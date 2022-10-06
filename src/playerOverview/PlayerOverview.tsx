@@ -1,13 +1,9 @@
-import { chakra, Heading, Spacer } from '@chakra-ui/react';
-import {
-    Cell,
-    ColumnDef,
-    createColumnHelper,
-    Row,
-} from '@tanstack/react-table';
+import { Heading } from '@chakra-ui/react';
+import { ColumnDef, createColumnHelper, Row } from '@tanstack/react-table';
 import React from 'react';
 import { FiChevronDown, FiChevronUp, FiMinus } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
+import { MmrTag } from '../components/MmrTag';
 import { SortableTable } from '../components/SortableTable';
 import { ToxicDataService } from '../services/toxicData/ToxicDataService';
 import { Player } from '../types/domain/Player';
@@ -96,7 +92,9 @@ const columns: ColumnDef<PlayerTableData, any>[] = [
     }),
     columnHelper.accessor((row) => row.mmr, {
         id: 'mmr',
-        cell: (info) => info.getValue(),
+        cell: (info) => {
+            return <MmrTag player={info.row.original} />;
+        },
         header: () => <span>MMR</span>,
         meta: {
             isNumeric: true,
@@ -173,18 +171,6 @@ export const PlayerOverview = React.memo(function PlayerOverview() {
                             window.scrollTo(0, 0);
                         },
                     };
-                }}
-                getCellProps={(cell: Cell<any, any>) => {
-                    if (cell.column.id === 'mmr') {
-                        return {
-                            style: {
-                                textAlign: 'center',
-                                backgroundColor: getMmrColor(cell.getValue()),
-                            },
-                        };
-                    }
-
-                    return {};
                 }}
             />
         </div>

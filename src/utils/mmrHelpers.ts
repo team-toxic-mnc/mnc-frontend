@@ -1,4 +1,11 @@
 import { MmrHistoryItem } from '../types/domain/MmrHistoryItem';
+import { Player } from '../types/domain/Player';
+
+export function getMmrValue(player: Player): number {
+    return player.mmr && (player.wins ?? 0) + (player.losses ?? 0) >= 10
+        ? Math.round(player.mmr)
+        : 0;
+}
 
 export function getMmrColor(mmr: number) {
     return mmr > 0
