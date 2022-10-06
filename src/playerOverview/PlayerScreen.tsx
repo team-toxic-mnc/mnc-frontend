@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import { Error } from '../components/Error';
 import { SortableTable } from '../components/SortableTable';
@@ -11,7 +11,7 @@ import {
 } from '../utils/championImageHelpers';
 
 import { championClassWinRates, ChampionClass } from '../data/championClasses';
-import { Line, Radar } from 'react-chartjs-2';
+import { Radar } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
     RadialLinearScale,
@@ -25,14 +25,7 @@ import {
     LinearScale,
 } from 'chart.js';
 import { SummonerCollage } from '../components/SummonerCollage';
-import {
-    Flex,
-    Tab,
-    TabList,
-    TabPanel,
-    TabPanels,
-    Tabs,
-} from '@chakra-ui/react';
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { PlayerScreenChampion } from './types/PlayerScreenChampion';
 import {
     championColumns,
@@ -47,9 +40,7 @@ import {
 } from '../matchHistory/matchHistoryColumnHelper';
 import { Match } from '../types/domain/Match';
 import { Loading } from '../components/Loading';
-import { MmrHistoryItem } from '../types/domain/MmrHistoryItem';
 import { MmrCard } from '../components/MmrCard';
-import { FiChevronDown, FiChevronUp, FiMinus } from 'react-icons/fi';
 import { PlayerMmrSummary } from './PlayerMmrSummary';
 
 ChartJS.register(

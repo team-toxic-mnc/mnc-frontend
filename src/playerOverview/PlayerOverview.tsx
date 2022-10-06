@@ -6,11 +6,16 @@ import {
     Row,
 } from '@tanstack/react-table';
 import React from 'react';
+import { FiChevronDown, FiChevronUp, FiMinus } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { SortableTable } from '../components/SortableTable';
 import { ToxicDataService } from '../services/toxicData/ToxicDataService';
 import { Player } from '../types/domain/Player';
-import { getMmrColor } from '../utils/mmrHelpers';
+import {
+    getMmrColor,
+    getMmrTrendingChange,
+    mapMmrHistoryCollectionToPlayerMmrHistoryMap,
+} from '../utils/mmrHelpers';
 import './PlayerOverview.css';
 
 type PlayerTableData = {
@@ -20,18 +25,23 @@ type PlayerTableData = {
     losses: number;
     totalGames: number;
     mmr: number;
+    mmrChange: number;
 };
 
 /**
  * Given a collection of players, map to a collection of players with processed stats
  * @param players A collection of playeres to process
  */
-const processPlayers = (players: Player[] | undefined): PlayerTableData[] => {
+const processPlayers = (
+    players: Player[] | undefined,
+    mmrMap: { [key: string]: { gameId: number; mmr: number }[] }
+): PlayerTableData[] => {
     return players
         ? players.map((player) => {
               const wins = player.wins ?? 0;
               const losses = player.losses ?? 0;
               const totalGames = wins + losses;
+              const mmr = mmrMap[player.name] ?? [];
               return {
                   ...player,
                   wins,
@@ -39,6 +49,7 @@ const processPlayers = (players: Player[] | undefined): PlayerTableData[] => {
                   winPercentage: Math.round((wins / totalGames) * 100) + '%',
                   totalGames: totalGames,
                   mmr: totalGames >= 10 ? Math.round(player.mmr ?? 1500) : 0,
+                  mmrChange: totalGames > 10 ? getMmrTrendingChange(mmr) : -999,
               };
           })
         : [];
@@ -92,13 +103,54 @@ const columns: ColumnDef<PlayerTableData, any>[] = [
             isNumeric: true,
         },
     }),
+    columnHelper.accessor((row) => row.mmrChange, {
+        id: 'mmrChange',
+        cell: (info) => {
+            const value = info.getValue();
+            return (
+                <div
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexDirection: 'row',
+                    }}
+                >
+                    {value === -999 ? (
+                        <h1>-</h1>
+                    ) : (
+                        <>
+                            {value}
+                            {value === 0 ? (
+                                <FiMinus size={'24'} color={'orange'} />
+                            ) : value > 0 ? (
+                                <FiChevronUp size={'24'} color={'green'} />
+                            ) : (
+                                <FiChevronDown size={'24'} color={'red'} />
+                            )}
+                        </>
+                    )}
+                </div>
+            );
+        },
+        header: () => <span>MMR Change</span>,
+        meta: {
+            isNumeric: true,
+        },
+    }),
 ];
 
 export const PlayerOverview = React.memo(function PlayerOverview() {
     const navigate = useNavigate();
     const usePlayersResponse = ToxicDataService.usePlayers();
     const data = usePlayersResponse.data;
-    const processedData = processPlayers(data);
+
+    const mmrPerMatchResponse = ToxicDataService.useMmrPerMatch();
+    const mmrPerMatch = mmrPerMatchResponse.data ?? [];
+    const mmrPerMatchMap =
+        mapMmrHistoryCollectionToPlayerMmrHistoryMap(mmrPerMatch);
+
+    const processedData = processPlayers(data, mmrPerMatchMap);
 
     return (
         <div

@@ -14,7 +14,7 @@ import { Line } from 'react-chartjs-2';
 import { FiChevronDown, FiChevronUp, FiMinus } from 'react-icons/fi';
 import { ToxicDataService } from '../services/toxicData/ToxicDataService';
 import {
-    getMmrTrendingPercentage,
+    getMmrTrendingChange,
     mapMmrHistoryCollectionToPlayerMmrHistoryMap,
 } from '../utils/mmrHelpers';
 
@@ -52,10 +52,8 @@ export const PlayerMmrSummary = React.memo(function PlayerMmrSummary({
     // ignore the first 10 games since they are used for placement
     const playerMmrPerMatchSliced = playerMmrPerMatch.slice(9);
 
-    // calculate the trending percentage to show above the graph
-    const mmrChangePercentage = getMmrTrendingPercentage(
-        playerMmrPerMatchSliced
-    );
+    // calculate the trending change to show above the graph
+    const mmrChangePercentage = getMmrTrendingChange(playerMmrPerMatchSliced);
 
     const test = processPlayerMmr(playerMmrPerMatchSliced);
 
@@ -84,7 +82,7 @@ export const PlayerMmrSummary = React.memo(function PlayerMmrSummary({
                         alignItems={'center'}
                     >
                         <h1 style={{ fontSize: 60 }}>
-                            {`${mmrChangePercentage}%`}
+                            {`${mmrChangePercentage}`}
                         </h1>
                         {mmrChangePercentage == 0 ? (
                             <FiMinus size={'60'} color={'orange'} />
