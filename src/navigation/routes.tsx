@@ -21,6 +21,7 @@ import {
     loader as matchLoader,
     MatchScreen,
 } from '../matchHistory/MatchScreen';
+import { PickBanScreen } from '../admin/PickBanScreen';
 
 export const router = createBrowserRouter([
     {
@@ -71,6 +72,10 @@ export const router = createBrowserRouter([
             {
                 path: '/hydra',
                 element: <Slideshow />,
+            },
+            {
+                path: '/barghest',
+                element: <PickBanScreen />,
             },
         ],
     },
