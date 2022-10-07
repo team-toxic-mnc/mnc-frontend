@@ -232,7 +232,8 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                                 display: 'flex',
                                 flex: 1,
                                 maxWidth: 320,
-                                padding: 16,
+                                paddingLeft: 16,
+                                paddingRight: 16,
                             }}
                         >
                             <Radar data={chartData} />
