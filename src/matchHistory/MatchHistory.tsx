@@ -29,9 +29,7 @@ export const MatchHistory = React.memo(function MatchHistory() {
                 alignItems: 'center',
             }}
         >
-            <Heading color='bodyFont' padding='6'>
-                Match History
-            </Heading>
+            <Heading>Match History</Heading>
             <SortableTable
                 columns={matchHistoryColumns}
                 data={processedMatchHistory}

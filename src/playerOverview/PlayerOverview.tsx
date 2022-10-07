@@ -158,9 +158,7 @@ export const PlayerOverview = React.memo(function PlayerOverview() {
                 alignItems: 'center',
             }}
         >
-            <Heading color='bodyFont' padding='6'>
-                Player Overview
-            </Heading>
+            <Heading>Player Overview</Heading>
             <SortableTable
                 columns={columns}
                 data={processedData}

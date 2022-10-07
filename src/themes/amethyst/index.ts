@@ -5,6 +5,7 @@ import { extendTheme } from '@chakra-ui/react';
 import { Table } from './components/table';
 import { Tabs } from './components/tab';
 import { mode, StyleFunctionProps } from '@chakra-ui/theme-tools';
+import { Heading } from './components/heading';
 
 export const amethyst = extendTheme({
     colors: {
@@ -48,5 +49,6 @@ export const amethyst = extendTheme({
         Alert,
         Table,
         Tabs,
+        Heading,
     },
 });

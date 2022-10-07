@@ -93,9 +93,7 @@ export const ChampionOverview = React.memo(function ChampionOverview() {
                 alignItems: 'center',
             }}
         >
-            <Heading color='bodyFont' padding='6'>
-                Champion Overview
-            </Heading>
+            <Heading>Champion Overview</Heading>
             <SortableTable
                 columns={columns}
                 data={processedChampionArray}

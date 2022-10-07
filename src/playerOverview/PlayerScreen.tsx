@@ -194,9 +194,7 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                 }}
             >
                 <Heading
-                    color='bodyFont'
                     paddingLeft='8'
-                    fontWeight='bold'
                     fontStyle='italic'
                     alignSelf='flex-start'
                 >

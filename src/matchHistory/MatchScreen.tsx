@@ -145,7 +145,7 @@ export const MatchScreen = React.memo(function MatchHistory() {
                 alignItems: 'center',
             }}
         >
-            <Heading color='bodyFont' padding='6'>{`Game ${match.id}`}</Heading>
+            <Heading>{`Game ${match.id}`}</Heading>
             <Flex direction={'column'}>
                 <h1
                     style={{
