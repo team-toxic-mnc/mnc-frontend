@@ -1,15 +1,13 @@
-import { Flex, Heading, Text } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import React from 'react';
 import { Player } from '../types/domain/Player';
-import { getMmrColor, getMmrValue } from '../utils/mmrHelpers';
+import { MmrTag } from './MmrTag';
 
 export const MmrCard = React.memo(function MmrCard({
     player,
 }: {
     player: Player;
 }) {
-    const mmr = getMmrValue(player);
-    const mmrColor = mmr ? getMmrColor(mmr) : 'bodyFont';
     return (
         <Flex
             flexDirection='column'
@@ -19,15 +17,7 @@ export const MmrCard = React.memo(function MmrCard({
             marginRight='16'
             alignItems='center'
         >
-            <Heading
-                fontSize='60'
-                color={mmrColor}
-                paddingTop='0'
-                paddingBottom='0'
-                marginTop='0'
-            >
-                {mmr > 0 ? mmr : 'N/A'}
-            </Heading>
+            <MmrTag player={player} props={{ size: 'xl' }}></MmrTag>
             <Text fontWeight='bold'>{'MMR'}</Text>
         </Flex>
     );

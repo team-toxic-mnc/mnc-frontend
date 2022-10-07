@@ -2,7 +2,13 @@ import { Tag } from '@chakra-ui/tag';
 import { Player } from '../types/domain/Player';
 import { getMmrColor, getMmrValue } from '../utils/mmrHelpers';
 
-export const MmrTag = ({ player }: { player: Player }) => {
+export const MmrTag = ({
+    player,
+    props,
+}: {
+    player: Player;
+    props?: { size?: string };
+}) => {
     const mmr = getMmrValue(player);
 
     if (mmr === 0) {
@@ -14,6 +20,7 @@ export const MmrTag = ({ player }: { player: Player }) => {
             bg={getMmrColor(mmr)}
             color={'gray.600'}
             borderRadius='full'
+            size={props?.size}
         >
             {mmr}
         </Tag>

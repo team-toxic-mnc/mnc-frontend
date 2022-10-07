@@ -9,6 +9,16 @@ export const Tag: ComponentStyleConfig = {
             },
         },
     },
+    sizes: {
+        xl: {
+            container: {
+                minH: 24,
+                maxH: 24,
+                fontSize: 60,
+                px: 4,
+            },
+        },
+    },
     defaultProps: {
         variant: 'bold',
     },
