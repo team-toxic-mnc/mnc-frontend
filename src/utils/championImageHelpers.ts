@@ -1,10 +1,5 @@
-import { DataDragonService } from '../services/dataDragon/DataDragonService';
+import { ChampionImages } from '../types/domain/ChampionImages';
 import { Match } from '../types/domain/Match';
-
-export type ChampionImages = {
-    portrait: string;
-    square: string;
-};
 
 /**
  * Gets the champion image url given a data dragon champion id.

@@ -1,6 +1,6 @@
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import React from 'react';
-import { ChampionImages } from '../utils/championImageHelpers';
+import { ChampionImages } from '../types/domain/ChampionImages';
 
 type MatchPlayerWithImages = {
     name: string;
