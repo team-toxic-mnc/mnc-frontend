@@ -3,7 +3,6 @@ import { CreatableSelect } from 'chakra-react-select';
 import { useState } from 'react';
 import { ToxicDataService } from '../services/toxicData/ToxicDataService';
 import { Player } from '../types/domain/Player';
-import './Matchmaker.css';
 import MatchTable from './MatchTable';
 
 export const Matchmaker = () => {
@@ -75,14 +74,12 @@ export const Matchmaker = () => {
     return (
         <>
             <Flex direction='column' justify='center' align='flex-start'>
-                <Heading color='gray.500'>Matchmaker</Heading>
+                <Heading>Matchmaker</Heading>
                 <Flex
                     direction='column'
                     justify='center'
                     align='stretch'
                     alignSelf='stretch'
-                    paddingTop='6'
-                    paddingBottom='6'
                 >
                     <Flex
                         direction='row'

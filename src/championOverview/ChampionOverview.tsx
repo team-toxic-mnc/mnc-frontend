@@ -1,3 +1,4 @@
+import { Heading } from '@chakra-ui/react';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -92,7 +93,7 @@ export const ChampionOverview = React.memo(function ChampionOverview() {
                 alignItems: 'center',
             }}
         >
-            <h1>Champion Overview</h1>
+            <Heading>Champion Overview</Heading>
             <SortableTable
                 columns={columns}
                 data={processedChampionArray}

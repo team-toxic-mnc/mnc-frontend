@@ -10,49 +10,34 @@ import {
     getMatchWithImages,
 } from '../utils/championImageHelpers';
 
-import { championClassWinRates, ChampionClass } from '../data/championClasses';
-import { Radar } from 'react-chartjs-2';
 import {
-    Chart as ChartJS,
-    RadialLinearScale,
-    PointElement,
-    LineElement,
-    Filler,
-    Tooltip,
-    Legend,
-    ChartData,
-    CategoryScale,
-    LinearScale,
-} from 'chart.js';
+    Heading,
+    Tab,
+    TabList,
+    TabPanel,
+    TabPanels,
+    Tabs,
+} from '@chakra-ui/react';
+import { ChartData } from 'chart.js';
+import { Radar } from 'react-chartjs-2';
+import { Loading } from '../components/Loading';
+import { MmrCard } from '../components/MmrCard';
 import { SummonerCollage } from '../components/SummonerCollage';
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
-import { PlayerScreenChampion } from './types/PlayerScreenChampion';
+import { ChampionClass, championClassWinRates } from '../data/championClasses';
+import {
+    MatchWithImages,
+    playerMatchHistoryColumns,
+} from '../matchHistory/matchHistoryColumnHelper';
+import { DataDragonService } from '../services/dataDragon/DataDragonService';
+import { ToxicDataService } from '../services/toxicData/ToxicDataService';
+import { Match } from '../types/domain/Match';
+import { PlayerMmrSummary } from './PlayerMmrSummary';
 import {
     championColumns,
     opponentColumns,
     teammateColumns,
 } from './playerScreenColumnHelper';
-import { DataDragonService } from '../services/dataDragon/DataDragonService';
-import { ToxicDataService } from '../services/toxicData/ToxicDataService';
-import {
-    MatchWithImages,
-    playerMatchHistoryColumns,
-} from '../matchHistory/matchHistoryColumnHelper';
-import { Match } from '../types/domain/Match';
-import { Loading } from '../components/Loading';
-import { MmrCard } from '../components/MmrCard';
-import { PlayerMmrSummary } from './PlayerMmrSummary';
-
-ChartJS.register(
-    RadialLinearScale,
-    PointElement,
-    LineElement,
-    CategoryScale,
-    LinearScale,
-    Filler,
-    Tooltip,
-    Legend
-);
+import { PlayerScreenChampion } from './types/PlayerScreenChampion';
 
 export async function loader(data: { params: any }) {
     return data.params.playerId;
@@ -208,17 +193,13 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                     alignItems: 'center',
                 }}
             >
-                <h1
-                    style={{
-                        paddingLeft: 8,
-                        fontSize: 32,
-                        fontWeight: 'bold',
-                        fontStyle: 'italic',
-                        alignSelf: 'flex-start',
-                    }}
+                <Heading
+                    paddingLeft='8'
+                    fontStyle='italic'
+                    alignSelf='flex-start'
                 >
                     {player.name.toUpperCase()}
-                </h1>
+                </Heading>
                 <div
                     style={{
                         display: 'flex',
@@ -251,10 +232,11 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                                 display: 'flex',
                                 flex: 1,
                                 maxWidth: 320,
-                                padding: 16,
+                                paddingLeft: 16,
+                                paddingRight: 16,
                             }}
                         >
-                            <Radar data={chartData as any} />
+                            <Radar data={chartData} />
                         </div>
                     </div>
                 </div>

@@ -1,4 +1,5 @@
 import {
+    Box,
     chakra,
     Table,
     TableContainer,
@@ -52,7 +53,12 @@ export function SortableTable({
     });
 
     return (
-        <TableContainer>
+        <TableContainer
+            border='1px solid'
+            borderColor='#E2E8F0'
+            borderRadius='md'
+            backgroundColor='white'
+        >
             <Table>
                 <Thead>
                     {table.getHeaderGroups().map((headerGroup) => (

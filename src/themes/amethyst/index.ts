@@ -2,6 +2,10 @@ import { Alert } from './components/alert';
 import { Tag } from './components/tag';
 import { Button } from './components/button';
 import { extendTheme } from '@chakra-ui/react';
+import { Table } from './components/table';
+import { Tabs } from './components/tab';
+import { mode, StyleFunctionProps } from '@chakra-ui/theme-tools';
+import { Heading } from './components/heading';
 
 export const amethyst = extendTheme({
     colors: {
@@ -30,11 +34,21 @@ export const amethyst = extendTheme({
             900: '#224d49',
         },
         bodyFont: '#718096',
-        background: '#A0AEC0',
+        background: '#F8F9FA',
+    },
+    styles: {
+        global: (props: StyleFunctionProps | Record<string, any>) => ({
+            body: {
+                bg: mode('background', 'black')(props),
+            },
+        }),
     },
     components: {
         Button,
         Tag,
         Alert,
+        Table,
+        Tabs,
+        Heading,
     },
 });

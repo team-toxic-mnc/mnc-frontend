@@ -1,3 +1,4 @@
+import { Heading } from '@chakra-ui/react';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SortableTable } from '../components/SortableTable';
@@ -28,7 +29,7 @@ export const MatchHistory = React.memo(function MatchHistory() {
                 alignItems: 'center',
             }}
         >
-            <h1>Match History</h1>
+            <Heading>Match History</Heading>
             <SortableTable
                 columns={matchHistoryColumns}
                 data={processedMatchHistory}

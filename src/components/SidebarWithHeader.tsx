@@ -83,7 +83,6 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
     return (
         <Box
             transition='3s ease'
-            bg={useColorModeValue('white', 'gray.900')}
             borderRight='1px'
             borderRightColor={useColorModeValue('gray.200', 'gray.700')}
             w={{ base: 'full', md: 60 }}
@@ -105,8 +104,8 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
                     <Text
                         fontSize='2xl'
                         fontWeight='bold'
-                        fontStyle='italic'
                         textTransform='uppercase'
+                        color='gray.600'
                     >
                         MNC Hub
                     </Text>
@@ -186,7 +185,6 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
             px={{ base: 4, md: 4 }}
             height='20'
             alignItems='center'
-            bg={useColorModeValue('white', 'gray.900')}
             borderBottomWidth='1px'
             borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
             justifyContent={{ base: 'space-between', md: 'flex-end' }}
@@ -208,9 +206,10 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                 >
                     <Text
                         fontSize='2xl'
+                        fontFamily='monospace'
                         fontWeight='bold'
-                        fontStyle='italic'
                         textTransform='uppercase'
+                        color='gray.600'
                     >
                         MNC Hub
                     </Text>
