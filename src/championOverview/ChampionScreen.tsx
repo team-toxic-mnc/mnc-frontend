@@ -1,5 +1,5 @@
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import { Error } from '../components/Error';
 import { Loading } from '../components/Loading';

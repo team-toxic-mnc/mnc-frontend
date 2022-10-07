@@ -97,15 +97,23 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
                 mx='8'
                 justifyContent='space-between'
             >
-                <Text
-                    fontSize='2xl'
-                    fontFamily='monospace'
-                    fontWeight='bold'
-                    fontStyle='italic'
-                    textTransform='uppercase'
+                <Flex
+                    direction='column'
+                    justifyContent='center'
+                    alignItems='center'
                 >
-                    MNC Hub
-                </Text>
+                    <Text
+                        fontSize='2xl'
+                        fontWeight='bold'
+                        fontStyle='italic'
+                        textTransform='uppercase'
+                    >
+                        MNC Hub
+                    </Text>
+                    <Text fontSize='10px' alignSelf={'flex-end'}>
+                        Alpha
+                    </Text>
+                </Flex>
                 <CloseButton
                     display={{ base: 'flex', md: 'none' }}
                     onClick={onClose}
@@ -192,13 +200,25 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                 icon={<FiMenu />}
             />
 
-            <Text
-                display={{ base: 'flex', md: 'none' }}
-                fontSize='2xl'
-                fontWeight='bold'
-            >
-                MNC Hub
-            </Text>
+            <Box display={{ base: 'flex', md: 'none' }}>
+                <Flex
+                    direction='column'
+                    justifyContent='center'
+                    alignItems='center'
+                >
+                    <Text
+                        fontSize='2xl'
+                        fontWeight='bold'
+                        fontStyle='italic'
+                        textTransform='uppercase'
+                    >
+                        MNC Hub
+                    </Text>
+                    <Text fontSize='10px' alignSelf={'flex-end'}>
+                        Alpha
+                    </Text>
+                </Flex>
+            </Box>
 
             <HStack spacing={{ base: '0', md: '6' }}>
                 {/* <IconButton

@@ -1,5 +1,5 @@
 import { Flex, Select } from '@chakra-ui/react';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import { Error } from '../components/Error';
 import { Loading } from '../components/Loading';
@@ -179,6 +179,10 @@ export const PickBanScreen = React.memo(function PickBanScreen() {
         },
     ];
 
+    useEffect(() => {
+        document.title = 'Barghest';
+    }, []);
+
     if (players.length === 0) {
         return null;
     }
@@ -211,7 +215,7 @@ export const PickBanScreen = React.memo(function PickBanScreen() {
                 team2Bans={team2Bans ?? emptyArray}
                 casterMode={true}
             />
-            <Flex direction={'column'} marginBottom={8}>
+            <Flex direction={'column'} marginBottom={8} marginTop={32}>
                 <h1>TEAM 1 BANS: </h1>
                 <Flex direction='row'>
                     <select
