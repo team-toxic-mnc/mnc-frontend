@@ -90,7 +90,7 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
     // only recompute the player classes when are looking at a new player
     const playerClasses = useMemo(
         () => championClassWinRates(Object.values(player?.champions ?? {})),
-        [player?.name]
+        [player?.champions]
     );
 
     const chartLabels = Object.keys(ChampionClass).map((value) => {

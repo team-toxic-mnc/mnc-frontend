@@ -8,7 +8,6 @@ import { SortableTable } from '../components/SortableTable';
 import { ToxicDataService } from '../services/toxicData/ToxicDataService';
 import { Player } from '../types/domain/Player';
 import {
-    getMmrColor,
     getMmrTrendingChange,
     mapMmrHistoryCollectionToPlayerMmrHistoryMap,
 } from '../utils/mmrHelpers';

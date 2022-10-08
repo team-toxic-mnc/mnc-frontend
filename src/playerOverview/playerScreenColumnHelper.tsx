@@ -1,5 +1,4 @@
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
-import { Match } from '../types/domain/Match';
 import { PlayerScreenChampion } from './types/PlayerScreenChampion';
 
 const columnHelper = createColumnHelper<PlayerScreenChampion>();
