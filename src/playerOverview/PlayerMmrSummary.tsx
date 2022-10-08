@@ -28,12 +28,30 @@ ChartJS.register(
     Legend
 );
 
-function processPlayerMmr(
-    data: { gameId: number; mmr: number }[]
-): { x: number; y: number }[] {
-    return data.map((value) => {
+function processPlayerMmr(data: { gameId: number; mmr: number }[]): {
+    result: { x: number; y: number }[];
+    maxMmr: number;
+    minMmr: number;
+} {
+    let minMmr = 2000;
+    let maxMmr = 1000;
+    const result = data.map((value) => {
+        if (value.mmr > maxMmr) {
+            maxMmr = value.mmr;
+        }
+
+        if (value.mmr < minMmr) {
+            minMmr = value.mmr;
+        }
+
         return { x: value.gameId, y: value.mmr };
     });
+
+    return {
+        result,
+        minMmr,
+        maxMmr,
+    };
 }
 
 export const PlayerMmrSummary = React.memo(function PlayerMmrSummary({
@@ -55,12 +73,16 @@ export const PlayerMmrSummary = React.memo(function PlayerMmrSummary({
     // calculate the trending change to show above the graph
     const mmrChangePercentage = getMmrTrendingChange(playerMmrPerMatchSliced);
 
-    const test = processPlayerMmr(playerMmrPerMatchSliced);
+    const {
+        result: data,
+        minMmr,
+        maxMmr,
+    } = processPlayerMmr(playerMmrPerMatchSliced);
 
     const playerMmrPerMatchData = {
         datasets: [
             {
-                data: test,
+                data: data,
                 fill: true,
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
                 borderColor: 'rgb(255, 99, 132)',
@@ -105,8 +127,8 @@ export const PlayerMmrSummary = React.memo(function PlayerMmrSummary({
                                     ]?.gameId,
                                 },
                                 y: {
-                                    suggestedMin: 1300,
-                                    suggestedMax: 1800,
+                                    suggestedMin: minMmr - 50,
+                                    suggestedMax: maxMmr + 50,
                                 },
                             },
                             plugins: {

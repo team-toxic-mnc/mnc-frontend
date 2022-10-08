@@ -154,11 +154,7 @@ const NavItem = ({ icon, label, route, onClose }: NavItemProps) => {
     }, [route, navigate, onClose]);
 
     return (
-        <Link
-            href='#'
-            style={{ textDecoration: 'none' }}
-            _focus={{ boxShadow: 'none' }}
-        >
+        <Link style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
             <Flex direction='column'>
                 <Button
                     leftIcon={<Icon as={icon}></Icon>}
