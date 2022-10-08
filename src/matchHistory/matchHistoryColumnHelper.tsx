@@ -34,6 +34,7 @@ const TeamIcon = React.memo(function TeamIcon({
 }) {
     return (
         <img
+            alt='champion icon'
             src={player.champion.images.square}
             style={{
                 width: 34,
