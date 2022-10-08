@@ -31,21 +31,26 @@ const processPlayers = (
     mmrMap: { [key: string]: { gameId: number; mmr: number }[] }
 ): PlayerTableData[] => {
     return players
-        ? players.map((player) => {
-              const wins = player.wins ?? 0;
-              const losses = player.losses ?? 0;
-              const totalGames = wins + losses;
-              const mmr = mmrMap[player.name] ?? [];
-              return {
-                  ...player,
-                  wins,
-                  losses,
-                  winPercentage: Math.round((wins / totalGames) * 100) + '%',
-                  totalGames: totalGames,
-                  mmr: totalGames >= 10 ? Math.round(player.mmr ?? 1500) : 0,
-                  mmrChange: totalGames > 10 ? getMmrTrendingChange(mmr) : -999,
-              };
-          })
+        ? players
+              .sort((a, b) => a.name.localeCompare(b.name))
+              .map((player) => {
+                  const wins = player.wins ?? 0;
+                  const losses = player.losses ?? 0;
+                  const totalGames = wins + losses;
+                  const mmr = mmrMap[player.name] ?? [];
+                  return {
+                      ...player,
+                      wins,
+                      losses,
+                      winPercentage:
+                          Math.round((wins / totalGames) * 100) + '%',
+                      totalGames: totalGames,
+                      mmr:
+                          totalGames >= 10 ? Math.round(player.mmr ?? 1500) : 0,
+                      mmrChange:
+                          totalGames > 10 ? getMmrTrendingChange(mmr) : -999,
+                  };
+              })
         : [];
 };
 
