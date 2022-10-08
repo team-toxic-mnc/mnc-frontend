@@ -1,5 +1,4 @@
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
-import { Match } from '../types/domain/Match';
 import { PlayerScreenChampion } from './types/PlayerScreenChampion';
 
 const columnHelper = createColumnHelper<PlayerScreenChampion>();
@@ -12,6 +11,7 @@ export const championColumns: ColumnDef<PlayerScreenChampion, any>[] = [
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     {info.row.original.imageUrl ? (
                         <img
+                            alt='champion icon'
                             src={info.row.original.imageUrl}
                             style={{ width: 32, height: 32, marginRight: 8 }}
                         />

@@ -34,6 +34,7 @@ const TeamIcon = React.memo(function TeamIcon({
 }) {
     return (
         <img
+            alt='champion icon'
             src={player.champion.images.square}
             style={{
                 width: 34,
@@ -68,6 +69,7 @@ export const matchHistoryColumns: ColumnDef<MatchWithImages, any>[] = [
             return (
                 <div
                     style={{
+                        minWidth: 400,
                         display: 'flex',
                         alignItems: 'center',
                         flexDirection: 'row',
@@ -78,7 +80,7 @@ export const matchHistoryColumns: ColumnDef<MatchWithImages, any>[] = [
                     <TeamIcon player={info.row.original.team1.players[2]} />
                     <TeamIcon player={info.row.original.team1.players[3]} />
                     <TeamIcon player={info.row.original.team1.players[4]} />
-                    <div style={{ marginRight: 8 }}>{'VS'}</div>
+                    <div style={{ marginRight: 8, marginLeft: 8 }}>{'VS'}</div>
                     <TeamIcon player={info.row.original.team2.players[0]} />
                     <TeamIcon player={info.row.original.team2.players[1]} />
                     <TeamIcon player={info.row.original.team2.players[2]} />

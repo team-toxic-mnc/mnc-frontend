@@ -32,6 +32,7 @@ export const Error = React.memo(function Error({ error }: { error: string }) {
                     }}
                 >
                     <img
+                        alt='amumu splash'
                         style={{
                             width: '100%',
                             height: '100%',

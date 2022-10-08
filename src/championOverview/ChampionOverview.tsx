@@ -21,6 +21,7 @@ const columns: ColumnDef<ChampionOverviewChampion, any>[] = [
             return (
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     <img
+                        alt='champion icon'
                         src={info.row.original.imageUrl}
                         style={{ width: 32, height: 32, marginRight: 8 }}
                     />

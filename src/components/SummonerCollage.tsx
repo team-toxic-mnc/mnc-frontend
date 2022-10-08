@@ -47,37 +47,57 @@ export const SummonerCollage = React.memo(function Error({
             <div style={{ display: 'flex', flexDirection: 'row' }}>
                 {sortedChampions[0] ? (
                     <img
+                        alt='player champion icon 1'
                         style={{ flex: 1 }}
                         src={sortedChampions[0].imageUri}
                     />
                 ) : (
-                    <img style={{ flex: 1 }} src={getRandomIcon(0)} />
+                    <img
+                        alt='random icon 1'
+                        style={{ flex: 1 }}
+                        src={getRandomIcon(0)}
+                    />
                 )}
                 {sortedChampions[2] ? (
                     <img
+                        alt='player champion icon 2'
                         style={{ flex: 1 }}
                         src={sortedChampions[2].imageUri}
                     />
                 ) : (
-                    <img style={{ flex: 1 }} src={getRandomIcon(2)} />
+                    <img
+                        alt='random icon 2'
+                        style={{ flex: 1 }}
+                        src={getRandomIcon(2)}
+                    />
                 )}
             </div>
             <div style={{ display: 'flex', flexDirection: 'row' }}>
                 {sortedChampions[3] ? (
                     <img
+                        alt='player champion icon 3'
                         style={{ flex: 1 }}
                         src={sortedChampions[3].imageUri}
                     />
                 ) : (
-                    <img style={{ flex: 1 }} src={getRandomIcon(3)} />
+                    <img
+                        alt='random icon 3'
+                        style={{ flex: 1 }}
+                        src={getRandomIcon(3)}
+                    />
                 )}
                 {sortedChampions[1] ? (
                     <img
+                        alt='random champion icon 4'
                         style={{ flex: 1 }}
                         src={sortedChampions[1].imageUri}
                     />
                 ) : (
-                    <img style={{ flex: 1 }} src={getRandomIcon(1)} />
+                    <img
+                        alt='random champion icon 4'
+                        style={{ flex: 1 }}
+                        src={getRandomIcon(1)}
+                    />
                 )}
             </div>
         </div>
