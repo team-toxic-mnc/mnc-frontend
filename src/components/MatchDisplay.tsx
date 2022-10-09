@@ -103,8 +103,8 @@ const BannedChampion = React.memo(
     }
 );
 
-const TEAM_1_COLOR = 'rgb(255, 99, 132)';
-const TEAM_2_COLOR = 'rgb(99, 132, 255)';
+const TEAM_1_COLOR = 'rgb(99, 132, 255)';
+const TEAM_2_COLOR = 'rgb(255, 99, 132)';
 
 export const MatchDisplay = React.memo(function MatchDisplay({
     team1,
