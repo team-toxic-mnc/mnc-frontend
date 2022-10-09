@@ -1,4 +1,4 @@
-import { Flex, Select } from '@chakra-ui/react';
+import { Flex, Input, Select } from '@chakra-ui/react';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import { Error } from '../components/Error';
@@ -23,6 +23,9 @@ export const PickBanScreen = React.memo(function PickBanScreen() {
 
     const championIdMapResponse = DataDragonService.useChampionIdMap();
     const championIdMap = championIdMapResponse.data ?? {};
+
+    const matchHistoryResponse = ToxicDataService.useMatchHistory();
+    const matchHistory = matchHistoryResponse.data ?? [];
 
     const [team1Player1, setTeam1Player1] = useState<string>();
     const [team1Player2, setTeam1Player2] = useState<string>();
@@ -56,6 +59,46 @@ export const PickBanScreen = React.memo(function PickBanScreen() {
     const [team2Ban3, setTeam2Ban3] = useState<string>();
     const [team2Ban4, setTeam2Ban4] = useState<string>();
     const [team2Ban5, setTeam2Ban5] = useState<string>();
+
+    const setMatch = () => {
+        const matchId = (document.getElementById('matchId') as any).value;
+        const match = matchHistory.find((value) => value.id === matchId);
+
+        if (match) {
+            setTeam1Player1(match.team1.players[0].name);
+            setTeam1Player2(match.team1.players[1].name);
+            setTeam1Player3(match.team1.players[2].name);
+            setTeam1Player4(match.team1.players[3].name);
+            setTeam1Player5(match.team1.players[4].name);
+            setTeam2Player1(match.team2.players[0].name);
+            setTeam2Player2(match.team2.players[1].name);
+            setTeam2Player3(match.team2.players[2].name);
+            setTeam2Player4(match.team2.players[3].name);
+            setTeam2Player5(match.team2.players[4].name);
+
+            setTeam1Champion1(match.team1.players[0].champion.name);
+            setTeam1Champion2(match.team1.players[1].champion.name);
+            setTeam1Champion3(match.team1.players[2].champion.name);
+            setTeam1Champion4(match.team1.players[3].champion.name);
+            setTeam1Champion5(match.team1.players[4].champion.name);
+            setTeam2Champion1(match.team2.players[0].champion.name);
+            setTeam2Champion2(match.team2.players[1].champion.name);
+            setTeam2Champion3(match.team2.players[2].champion.name);
+            setTeam2Champion4(match.team2.players[3].champion.name);
+            setTeam2Champion5(match.team2.players[4].champion.name);
+
+            setTeam1Ban1(match.team1.bans[0].name);
+            setTeam1Ban2(match.team1.bans[1].name);
+            setTeam1Ban3(match.team1.bans[2].name);
+            setTeam1Ban4(match.team1.bans[3].name);
+            setTeam1Ban5(match.team1.bans[4].name);
+            setTeam2Ban1(match.team2.bans[0].name);
+            setTeam2Ban2(match.team2.bans[1].name);
+            setTeam2Ban3(match.team2.bans[2].name);
+            setTeam2Ban4(match.team2.bans[3].name);
+            setTeam2Ban5(match.team2.bans[4].name);
+        }
+    };
 
     const team1: MatchDisplayPlayer[] = [
         {
@@ -215,7 +258,12 @@ export const PickBanScreen = React.memo(function PickBanScreen() {
                 team2Bans={team2Bans ?? emptyArray}
                 casterMode={true}
             />
-            <Flex direction={'column'} marginBottom={8} marginTop={32}>
+            <Flex
+                direction={'column'}
+                marginBottom={8}
+                marginTop={32}
+                backgroundColor={'white'}
+            >
                 <h1>TEAM 1 BANS: </h1>
                 <Flex direction='row'>
                     <select
@@ -405,7 +453,7 @@ export const PickBanScreen = React.memo(function PickBanScreen() {
                     </select>
                 </Flex>
             </Flex>
-            <Flex direction={'column'}>
+            <Flex direction={'column'} backgroundColor={'white'}>
                 <h1>TEAM 2 BANS: </h1>
                 <Flex direction='row'>
                     <select
@@ -594,6 +642,35 @@ export const PickBanScreen = React.memo(function PickBanScreen() {
                         {playerOptions}
                     </select>
                 </Flex>
+            </Flex>
+            <Flex
+                borderWidth={1}
+                borderColor={'black'}
+                paddingTop={4}
+                paddingBottom={4}
+                backgroundColor={'white'}
+            >
+                <input
+                    id={'matchId'}
+                    type='text'
+                    style={{
+                        padding: 4,
+                        borderWidth: 1,
+                        borderColor: 'black',
+                        margin: 2,
+                    }}
+                />
+                <button
+                    onClick={setMatch}
+                    style={{
+                        padding: 4,
+                        borderWidth: 1,
+                        borderColor: 'black',
+                        margin: 2,
+                    }}
+                >
+                    FETCH MATCH
+                </button>
             </Flex>
         </div>
     );
