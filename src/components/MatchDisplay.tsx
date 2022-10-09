@@ -128,7 +128,6 @@ export const MatchDisplay = React.memo(function MatchDisplay({
     const team1Cards = team1.map((player) => {
         return (
             <MatchPlayerCard
-                key={player.name + player.champion}
                 player={player}
                 textColor={casterMode ? 'white' : undefined}
                 backgroundColor={casterMode ? 'rgb(0,0,0,0.8)' : undefined}
@@ -138,18 +137,12 @@ export const MatchDisplay = React.memo(function MatchDisplay({
     });
 
     const team1BansCards = team1Bans.map((champion) => {
-        return (
-            <BannedChampion
-                key={`banned_${champion.name}`}
-                champion={champion}
-            />
-        );
+        return <BannedChampion champion={champion} />;
     });
 
     const team2Cards = team2.map((player) => {
         return (
             <MatchPlayerCard
-                key={player.name + player.champion}
                 player={player}
                 textColor={casterMode ? 'white' : undefined}
                 backgroundColor={casterMode ? 'rgb(0,0,0,0.8)' : undefined}
@@ -159,12 +152,7 @@ export const MatchDisplay = React.memo(function MatchDisplay({
     });
 
     const team2BansCards = team2Bans.map((champion) => {
-        return (
-            <BannedChampion
-                key={`banned_${champion.name}`}
-                champion={champion}
-            />
-        );
+        return <BannedChampion champion={champion} />;
     });
 
     return (
