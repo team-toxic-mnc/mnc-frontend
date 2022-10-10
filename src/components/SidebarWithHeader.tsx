@@ -90,17 +90,8 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
             h='full'
             {...rest}
         >
-            <Flex
-                h='20'
-                alignItems='center'
-                mx='8'
-                justifyContent='space-between'
-            >
-                <Flex
-                    direction='column'
-                    justifyContent='center'
-                    alignItems='center'
-                >
+            <Flex h='20' align='center' mx='8' justify='space-between'>
+                <Flex direction='column' justify='center' align='center'>
                     <Text
                         fontSize='2xl'
                         fontWeight='bold'
@@ -180,10 +171,10 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
             ml={{ base: 0, md: 60 }}
             px={{ base: 4, md: 4 }}
             height='20'
-            alignItems='center'
+            align='center'
             borderBottomWidth='1px'
             borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
-            justifyContent={{ base: 'space-between', md: 'flex-end' }}
+            justify={{ base: 'space-between', md: 'flex-end' }}
             {...rest}
         >
             <IconButton
@@ -195,11 +186,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
             />
 
             <Box display={{ base: 'flex', md: 'none' }}>
-                <Flex
-                    direction='column'
-                    justifyContent='center'
-                    alignItems='center'
-                >
+                <Flex direction='column' justify='center' align='center'>
                     <Text
                         fontSize='2xl'
                         fontFamily='monospace'
