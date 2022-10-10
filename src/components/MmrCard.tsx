@@ -10,12 +10,12 @@ export const MmrCard = React.memo(function MmrCard({
 }) {
     return (
         <Flex
-            flexDirection='column'
+            direction='column'
             flex='1'
             maxWidth='150'
             marginLeft='16'
             marginRight='16'
-            alignItems='center'
+            align='center'
         >
             <MmrTag player={player} props={{ size: 'xl' }}></MmrTag>
             <Text fontWeight='bold'>{'MMR'}</Text>
