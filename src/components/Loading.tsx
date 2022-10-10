@@ -1,17 +1,11 @@
+import { Flex } from '@chakra-ui/react';
 import React from 'react';
 
 const TOP_NAV_BAR_HEIGHT = 80;
 
 export const Loading = React.memo(function Loading() {
     return (
-        <div
-            style={{
-                display: 'flex',
-                minHeight: '100vh',
-                justifyContent: 'center',
-                alignItems: 'center',
-            }}
-        >
+        <Flex minHeight='100vh' justify='center' align='center'>
             <div
                 style={{
                     position: 'absolute',
@@ -21,14 +15,11 @@ export const Loading = React.memo(function Loading() {
                     top: TOP_NAV_BAR_HEIGHT,
                 }}
             >
-                <div
-                    style={{
-                        display: 'flex',
-                        width: '100%',
-                        height: '100%',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                    }}
+                <Flex
+                    width='100%'
+                    height='100%'
+                    justify='center'
+                    align='center'
                 >
                     {'LOADING ...'}
                     {/* <img
@@ -39,8 +30,8 @@ export const Loading = React.memo(function Loading() {
                         }}
                         src='https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Amumu_7.jpg'
                     /> */}
-                </div>
+                </Flex>
             </div>
-        </div>
+        </Flex>
     );
 });
