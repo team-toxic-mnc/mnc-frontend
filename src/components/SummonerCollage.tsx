@@ -1,3 +1,4 @@
+import { Flex } from '@chakra-ui/react';
 import React from 'react';
 import { DataDragonService } from '../services/dataDragon/DataDragonService';
 import { Champion } from '../types/domain/Champion';
@@ -43,8 +44,8 @@ export const SummonerCollage = React.memo(function Error({
         });
 
     return (
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <Flex flex='1' direction='column'>
+            <Flex direction='row'>
                 {sortedChampions[0] ? (
                     <img
                         alt='player champion icon 1'
@@ -71,8 +72,8 @@ export const SummonerCollage = React.memo(function Error({
                         src={getRandomIcon(2)}
                     />
                 )}
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
+            </Flex>
+            <Flex direction='row'>
                 {sortedChampions[3] ? (
                     <img
                         alt='player champion icon 3'
@@ -99,7 +100,7 @@ export const SummonerCollage = React.memo(function Error({
                         src={getRandomIcon(1)}
                     />
                 )}
-            </div>
-        </div>
+            </Flex>
+        </Flex>
     );
 });
