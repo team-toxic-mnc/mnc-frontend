@@ -1,4 +1,4 @@
-import { Heading } from '@chakra-ui/react';
+import { Flex, Heading } from '@chakra-ui/react';
 import { ColumnDef, createColumnHelper, Row } from '@tanstack/react-table';
 import React from 'react';
 import { FiChevronDown, FiChevronUp, FiMinus } from 'react-icons/fi';
@@ -154,14 +154,7 @@ export const PlayerOverview = React.memo(function PlayerOverview() {
     const processedData = processPlayers(data, mmrPerMatchMap);
 
     return (
-        <div
-            style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-            }}
-        >
+        <Flex direction='column' justify='center' align='center'>
             <Heading>Player Overview</Heading>
             <SortableTable
                 columns={columns}
@@ -175,6 +168,6 @@ export const PlayerOverview = React.memo(function PlayerOverview() {
                     };
                 }}
             />
-        </div>
+        </Flex>
     );
 });
