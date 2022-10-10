@@ -1,4 +1,4 @@
-import { Heading } from '@chakra-ui/react';
+import { Flex, Heading } from '@chakra-ui/react';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SortableTable } from '../components/SortableTable';
@@ -21,14 +21,7 @@ export const MatchHistory = React.memo(function MatchHistory() {
     });
 
     return (
-        <div
-            style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-            }}
-        >
+        <Flex direction='column' justify='center' align='center'>
             <Heading>Match History</Heading>
             <SortableTable
                 columns={matchHistoryColumns}
@@ -42,6 +35,6 @@ export const MatchHistory = React.memo(function MatchHistory() {
                     };
                 }}
             />
-        </div>
+        </Flex>
     );
 });

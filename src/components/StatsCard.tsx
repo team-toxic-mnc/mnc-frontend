@@ -1,4 +1,4 @@
-import { Heading } from '@chakra-ui/react';
+import { Flex, Heading } from '@chakra-ui/react';
 import React from 'react';
 
 export const StatsCard = React.memo(function StatsCard({
@@ -27,30 +27,17 @@ export const StatsCard = React.memo(function StatsCard({
     const winPercentage = Math.round((stats.wins / totalGames) * 100);
 
     return (
-        <div
-            style={{
-                flex: 1,
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-evenly',
-            }}
-        >
+        <Flex flex='1' direction='row' justify='space-evenly'>
             {stats.imageUri !== undefined ? (
-                <div style={{ flex: 1, display: 'flex', marginRight: 16 }}>
+                <Flex flex='1' marginRight='16'>
                     <img
                         alt=''
                         src={stats.imageUri}
                         style={{ objectFit: 'contain' }}
                     />
-                </div>
+                </Flex>
             ) : null}
-            <div
-                style={{
-                    flex: 1,
-                    display: 'flex',
-                    flexDirection: 'column',
-                }}
-            >
+            <Flex flex='1' direction='column'>
                 {hideName === true ? null : (
                     <Heading
                         color='bodyFont'
@@ -66,14 +53,12 @@ export const StatsCard = React.memo(function StatsCard({
                 <h1>{'Total Games: ' + totalGames}</h1>
                 {stats.extraStats !== undefined
                     ? Array.from(Object.entries(stats.extraStats)).map((kv) => (
-                          <div
-                              style={{ display: 'flex', flexDirection: 'row' }}
-                          >
+                          <Flex direction='row'>
                               <h1>{`${kv[0]}: ${kv[1]}`}</h1>
-                          </div>
+                          </Flex>
                       ))
                     : null}
-            </div>
-        </div>
+            </Flex>
+        </Flex>
     );
 });

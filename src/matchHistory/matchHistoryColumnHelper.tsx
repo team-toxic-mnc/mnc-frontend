@@ -1,3 +1,4 @@
+import { Flex } from '@chakra-ui/react';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import React from 'react';
 import { ChampionImages } from '../types/domain/ChampionImages';
@@ -67,14 +68,7 @@ export const matchHistoryColumns: ColumnDef<MatchWithImages, any>[] = [
         id: 'teams',
         cell: (info) => {
             return (
-                <div
-                    style={{
-                        minWidth: 400,
-                        display: 'flex',
-                        alignItems: 'center',
-                        flexDirection: 'row',
-                    }}
-                >
+                <Flex minWidth='400' align='center' flex='row'>
                     <TeamIcon player={info.row.original.team1.players[0]} />
                     <TeamIcon player={info.row.original.team1.players[1]} />
                     <TeamIcon player={info.row.original.team1.players[2]} />
@@ -86,7 +80,7 @@ export const matchHistoryColumns: ColumnDef<MatchWithImages, any>[] = [
                     <TeamIcon player={info.row.original.team2.players[2]} />
                     <TeamIcon player={info.row.original.team2.players[3]} />
                     <TeamIcon player={info.row.original.team2.players[4]} />
-                </div>
+                </Flex>
             );
         },
         header: () => <span>Matchup</span>,
@@ -111,13 +105,7 @@ export const playerMatchHistoryColumns: ColumnDef<MatchWithImages, any>[] = [
         cell: (info) => {
             const activePlayerName = info.row.original.playerName;
             return (
-                <div
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        flexDirection: 'row',
-                    }}
-                >
+                <Flex align='center' direction='row'>
                     <TeamIcon
                         player={info.row.original.team1.players[0]}
                         activePlayerName={activePlayerName}
@@ -159,7 +147,7 @@ export const playerMatchHistoryColumns: ColumnDef<MatchWithImages, any>[] = [
                         player={info.row.original.team2.players[4]}
                         activePlayerName={activePlayerName}
                     />
-                </div>
+                </Flex>
             );
         },
         header: () => <span>Matchup</span>,

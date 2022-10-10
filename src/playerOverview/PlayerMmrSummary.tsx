@@ -95,18 +95,14 @@ export const PlayerMmrSummary = React.memo(function PlayerMmrSummary({
     };
 
     return (
-        <Flex direction={'column'}>
+        <Flex direction='column'>
             {playerMmrPerMatchSliced.length > 1 ? (
                 <>
-                    <Flex
-                        direction={'row'}
-                        justifyContent={'center'}
-                        alignItems={'center'}
-                    >
+                    <Flex direction='row' justify='center' align='center'>
                         <h1 style={{ fontSize: 60 }}>
                             {`${mmrChangePercentage}`}
                         </h1>
-                        {mmrChangePercentage == 0 ? (
+                        {mmrChangePercentage === 0 ? (
                             <FiMinus size={'60'} color={'orange'} />
                         ) : mmrChangePercentage > 0 ? (
                             <FiChevronUp size={'60'} color={'green'} />
@@ -140,11 +136,7 @@ export const PlayerMmrSummary = React.memo(function PlayerMmrSummary({
                     />
                 </>
             ) : (
-                <Flex
-                    direction={'column'}
-                    justifyContent={'center'}
-                    alignItems={'center'}
-                >
+                <Flex direction='column' justify='center' align='center'>
                     <h1 style={{ fontSize: 30 }}>{`Not enough data.`}</h1>
                     <h1 style={{ fontSize: 30 }}>
                         {`Player needs to complete more games.`}

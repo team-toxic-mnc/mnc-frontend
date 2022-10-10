@@ -1,5 +1,6 @@
+import { Flex } from '@chakra-ui/layout';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import { Error } from '../components/Error';
 import { Loading } from '../components/Loading';
@@ -134,14 +135,7 @@ export const ChampionScreen = React.memo(function ChampionScreen() {
     };
 
     return (
-        <div
-            style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-            }}
-        >
+        <Flex direction='column' justify='center' align='center'>
             <div style={{ marginBottom: 32 }}>
                 <StatsCard stats={statsCardChampion} />
             </div>
@@ -156,6 +150,6 @@ export const ChampionScreen = React.memo(function ChampionScreen() {
                     };
                 }}
             />
-        </div>
+        </Flex>
     );
 });

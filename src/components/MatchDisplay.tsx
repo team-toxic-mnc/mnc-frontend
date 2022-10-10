@@ -37,12 +37,12 @@ const MatchPlayerCard = React.memo(
 
         return (
             <Flex
-                flex={1}
-                align={'center'}
-                flexDirection={'column'}
-                paddingRight={4}
-                minWidth={160}
-                maxWidth={180}
+                flex='1'
+                align='center'
+                direction='column'
+                paddingRight='4'
+                minWidth='160'
+                maxWidth='180'
             >
                 <Button
                     variant='ghost'
@@ -85,7 +85,7 @@ const BannedChampion = React.memo(
         }, [navigate, champion.name]);
 
         return (
-            <Flex width={12} height={12} justify={'center'} marginRight={2}>
+            <Flex width='12' height='12' justify='center' marginRight='2'>
                 <Button
                     variant='ghost'
                     onClick={championNav}
@@ -156,16 +156,9 @@ export const MatchDisplay = React.memo(function MatchDisplay({
     });
 
     return (
-        <div
-            style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-            }}
-        >
+        <Flex direction='column' justify='center' align='center'>
             <h1>{title}</h1>
-            <Flex direction={'column'}>
+            <Flex direction='column'>
                 <h1
                     style={{
                         fontStyle: 'italic',
@@ -176,18 +169,9 @@ export const MatchDisplay = React.memo(function MatchDisplay({
                 >
                     {team1Label}
                 </h1>
-                <Flex
-                    direction={'row'}
-                    flex={1}
-                    marginBottom={8}
-                    flexWrap={'wrap'}
-                >
+                <Flex direction='row' flex='1' marginBottom='8' wrap='wrap'>
                     {team1Cards}
-                    <Flex
-                        direction={'column'}
-                        flex={1}
-                        justifyContent={'flex-start'}
-                    >
+                    <Flex direction='column' flex='1' justify='flex-start'>
                         <h1
                             style={{
                                 fontStyle: 'italic',
@@ -198,20 +182,16 @@ export const MatchDisplay = React.memo(function MatchDisplay({
                         >
                             BANS
                         </h1>
-                        <Flex
-                            direction={'row'}
-                            flexWrap={'wrap'}
-                            marginBottom={2}
-                        >
+                        <Flex direction='row' wrap='wrap' marginBottom='2'>
                             {team1BansCards.slice(0, 3)}
                         </Flex>
-                        <Flex direction={'row'} flexWrap={'wrap'}>
+                        <Flex direction='row' wrap='wrap'>
                             {team1BansCards.slice(3, 5)}
                         </Flex>
                     </Flex>
                 </Flex>
             </Flex>
-            <Flex direction={'column'}>
+            <Flex direction='column'>
                 <h1
                     style={{
                         fontStyle: 'italic',
@@ -222,18 +202,9 @@ export const MatchDisplay = React.memo(function MatchDisplay({
                 >
                     {team2Label}
                 </h1>
-                <Flex
-                    direction={'row'}
-                    flex={1}
-                    marginBottom={8}
-                    flexWrap={'wrap'}
-                >
+                <Flex direction='row' flex='1' marginBottom='8' wrap='wrap'>
                     {team2Cards}
-                    <Flex
-                        direction={'column'}
-                        flex={1}
-                        justifyContent={'flex-start'}
-                    >
+                    <Flex direction='column' flex='1' justify='flex-start'>
                         <h1
                             style={{
                                 fontStyle: 'italic',
@@ -244,11 +215,7 @@ export const MatchDisplay = React.memo(function MatchDisplay({
                         >
                             BANS
                         </h1>
-                        <Flex
-                            direction={'row'}
-                            flexWrap={'wrap'}
-                            marginBottom={2}
-                        >
+                        <Flex direction='row' wrap='wrap' marginBottom='2'>
                             {team2BansCards.slice(0, 3)}
                         </Flex>
                         <Flex direction={'row'} flexWrap={'wrap'}>
@@ -257,6 +224,6 @@ export const MatchDisplay = React.memo(function MatchDisplay({
                     </Flex>
                 </Flex>
             </Flex>
-        </div>
+        </Flex>
     );
 });

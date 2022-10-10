@@ -1,17 +1,15 @@
+import { Flex } from '@chakra-ui/layout';
 import React from 'react';
 
 const TOP_NAV_BAR_HEIGHT = 80;
 
 export const Error = React.memo(function Error({ error }: { error: string }) {
     return (
-        <div
-            style={{
-                display: 'flex',
-                minHeight: '100vh',
-                backgroundColor: '#282c34',
-                justifyContent: 'center',
-                alignItems: 'center',
-            }}
+        <Flex
+            minHeight='100vh'
+            backgroundColor='gray.700'
+            justify='center'
+            align='center'
         >
             <div
                 style={{
@@ -22,14 +20,11 @@ export const Error = React.memo(function Error({ error }: { error: string }) {
                     top: TOP_NAV_BAR_HEIGHT,
                 }}
             >
-                <div
-                    style={{
-                        display: 'flex',
-                        width: '100%',
-                        height: '100%',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                    }}
+                <Flex
+                    width='100%'
+                    height='100%'
+                    justify='center'
+                    align='center'
                 >
                     <img
                         alt='amumu splash'
@@ -40,7 +35,7 @@ export const Error = React.memo(function Error({ error }: { error: string }) {
                         }}
                         src='https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Amumu_7.jpg'
                     />
-                </div>
+                </Flex>
             </div>
             <div
                 style={{
@@ -51,15 +46,12 @@ export const Error = React.memo(function Error({ error }: { error: string }) {
                     top: TOP_NAV_BAR_HEIGHT,
                 }}
             >
-                <div
-                    style={{
-                        display: 'flex',
-                        width: '100%',
-                        height: '100%',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                    }}
+                <Flex
+                    width='100%'
+                    height='100%'
+                    justify='center'
+                    align='center'
+                    backgroundColor='rgba(0, 0, 0, 0.8)'
                 >
                     <h1
                         style={{
@@ -71,8 +63,8 @@ export const Error = React.memo(function Error({ error }: { error: string }) {
                     >
                         {error}
                     </h1>
-                </div>
+                </Flex>
             </div>
-        </div>
+        </Flex>
     );
 });

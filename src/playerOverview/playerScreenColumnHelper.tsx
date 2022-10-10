@@ -1,3 +1,4 @@
+import { Flex } from '@chakra-ui/react';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { PlayerScreenChampion } from './types/PlayerScreenChampion';
 
@@ -8,7 +9,7 @@ export const championColumns: ColumnDef<PlayerScreenChampion, any>[] = [
         id: 'name',
         cell: (info) => {
             return (
-                <div style={{ display: 'flex', alignItems: 'center' }}>
+                <Flex align='center'>
                     {info.row.original.imageUrl ? (
                         <img
                             alt='champion icon'
@@ -17,7 +18,7 @@ export const championColumns: ColumnDef<PlayerScreenChampion, any>[] = [
                         />
                     ) : null}
                     {info.getValue()}
-                </div>
+                </Flex>
             );
         },
         header: () => <span>Name</span>,
