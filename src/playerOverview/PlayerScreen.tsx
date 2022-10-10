@@ -11,6 +11,7 @@ import {
 } from '../utils/championImageHelpers';
 
 import {
+    Flex,
     Heading,
     Tab,
     TabList,
@@ -175,23 +176,13 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
     );
 
     return (
-        <div
-            style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-            }}
-        >
-            <div
-                style={{
-                    flex: 1,
-                    marginBottom: 32,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
+        <Flex direction='column' justify='center' align='center'>
+            <Flex
+                flex='1'
+                marginBottom='32'
+                direction='column'
+                justify='center'
+                align='center'
             >
                 <Heading
                     paddingLeft='8'
@@ -200,25 +191,19 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                 >
                     {player.name.toUpperCase()}
                 </Heading>
-                <div
-                    style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                        alignSelf: 'stretch',
-                        flex: 1,
-                        flexWrap: 'wrap',
-                    }}
+                <Flex
+                    direction='row'
+                    justify='center'
+                    alignSelf='stretch'
+                    flex='1'
+                    flexWrap='wrap'
                 >
-                    <div
-                        style={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            flexWrap: 'wrap',
-                            marginLeft: 32,
-                            marginRight: 32,
-                            justifyContent: 'center',
-                        }}
+                    <Flex
+                        direction='row'
+                        flexWrap='wrap'
+                        marginLeft='32'
+                        marginRight='32'
+                        justify='center'
                     >
                         <div>
                             <SummonerCollage player={player} />
@@ -227,28 +212,23 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                             <StatsCard stats={player} hideName={true} />
                         </div>
                         <MmrCard player={player} />
-                        <div
-                            style={{
-                                display: 'flex',
-                                flex: 1,
-                                maxWidth: 320,
-                                paddingLeft: 16,
-                                paddingRight: 16,
-                            }}
+                        <Flex
+                            flex='1'
+                            maxWidth='320'
+                            paddingLeft='16'
+                            paddingRight='16'
                         >
                             <Radar data={chartData} />
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        </Flex>
+                    </Flex>
+                </Flex>
+            </Flex>
             <Tabs
-                style={{
-                    alignSelf: 'stretch',
-                    flex: 1,
-                    alignItems: 'center',
-                    display: 'flex',
-                    flexDirection: 'column',
-                }}
+                alignSelf='stretch'
+                flex='1'
+                alignItems='center'
+                display='flex'
+                flexDirection='column'
             >
                 <TabList style={{ maxWidth: 1024 }}>
                     <Tab>Champion Overview</Tab>
@@ -330,6 +310,6 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                     </TabPanel>
                 </TabPanels>
             </Tabs>
-        </div>
+        </Flex>
     );
 });
