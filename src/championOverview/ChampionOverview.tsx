@@ -1,4 +1,4 @@
-import { Heading } from '@chakra-ui/react';
+import { Flex, Heading } from '@chakra-ui/react';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -86,14 +86,7 @@ export const ChampionOverview = React.memo(function ChampionOverview() {
     });
 
     return (
-        <div
-            style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-            }}
-        >
+        <Flex direction='column' justify='center' align='center'>
             <Heading>Champion Overview</Heading>
             <SortableTable
                 columns={columns}
@@ -107,6 +100,6 @@ export const ChampionOverview = React.memo(function ChampionOverview() {
                     };
                 }}
             />
-        </div>
+        </Flex>
     );
 });
