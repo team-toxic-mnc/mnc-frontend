@@ -21,5 +21,6 @@ export const Tag: ComponentStyleConfig = {
     },
     defaultProps: {
         variant: 'bold',
+        size: ['md', 'lg', 'xl'],
     },
 };

@@ -11,6 +11,8 @@ import {
 } from '../utils/championImageHelpers';
 
 import {
+    Box,
+    chakra,
     Flex,
     Heading,
     Tab,
@@ -184,11 +186,7 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                 justify='center'
                 align='center'
             >
-                <Heading
-                    paddingLeft='8'
-                    fontStyle='italic'
-                    alignSelf='flex-start'
-                >
+                <Heading fontStyle='italic'>
                     {player.name.toUpperCase()}
                 </Heading>
                 <Flex
@@ -196,48 +194,33 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                     justify='center'
                     alignSelf='stretch'
                     flex='1'
-                    flexWrap='wrap'
+                    wrap='wrap'
                 >
-                    <Flex
-                        direction='row'
-                        flexWrap='wrap'
-                        marginLeft='32'
-                        marginRight='32'
-                        justify='center'
-                    >
-                        <div>
+                    <Flex direction='row' wrap='wrap' justify='center'>
+                        <Box marginBottom='4'>
                             <SummonerCollage player={player} />
-                        </div>
-                        <div style={{ marginLeft: 16 }}>
+                        </Box>
+                        <Box marginLeft='4' marginBottom='4'>
                             <StatsCard stats={player} hideName={true} />
-                        </div>
-                        <MmrCard player={player} />
-                        <Flex
-                            flex='1'
-                            maxWidth='320'
-                            paddingLeft='16'
-                            paddingRight='16'
-                        >
+                        </Box>
+                        <Box marginBottom='4'>
+                            <MmrCard player={player} />
+                        </Box>
+                        <Flex flex='1' maxWidth='320'>
                             <Radar data={chartData} />
                         </Flex>
                     </Flex>
                 </Flex>
             </Flex>
-            <Tabs
-                alignSelf='stretch'
-                flex='1'
-                alignItems='center'
-                display='flex'
-                flexDirection='column'
-            >
-                <TabList style={{ maxWidth: 1024 }}>
+            <Tabs isFitted={true} maxWidth='100%'>
+                <TabList>
                     <Tab>Champion Overview</Tab>
                     <Tab>Match History</Tab>
                     <Tab>MMR Summary</Tab>
                     <Tab>Teammate Record</Tab>
                     <Tab>Opponent Record</Tab>
                 </TabList>
-                <TabPanels style={{ maxWidth: 1024 }}>
+                <TabPanels>
                     <TabPanel>
                         <SortableTable
                             columns={championColumns}

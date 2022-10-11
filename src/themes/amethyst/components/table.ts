@@ -17,5 +17,6 @@ export const Table: ComponentStyleConfig = {
     defaultProps: {
         variant: 'simple',
         colorScheme: 'primary',
+        size: ['sm', 'md', 'lg'],
     },
 };
