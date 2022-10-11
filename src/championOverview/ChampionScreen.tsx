@@ -131,6 +131,12 @@ export const ChampionScreen = React.memo(function ChampionScreen() {
             Class: championClass.reduce((prevValue, currentValue) => {
                 return (prevValue !== '' ? prevValue + ',' : '') + currentValue;
             }, ''),
+            'Ban Rate': champion.banPercentage
+                ? `${champion.banPercentage}%`
+                : 'N/A',
+            'Pick Rate': champion.pickPercentage
+                ? `${champion.pickPercentage}%`
+                : 'N/A',
         },
     };
 

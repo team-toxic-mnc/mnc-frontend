@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import { useMatch } from 'react-router-dom';
 import { Champion } from '../../types/domain/Champion';
 import { Match } from '../../types/domain/Match';
 import { MmrHistoryItem } from '../../types/domain/MmrHistoryItem';
@@ -8,7 +9,12 @@ import { MatchData } from '../../types/service/toxicData/MatchData';
 import { MmrData } from '../../types/service/toxicData/MmrData';
 import { MmrPerMatchData } from '../../types/service/toxicData/MmrPerMatchData';
 import { StatsData } from '../../types/service/toxicData/StatsData';
-import { mapMatchHistory, mapMmrPerMatch, mapStats } from './dataMapper';
+import {
+    getChampionPickBanMap,
+    mapMatchHistory,
+    mapMmrPerMatch,
+    mapStats,
+} from './dataMapper';
 
 const placementEndpoint =
     'https://toxic-api-production.gggrunt16.workers.dev/placement';
@@ -173,15 +179,28 @@ export const ToxicDataService = {
         // gets the player information without MMR AND champion information
         const statsResponse = usePlayerStats();
 
-        // gets the player's MMR
-        const mmrResponse = usePlayersMmr();
+        // gets the match history used to compute ban and pick rate
+        const matchHistoryResponse = useMatchHistory();
 
-        const isLoading = statsResponse.isLoading || mmrResponse.isLoading;
-        const isError = statsResponse.isError || mmrResponse.isError;
+        const isLoading =
+            statsResponse.isLoading || matchHistoryResponse.isLoading;
+        const isError = statsResponse.isError || matchHistoryResponse.isError;
 
-        // merge mmr response and stats response here
-        if (statsResponse.data && mmrResponse.data) {
+        if (statsResponse.data && matchHistoryResponse.data) {
             const data = statsResponse.data.champions;
+
+            const matchData = matchHistoryResponse.data;
+            const matches = matchData ? mapMatchHistory(matchData) : [];
+            const championPickBanMap = getChampionPickBanMap(matches);
+
+            // loop through data, and update the pick/ban rate
+            for (const championName of Object.keys(data)) {
+                data[championName] = {
+                    ...data[championName],
+                    banPercentage: championPickBanMap[championName]?.ban,
+                    pickPercentage: championPickBanMap[championName]?.pick,
+                };
+            }
 
             return {
                 data,
@@ -202,15 +221,26 @@ export const ToxicDataService = {
         // gets the player information without MMR AND champion information
         const statsResponse = usePlayerStats();
 
-        // gets the player's MMR
-        const mmrResponse = usePlayersMmr();
+        // gets the match history used to compute ban and pick rate
+        const matchHistoryResponse = useMatchHistory();
 
-        const isLoading = statsResponse.isLoading || mmrResponse.isLoading;
-        const isError = statsResponse.isError || mmrResponse.isError;
+        const isLoading =
+            statsResponse.isLoading || matchHistoryResponse.isLoading;
+        const isError = statsResponse.isError || matchHistoryResponse.isError;
 
         // merge mmr response and stats response here
-        if (statsResponse.data && mmrResponse.data) {
-            const data = statsResponse.data.champions[id];
+        if (statsResponse.data && matchHistoryResponse.data) {
+            const champion = statsResponse.data.champions[id];
+
+            const matchData = matchHistoryResponse.data;
+            const matches = matchData ? mapMatchHistory(matchData) : [];
+            const championPickBanMap = getChampionPickBanMap(matches);
+
+            const data = {
+                ...champion,
+                banPercentage: championPickBanMap[id]?.ban,
+                pickPercentage: championPickBanMap[id]?.pick,
+            };
 
             return {
                 data,
