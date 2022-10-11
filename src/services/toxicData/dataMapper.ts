@@ -213,9 +213,9 @@ export function mapMatchHistory(data: MatchData): Match[] {
         });
     }
 
-    // return the history as a sorted list
+    // return the history as a sorted list using id as the sort
     const sortedHistory = history.sort(
-        (a, b) => b.date.getTime() - a.date.getTime()
+        (a, b) => Number.parseInt(b.id) - Number.parseInt(a.id)
     );
     return sortedHistory;
 }
