@@ -1,4 +1,4 @@
-import { Flex, Heading } from '@chakra-ui/react';
+import { Flex, Heading, Text } from '@chakra-ui/react';
 import React from 'react';
 
 export const StatsCard = React.memo(function StatsCard({
@@ -47,14 +47,14 @@ export const StatsCard = React.memo(function StatsCard({
                         {stats.name.toUpperCase()}
                     </Heading>
                 )}
-                <h1>{'Wins: ' + stats.wins}</h1>
-                <h1>{'Losses: ' + stats.losses}</h1>
-                <h1>{'Win Percentage: ' + winPercentage + '%'}</h1>
-                <h1>{'Total Games: ' + totalGames}</h1>
+                <Text>{'Wins: ' + stats.wins}</Text>
+                <Text>{'Losses: ' + stats.losses}</Text>
+                <Text>{'Win Percentage: ' + winPercentage + '%'}</Text>
+                <Text>{'Total Games: ' + totalGames}</Text>
                 {stats.extraStats !== undefined
                     ? Array.from(Object.entries(stats.extraStats)).map((kv) => (
                           <Flex direction='row'>
-                              <h1>{`${kv[0]}: ${kv[1]}`}</h1>
+                              <Text>{`${kv[0]}: ${kv[1]}`}</Text>
                           </Flex>
                       ))
                     : null}

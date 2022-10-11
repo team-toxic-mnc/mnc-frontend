@@ -97,7 +97,7 @@ const columns: ColumnDef<PlayerTableData, any>[] = [
     columnHelper.accessor((row) => row.mmr, {
         id: 'mmr',
         cell: (info) => {
-            return <MmrTag player={info.row.original} />;
+            return <MmrTag props={{ size: 'md' }} player={info.row.original} />;
         },
         header: () => <span>MMR</span>,
         meta: {
