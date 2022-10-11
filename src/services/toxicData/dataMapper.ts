@@ -234,3 +234,86 @@ export function mapMmrPerMatch(data: MmrPerMatchData[]): MmrHistoryItem[] {
         };
     });
 }
+
+export function getChampionPickBanMap(matches: Match[]): {
+    [id: string]: { pick: number; ban: number };
+} {
+    const pickBan: { [id: string]: { pick: number; ban: number } } = {};
+
+    // count champion pick/ban over selected matches
+    for (let i = 0; i < matches.length; i++) {
+        const match = matches[i];
+
+        // loop through team 1 picks
+        for (let k = 0; k < match.team1.players.length; k++) {
+            if (pickBan[match.team1.players[k].champion.name] === undefined) {
+                pickBan[match.team1.players[k].champion.name] = {
+                    pick: 1,
+                    ban: 0,
+                };
+            } else {
+                pickBan[match.team1.players[k].champion.name] = {
+                    ...pickBan[match.team1.players[k].champion.name],
+                    pick:
+                        pickBan[match.team1.players[k].champion.name].pick + 1,
+                };
+            }
+        }
+
+        // loop through team 2 picks
+        for (let k = 0; k < match.team2.players.length; k++) {
+            if (pickBan[match.team2.players[k].champion.name] === undefined) {
+                pickBan[match.team2.players[k].champion.name] = {
+                    pick: 1,
+                    ban: 0,
+                };
+            } else {
+                pickBan[match.team2.players[k].champion.name] = {
+                    ...pickBan[match.team2.players[k].champion.name],
+                    pick:
+                        pickBan[match.team2.players[k].champion.name].pick + 1,
+                };
+            }
+        }
+
+        // loop through team 1 bans
+        for (let k = 0; k < match.team1.bans.length; k++) {
+            if (pickBan[match.team1.bans[k].name] === undefined) {
+                pickBan[match.team1.bans[k].name] = {
+                    pick: 0,
+                    ban: 1,
+                };
+            } else {
+                pickBan[match.team1.bans[k].name] = {
+                    ...pickBan[match.team1.bans[k].name],
+                    ban: pickBan[match.team1.bans[k].name].ban + 1,
+                };
+            }
+        }
+
+        // loop through team 2 bans
+        for (let k = 0; k < match.team2.bans.length; k++) {
+            if (pickBan[match.team2.bans[k].name] === undefined) {
+                pickBan[match.team2.bans[k].name] = {
+                    pick: 0,
+                    ban: 1,
+                };
+            } else {
+                pickBan[match.team2.bans[k].name] = {
+                    ...pickBan[match.team2.bans[k].name],
+                    ban: pickBan[match.team2.bans[k].name].ban + 1,
+                };
+            }
+        }
+    }
+
+    // calculate pick/ban rate in percent unit
+    for (const champName of Object.keys(pickBan)) {
+        pickBan[champName] = {
+            pick: Math.round((pickBan[champName].pick / matches.length) * 100),
+            ban: Math.round((pickBan[champName].ban / matches.length) * 100),
+        };
+    }
+
+    return pickBan;
+}

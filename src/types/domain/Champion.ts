@@ -4,4 +4,6 @@ export type Champion = {
     losses: number;
     winPercentage: number;
     totalGames: number;
+    banPercentage?: number;
+    pickPercentage?: number;
 };

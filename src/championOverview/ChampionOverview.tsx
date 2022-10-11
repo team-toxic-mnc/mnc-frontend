@@ -63,6 +63,22 @@ const columns: ColumnDef<ChampionOverviewChampion, any>[] = [
             isNumeric: true,
         },
     }),
+    columnHelper.accessor((row) => row.pickPercentage, {
+        id: 'Pick Rate',
+        cell: (info) => `${info.getValue()}%`,
+        header: () => <span>Pick Rate</span>,
+        meta: {
+            isNumeric: true,
+        },
+    }),
+    columnHelper.accessor((row) => row.banPercentage, {
+        id: 'Ban Rate',
+        cell: (info) => `${info.getValue()}%`,
+        header: () => <span>Ban Rate</span>,
+        meta: {
+            isNumeric: true,
+        },
+    }),
 ];
 
 export const ChampionOverview = React.memo(function ChampionOverview() {
