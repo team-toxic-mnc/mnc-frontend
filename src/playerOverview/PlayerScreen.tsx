@@ -196,26 +196,17 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                     flex='1'
                     wrap='wrap'
                 >
-                    <Flex
-                        direction='row'
-                        wrap='wrap'
-                        marginLeft='32'
-                        marginRight='32'
-                        justify='center'
-                    >
-                        <div>
+                    <Flex direction='row' wrap='wrap' justify='center'>
+                        <Box marginBottom='4'>
                             <SummonerCollage player={player} />
-                        </div>
-                        <div style={{ marginLeft: 16 }}>
+                        </Box>
+                        <Box marginLeft='4' marginBottom='4'>
                             <StatsCard stats={player} hideName={true} />
-                        </div>
-                        <MmrCard player={player} />
-                        <Flex
-                            flex='1'
-                            maxWidth='320'
-                            paddingLeft='16'
-                            paddingRight='16'
-                        >
+                        </Box>
+                        <Box marginBottom='4'>
+                            <MmrCard player={player} />
+                        </Box>
+                        <Flex flex='1' maxWidth='320'>
                             <Radar data={chartData} />
                         </Flex>
                     </Flex>
