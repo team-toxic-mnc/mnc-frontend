@@ -3,7 +3,7 @@ import { Tag } from './components/tag';
 import { Button } from './components/button';
 import { extendTheme } from '@chakra-ui/react';
 import { Table } from './components/table';
-import { Tabs } from './components/tab';
+import { Tabs } from './components/tabs';
 import { mode, StyleFunctionProps } from '@chakra-ui/theme-tools';
 import { Heading } from './components/heading';
 

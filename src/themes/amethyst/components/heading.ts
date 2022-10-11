@@ -6,4 +6,7 @@ export const Heading: ComponentStyleConfig = {
         padding: '6',
         textTransform: 'uppercase',
     },
+    defaultProps: {
+        size: ['lg', 'xl', '2xl'],
+    },
 };
