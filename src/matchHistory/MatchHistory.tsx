@@ -16,11 +16,9 @@ export const MatchHistory = React.memo(function MatchHistory() {
     const championIdMapResponse = DataDragonService.useChampionIdMap();
     const championIdMap = championIdMapResponse.data ?? {};
 
-    const processedMatchHistory = matchHistory
-        .sort((a, b) => Number.parseInt(b.id) - Number.parseInt(a.id))
-        .map((match) => {
-            return getMatchWithImages(match, championIdMap);
-        });
+    const processedMatchHistory = matchHistory.map((match) => {
+        return getMatchWithImages(match, championIdMap);
+    });
 
     return (
         <Flex direction='column' justify='center' align='center'>
