@@ -18,6 +18,8 @@ import {
 const emptyArray: any[] = [];
 
 export const PickBanScreen = React.memo(function PickBanScreen() {
+    const matchIdParam = useLoaderData() as string;
+
     const playersResponse = ToxicDataService.usePlayers();
     const players = playersResponse.data ?? [];
 
@@ -99,6 +101,47 @@ export const PickBanScreen = React.memo(function PickBanScreen() {
             setTeam2Ban5(match.team2.bans[4].name);
         }
     };
+
+    useEffect(() => {
+        const match = matchIdParam
+            ? matchHistory.find((value) => value.id === matchIdParam)
+            : undefined;
+
+        if (match) {
+            setTeam1Player1(match.team1.players[0].name);
+            setTeam1Player2(match.team1.players[1].name);
+            setTeam1Player3(match.team1.players[2].name);
+            setTeam1Player4(match.team1.players[3].name);
+            setTeam1Player5(match.team1.players[4].name);
+            setTeam2Player1(match.team2.players[0].name);
+            setTeam2Player2(match.team2.players[1].name);
+            setTeam2Player3(match.team2.players[2].name);
+            setTeam2Player4(match.team2.players[3].name);
+            setTeam2Player5(match.team2.players[4].name);
+
+            setTeam1Champion1(match.team1.players[0].champion.name);
+            setTeam1Champion2(match.team1.players[1].champion.name);
+            setTeam1Champion3(match.team1.players[2].champion.name);
+            setTeam1Champion4(match.team1.players[3].champion.name);
+            setTeam1Champion5(match.team1.players[4].champion.name);
+            setTeam2Champion1(match.team2.players[0].champion.name);
+            setTeam2Champion2(match.team2.players[1].champion.name);
+            setTeam2Champion3(match.team2.players[2].champion.name);
+            setTeam2Champion4(match.team2.players[3].champion.name);
+            setTeam2Champion5(match.team2.players[4].champion.name);
+
+            setTeam1Ban1(match.team1.bans[0].name);
+            setTeam1Ban2(match.team1.bans[1].name);
+            setTeam1Ban3(match.team1.bans[2].name);
+            setTeam1Ban4(match.team1.bans[3].name);
+            setTeam1Ban5(match.team1.bans[4].name);
+            setTeam2Ban1(match.team2.bans[0].name);
+            setTeam2Ban2(match.team2.bans[1].name);
+            setTeam2Ban3(match.team2.bans[2].name);
+            setTeam2Ban4(match.team2.bans[3].name);
+            setTeam2Ban5(match.team2.bans[4].name);
+        }
+    }, [matchHistory]);
 
     const team1: MatchDisplayPlayer[] = [
         {

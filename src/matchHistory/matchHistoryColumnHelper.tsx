@@ -57,6 +57,11 @@ const TeamIcon = React.memo(function TeamIcon({
 });
 
 export const matchHistoryColumns: ColumnDef<MatchWithImages, any>[] = [
+    columnHelper.accessor((row) => row.id, {
+        id: 'id',
+        cell: (info) => info.getValue(),
+        header: () => <span>Game Number</span>,
+    }),
     columnHelper.accessor((row) => row.date, {
         id: 'date',
         cell: (info) => {
@@ -93,6 +98,11 @@ export const matchHistoryColumns: ColumnDef<MatchWithImages, any>[] = [
 ];
 
 export const playerMatchHistoryColumns: ColumnDef<MatchWithImages, any>[] = [
+    columnHelper.accessor((row) => row.id, {
+        id: 'id',
+        cell: (info) => info.getValue(),
+        header: () => <span>Game Number</span>,
+    }),
     columnHelper.accessor((row) => row.date, {
         id: 'date',
         cell: (info) => {

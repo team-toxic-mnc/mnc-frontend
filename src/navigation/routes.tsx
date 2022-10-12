@@ -77,6 +77,11 @@ export const router = createBrowserRouter([
                 path: '/barghest',
                 element: <PickBanScreen />,
             },
+            {
+                path: '/barghest/:matchId',
+                loader: matchLoader,
+                element: <PickBanScreen />,
+            },
         ],
     },
 ]);
