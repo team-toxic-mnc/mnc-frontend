@@ -1,4 +1,4 @@
-import { border, Button, Flex, Image, Text } from '@chakra-ui/react';
+import { border, Button, Flex, Heading, Image, Text } from '@chakra-ui/react';
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChampionImages } from '../types/domain/ChampionImages';
@@ -164,7 +164,7 @@ export const MatchDisplay = React.memo(function MatchDisplay({
                 alignItems: 'center',
             }}
         >
-            <h1>{title}</h1>
+            <Heading>{title}</Heading>
             <Flex direction={'column'}>
                 <h1
                     style={{
