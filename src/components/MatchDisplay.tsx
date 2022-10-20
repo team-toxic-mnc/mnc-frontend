@@ -49,6 +49,7 @@ const MatchPlayerCard = React.memo(
                     onClick={championNav}
                     flex={1}
                     padding={1}
+                    size='md'
                 >
                     <Image src={player.champion.images.portrait} />
                 </Button>
@@ -59,6 +60,7 @@ const MatchPlayerCard = React.memo(
                     backgroundColor={backgroundColor}
                     borderColor={borderColor}
                     borderWidth={borderColor ? 5 : undefined}
+                    size='md'
                 >
                     <Text
                         style={{
@@ -91,6 +93,7 @@ const BannedChampion = React.memo(
                     onClick={championNav}
                     padding={1}
                     flex={1}
+                    size='sm'
                 >
                     <Image
                         src={champion.images.square}
