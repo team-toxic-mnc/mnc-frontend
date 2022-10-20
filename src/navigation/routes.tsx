@@ -22,6 +22,7 @@ import {
     MatchScreen,
 } from '../matchHistory/MatchScreen';
 import { PickBanScreen } from '../admin/PickBanScreen';
+import { Leaderboard } from '../leaderboard/Leaderboard';
 
 export const router = createBrowserRouter([
     {
@@ -81,6 +82,10 @@ export const router = createBrowserRouter([
                 path: '/barghest/:matchId',
                 loader: matchLoader,
                 element: <PickBanScreen />,
+            },
+            {
+                path: '/leaderboard',
+                element: <Leaderboard />,
             },
         ],
     },
