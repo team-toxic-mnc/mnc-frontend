@@ -19,6 +19,8 @@ import {
 import { ReactNode, useCallback } from 'react';
 import { IconType } from 'react-icons';
 import {
+    FiAward,
+    FiBookOpen,
     FiCalendar,
     FiHome,
     FiMenu,
@@ -35,10 +37,12 @@ interface LinkItemProps {
 }
 const LinkItems: Array<LinkItemProps> = [
     { name: 'Home', icon: FiHome, route: '/' },
+    { name: 'Leaderboard', icon: FiAward, route: '/leaderboard' },
     { name: 'Player Overview', icon: FiUsers, route: '/playerOverview' },
     { name: 'Champion Overview', icon: FiShield, route: '/championOverview' },
     { name: 'Match History', icon: FiCalendar, route: '/matchHistory' },
     { name: 'Matchmaker', icon: FiZap, route: '/matchmaker' },
+    { name: 'News', icon: FiBookOpen, route: '/news' },
 ];
 
 export default function SidebarWithHeader({
