@@ -2,6 +2,7 @@ import { Tag, TagLeftIcon } from '@chakra-ui/tag';
 import { Player } from '../types/domain/Player';
 import { getMmrColor, getMmrValue } from '../utils/mmrHelpers';
 import { GiWingedSword } from 'react-icons/gi';
+import { Tooltip } from '@chakra-ui/react';
 
 export const SprTag = ({
     player,
@@ -16,14 +17,16 @@ export const SprTag = ({
         displayRank = '—';
     }
     return (
-        <Tag
-            textAlign='center'
-            bg={getMmrColor(rank)}
-            color={'gray.600'}
-            size={props?.size}
-        >
-            <TagLeftIcon as={GiWingedSword}></TagLeftIcon>
-            {displayRank}
-        </Tag>
+        <Tooltip label='Season Power Ranking (SPR): a grade for player performance within a season'>
+            <Tag
+                textAlign='center'
+                bg={getMmrColor(rank)}
+                color={'gray.600'}
+                size={props?.size}
+            >
+                <TagLeftIcon as={GiWingedSword}></TagLeftIcon>
+                {displayRank}
+            </Tag>
+        </Tooltip>
     );
 };

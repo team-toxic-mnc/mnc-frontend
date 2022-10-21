@@ -18,7 +18,7 @@ export const SprCard = ({
     sprTrend: number;
 }) => {
     return (
-        <Flex direction='column' flex='1' align='center'>
+        <Flex direction='column' align='center'>
             <Box>
                 <Stat>
                     <Flex direction='column' align='center'>
@@ -26,7 +26,7 @@ export const SprCard = ({
                         <StatLabel fontSize='20'>
                             Season Power Ranking
                         </StatLabel>
-                        <Tooltip label='MMR change over recent games, up to the last five'>
+                        <Tooltip label='Average SPR change from recent games, up to the last five'>
                             <StatHelpText fontSize='14'>
                                 <StatArrow
                                     type={
