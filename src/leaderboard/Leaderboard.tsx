@@ -3,8 +3,8 @@ import { ColumnDef, createColumnHelper, Row } from '@tanstack/react-table';
 import React from 'react';
 import { FiChevronDown, FiChevronUp, FiMinus } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
-import { MmrTag } from '../components/MmrTag';
 import { SortableTable } from '../components/SortableTable';
+import { SprTag } from '../components/SprTag';
 import { ToxicDataService } from '../services/toxicData/ToxicDataService';
 import { Player } from '../types/domain/Player';
 import {
@@ -89,7 +89,7 @@ const columns: ColumnDef<PlayerTableData, any>[] = [
     columnHelper.accessor((row) => row.mmr, {
         id: 'mmr',
         cell: (info) => {
-            return <MmrTag props={{ size: 'md' }} player={info.row.original} />;
+            return <SprTag props={{ size: 'md' }} player={info.row.original} />;
         },
         header: () => <span>SPR</span>,
         meta: {

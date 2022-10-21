@@ -12,7 +12,6 @@ import {
 
 import {
     Box,
-    chakra,
     Flex,
     Heading,
     Select,
@@ -25,7 +24,7 @@ import {
 import { ChartData } from 'chart.js';
 import { Radar } from 'react-chartjs-2';
 import { Loading } from '../components/Loading';
-import { MmrCard } from '../components/MmrCard';
+import { SprCard } from '../components/SprCard';
 import { SummonerCollage } from '../components/SummonerCollage';
 import { ChampionClass, championClassWinRates } from '../data/championClasses';
 import {
@@ -204,7 +203,7 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                         alignItems='center'
                     >
                         <Flex
-                            marginBottom='4'
+                            margin='4'
                             flexGrow='1'
                             justifyContent='center'
                             maxWidth='320'
@@ -235,13 +234,13 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                                 </Box>
                             </Flex>
                         </Flex>
-                        <Flex marginBottom='4' justifyContent='center'>
+                        <Flex margin='4' justifyContent='center'>
                             {
                                 // TODO: we need to add the SPR rank here
                             }
-                            <MmrCard player={player} />
+                            <SprCard player={player} sprTrend={5} />
                         </Flex>
-                        <Flex flex='1' maxWidth='320'>
+                        <Flex margin='4' flex='1' maxWidth='320'>
                             <Radar data={chartData} />
                         </Flex>
                     </Flex>
