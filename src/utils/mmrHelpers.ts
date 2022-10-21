@@ -51,13 +51,13 @@ export function mapMmrHistoryCollectionToPlayerMmrHistoryMap(
 export function getMmrTrendingChange(data: { gameId: number; mmr: number }[]) {
     // this will return an array of the last 5 items (or if less than 5 items, the entire collection)
     const recentMatches = data.slice(-6);
-    const gameCount = recentMatches.length;
-    if (gameCount <= 1) {
+    const matchCount = recentMatches.length;
+    if (matchCount <= 1) {
         return 0;
     }
-    console.log(recentMatches);
-    const totalChange = recentMatches[gameCount - 1].mmr - recentMatches[0].mmr;
-    const trend = totalChange / (gameCount - 1);
+    const totalChange =
+        recentMatches[matchCount - 1].mmr - recentMatches[0].mmr;
+    const trend = totalChange / (matchCount - 1);
     // return rounded to nearest decimal
     return parseFloat(trend.toFixed(1));
 }
