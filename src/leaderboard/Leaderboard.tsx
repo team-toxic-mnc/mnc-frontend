@@ -78,6 +78,14 @@ const columns: ColumnDef<PlayerTableData, any>[] = [
             isNumeric: true,
         },
     }),
+    columnHelper.accessor((row) => row.losses, {
+        id: 'losses',
+        cell: (info) => info.getValue(),
+        header: () => <span>Losses</span>,
+        meta: {
+            isNumeric: true,
+        },
+    }),
     columnHelper.accessor((row) => row.totalGames, {
         id: 'totalGames',
         cell: (info) => info.getValue(),
@@ -126,7 +134,7 @@ const columns: ColumnDef<PlayerTableData, any>[] = [
                 </div>
             );
         },
-        header: () => <span>SPR Trend</span>,
+        header: () => <span>SPR Change</span>,
         meta: {
             isNumeric: true,
         },
@@ -159,7 +167,7 @@ export const Leaderboard = React.memo(function Leaderboard() {
                 getRowProps={(row: Row<any>) => {
                     return {
                         onClick: () => {
-                            navigate(`/playerOverview/${row.getValue('name')}`);
+                            navigate(row.getValue('name'));
                             window.scrollTo(0, 0);
                         },
                     };

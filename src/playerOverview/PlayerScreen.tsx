@@ -208,32 +208,11 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                             flexGrow='1'
                             justifyContent='center'
                             maxWidth='320'
-                            direction='column'
                         >
-                            <Flex direction='row' marginBottom='4'>
-                                <SummonerCollage player={player} />
-                                <Box marginLeft={4}>
-                                    <StatsCard stats={player} hideName={true} />
-                                </Box>
-                            </Flex>
-                            <Flex>
-                                <Box marginRight='4'>
-                                    <img
-                                        width='48'
-                                        height='48'
-                                        src='https://leagueofitems.com/images/items/256/6672.webp'
-                                        style={{ borderRadius: 8 }}
-                                    />
-                                </Box>
-                                <Box marginRight='4'>
-                                    <img
-                                        width='48'
-                                        height='48'
-                                        src='https://cdn-images.audioaddict.com/e/9/5/1/a/8/e951a8a9d049ef525dddbd92de34e462.png?size=120x120'
-                                        style={{ borderRadius: 8 }}
-                                    />
-                                </Box>
-                            </Flex>
+                            <SummonerCollage player={player} />
+                            <Box marginLeft={4}>
+                                <StatsCard stats={player} hideName={true} />
+                            </Box>
                         </Flex>
                         <Flex marginBottom='4' justifyContent='center'>
                             {
@@ -247,10 +226,13 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                     </Flex>
                 </Flex>
             </Flex>
-            <Select defaultValue={'season_1'} maxWidth={250}>
-                <option value={'season_1'}>{'Season 1'}</option>
-                <option value={'all_time'}>{'All Seasons'}</option>
-            </Select>
+            {/* 
+                TODO: enable for season 1
+                <Select defaultValue={"season_1"} maxWidth={250}>
+                    <option value={"season_1"}>{"Season 1"}</option>
+                    <option value={"all_time"}>{"All Seasons"}</option>
+                </Select> 
+            */}
             <Tabs isFitted={true} maxWidth='100%'>
                 <TabList>
                     <Tab>Champion Overview</Tab>
