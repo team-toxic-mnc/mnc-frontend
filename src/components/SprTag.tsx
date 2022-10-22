@@ -17,7 +17,7 @@ export const SprTag = ({
         displayRank = '—';
     }
     return (
-        <Tooltip label='Season Power Ranking (SPR): a grade for player performance within a season'>
+        <Tooltip label='Season Power Ranking is a grade for player performance within a season'>
             <Tag
                 textAlign='center'
                 bg={getMmrColor(rank)}

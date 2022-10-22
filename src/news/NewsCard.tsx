@@ -1,4 +1,4 @@
-import { Button, Flex } from '@chakra-ui/react';
+import { Box, Button, Flex } from '@chakra-ui/react';
 import React from 'react';
 
 export const NewsCard = React.memo(function NewsCard({
@@ -13,7 +13,7 @@ export const NewsCard = React.memo(function NewsCard({
     onClick: () => void;
 }) {
     return (
-        <button
+        <Box
             style={{
                 borderWidth: 1,
                 borderRadius: 16,
@@ -23,6 +23,7 @@ export const NewsCard = React.memo(function NewsCard({
                 padding: 16,
                 width: '100%',
                 maxWidth: 750,
+                cursor: 'pointer',
             }}
             onClick={onClick}
         >
@@ -42,6 +43,6 @@ export const NewsCard = React.memo(function NewsCard({
                     </Button>
                 </div>
             </Flex>
-        </button>
+        </Box>
     );
 });
