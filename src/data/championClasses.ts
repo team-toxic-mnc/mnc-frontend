@@ -50,6 +50,7 @@ export function championClassWinRates(champions: Champion[]) {
         } else {
             // this means that there are champions that we do not know about
             console.log('ERROR: unknown champion: ' + champion.name);
+            console.log(ChampionClassMap);
         }
     }
 
@@ -206,7 +207,7 @@ export const ChampionClassMap: { [id: string]: ChampionClass[] } = {
     Malphite: [ChampionClass.Vanguard],
     Maokai: [ChampionClass.Vanguard],
     Nautilus: [ChampionClass.Vanguard],
-    Nunu: [ChampionClass.Vanguard],
+    'Nunu & Willump': [ChampionClass.Vanguard],
     Ornn: [ChampionClass.Vanguard],
     Rammus: [ChampionClass.Vanguard],
     Rell: [ChampionClass.Vanguard],

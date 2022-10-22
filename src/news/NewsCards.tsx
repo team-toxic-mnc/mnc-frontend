@@ -19,13 +19,13 @@ export const NewsCards = React.memo(function NewsCards() {
                 flex='1'
                 alignSelf='stretch'
                 justifyContent='center'
+                key={'flex' + article.id}
             >
                 <NewsCard
                     onClick={onClickNewsTile}
                     title={article.title}
                     date={article.date}
                     content={article.content}
-                    key={article.title + article.date}
                 />
             </Flex>
         );
