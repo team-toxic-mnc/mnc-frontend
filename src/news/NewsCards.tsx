@@ -25,6 +25,7 @@ export const NewsCards = React.memo(function NewsCards() {
                     title={article.title}
                     date={article.date}
                     content={article.content}
+                    key={article.title + article.date}
                 />
             </Flex>
         );

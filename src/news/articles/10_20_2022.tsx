@@ -1,6 +1,6 @@
 import { Flex } from '@chakra-ui/react';
 
-export default function Article_10_20_2022() {
+export default function ARTICLE_10_20_2022() {
     return (
         <>
             <p style={{ marginTop: 8 }}>
@@ -21,6 +21,7 @@ export default function Article_10_20_2022() {
                 src={
                     'https://cdn.discordapp.com/attachments/1032423770578755584/1032433210275135519/season_1_transparent.png'
                 }
+                alt='season 1 splash'
             />
             <p style={{ marginTop: 8 }}>
                 This will be a <b>timed event that occurs over 3 months</b>,
@@ -85,6 +86,7 @@ export default function Article_10_20_2022() {
                         borderRadius: 8,
                     }}
                     src={'https://i.redd.it/5l6oxzyzt0361.jpg'}
+                    alt='kraken slayer'
                 />
             </Flex>
             <p style={{ marginTop: 8 }}>
@@ -102,6 +104,7 @@ export default function Article_10_20_2022() {
                         src={
                             'https://cdn-images.audioaddict.com/e/9/5/1/a/8/e951a8a9d049ef525dddbd92de34e462.png?size=120x120'
                         }
+                        alt='vaporwave palm trees'
                     />
                 </Flex>
                 <Flex padding='4'>
@@ -115,6 +118,7 @@ export default function Article_10_20_2022() {
                         src={
                             'https://cdn-images.audioaddict.com/e/9/5/1/a/8/e951a8a9d049ef525dddbd92de34e462.png?size=120x120'
                         }
+                        alt='vaporwave palm trees'
                     />
                 </Flex>
                 <Flex padding='4'>
@@ -128,6 +132,7 @@ export default function Article_10_20_2022() {
                         src={
                             'https://cdn-images.audioaddict.com/e/9/5/1/a/8/e951a8a9d049ef525dddbd92de34e462.png?size=120x120'
                         }
+                        alt='vaporwave palm trees'
                     />
                 </Flex>
             </Flex>

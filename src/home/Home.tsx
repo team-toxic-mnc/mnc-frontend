@@ -1,8 +1,5 @@
 import { Flex, Heading } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
-import { NewsCard } from '../news/NewsCard';
 import { NewsCards } from '../news/NewsCards';
-import { ARTICLES } from '../news/NewsData';
 
 const IS_SEASON_1 = true;
 
@@ -63,6 +60,7 @@ export default function Home() {
                                 src={
                                     'https://cdn.discordapp.com/attachments/1032423770578755584/1032433210275135519/season_1_transparent.png'
                                 }
+                                alt='season 1 splash'
                             />
                         ) : (
                             <h1

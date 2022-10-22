@@ -151,6 +151,7 @@ export const Leaderboard = React.memo(function Leaderboard() {
                 src={
                     'https://cdn.discordapp.com/attachments/1032423770578755584/1032433210275135519/season_1_transparent.png'
                 }
+                alt='season 1 splash'
             />
             <Heading>Leaderboard</Heading>
             <SortableTable

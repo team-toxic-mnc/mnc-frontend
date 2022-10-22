@@ -1,18 +1,17 @@
 import { Flex } from '@chakra-ui/react';
 import {
-    Chart as ChartJS,
-    PointElement,
-    LineElement,
-    Filler,
-    Tooltip,
-    Legend,
     CategoryScale,
+    Chart as ChartJS,
+    Filler,
+    Legend,
     LinearScale,
+    LineElement,
+    PointElement,
+    Tooltip,
 } from 'chart.js';
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 import { FiChevronDown, FiChevronUp, FiMinus } from 'react-icons/fi';
-import { MmrCard } from '../components/MmrCard';
 import { ToxicDataService } from '../services/toxicData/ToxicDataService';
 import { Player } from '../types/domain/Player';
 import {

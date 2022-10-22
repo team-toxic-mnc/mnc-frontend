@@ -6,7 +6,7 @@ import { Flex } from '@chakra-ui/react';
 import { ARTICLES } from './NewsData';
 
 import { Error } from '../components/Error';
-import Article_10_20_2022 from './articles/10_20_2022';
+import ARTICLE_10_20_2022 from './articles/10_20_2022';
 
 export async function loader(data: { params: any }) {
     return data.params.newsId;
@@ -15,7 +15,7 @@ export async function loader(data: { params: any }) {
 function articleLookup(articleId: string) {
     switch (articleId) {
         case '1':
-            return <Article_10_20_2022 />;
+            return <ARTICLE_10_20_2022 />;
         default:
             return null;
     }
