@@ -1,12 +1,13 @@
 import React from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 
-import { Flex } from '@chakra-ui/react';
+import { Button, Flex } from '@chakra-ui/react';
 
 import { ARTICLES } from './NewsData';
 
 import { Error } from '../components/Error';
 import ARTICLE_10_20_2022 from './articles/10_20_2022';
+import { FiArrowLeft } from 'react-icons/fi';
 
 export async function loader(data: { params: any }) {
     return data.params.newsId;
@@ -23,6 +24,7 @@ function articleLookup(articleId: string) {
 
 export const NewsDetail = React.memo(function NewsDetail() {
     const articleId = useLoaderData() as string;
+    const navigate = useNavigate();
 
     // get the article
     const article = ARTICLES.find((article) => {
@@ -33,6 +35,10 @@ export const NewsDetail = React.memo(function NewsDetail() {
         return <Error error={'Something went wrong! Try again later.'} />;
     }
 
+    const navigateToNews = () => {
+        navigate('/news');
+    };
+
     return (
         <Flex flexDirection='column' alignItems='center' paddingBottom='16'>
             <Flex flexDirection='column' maxWidth='750'>
@@ -41,6 +47,22 @@ export const NewsDetail = React.memo(function NewsDetail() {
                     {article.title}
                 </h1>
                 <div style={{ marginTop: 16 }}>{articleLookup(article.id)}</div>
+                <Button
+                    variant='ghost'
+                    flex={1}
+                    padding={1}
+                    size='lg'
+                    alignSelf={'flex-end'}
+                    marginTop='16'
+                    marginRight='1'
+                    flexDirection='row'
+                    onClick={navigateToNews}
+                >
+                    <Flex alignItems='center'>
+                        <FiArrowLeft />
+                        <h1>Back to News</h1>
+                    </Flex>
+                </Button>
             </Flex>
         </Flex>
     );

@@ -22,24 +22,38 @@ export const NewsCard = React.memo(function NewsCard({
                 marginLeft: 8,
                 padding: 16,
                 width: '100%',
-                maxWidth: 750,
+                minWidth: 350,
                 cursor: 'pointer',
             }}
             onClick={onClick}
         >
-            <Flex flexDirection='column' alignItems={'flex-start'}>
+            <Flex
+                flexDirection='column'
+                alignItems={'flex-start'}
+                height='100%'
+            >
                 <h1 style={{ fontSize: 12 }}>{date}</h1>
                 <h1 style={{ fontSize: 30 }}>{title}</h1>
-                <div style={{ marginTop: 16, textAlign: 'left' }}>
-                    <p>{content}</p>
+                <div
+                    style={{
+                        marginTop: 16,
+                        textAlign: 'left',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        flex: 1,
+                    }}
+                >
+                    <div style={{ flexGrow: 1 }}>
+                        <p>{content}</p>
+                    </div>
                     <Button
                         variant='ghost'
                         flex={1}
-                        padding={0}
+                        padding={1}
                         size='md'
                         alignSelf={'flex-end'}
                     >
-                        READ MORE
+                        Read More
                     </Button>
                 </div>
             </Flex>

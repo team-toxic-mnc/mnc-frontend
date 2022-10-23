@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { ChangeEvent, useMemo, useState } from 'react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import { Error } from '../components/Error';
 import { SortableTable } from '../components/SortableTable';
@@ -20,6 +20,7 @@ import {
     TabPanel,
     TabPanels,
     Tabs,
+    Tooltip,
 } from '@chakra-ui/react';
 import { ChartData } from 'chart.js';
 import { Radar } from 'react-chartjs-2';
@@ -41,10 +42,13 @@ import {
     teammateColumns,
 } from './playerScreenColumnHelper';
 import { PlayerScreenChampion } from './types/PlayerScreenChampion';
+import { SEASON_0_BADGE } from '../data/rewards';
 
 export async function loader(data: { params: any }) {
     return data.params.playerId;
 }
+
+const initialSeasonSelectValue = 'all_time';
 
 /**
  * Given a player, create an array of champions that player has played with image url populated
@@ -89,6 +93,8 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
 
     const matchHistoryResponse = ToxicDataService.useMatchHistory();
     const matchHistory = matchHistoryResponse.data ?? [];
+
+    const [season, setSeason] = useState(initialSeasonSelectValue);
 
     // only recompute the player classes when are looking at a new player
     const playerClasses = useMemo(
@@ -177,6 +183,10 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
         player.opponents ?? []
     );
 
+    const onSeasonChange = (event: ChangeEvent<HTMLSelectElement>) => {
+        setSeason(event.target.value);
+    };
+
     return (
         <Flex direction='column' justify='center' align='center'>
             <Flex
@@ -215,30 +225,42 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                                     <StatsCard stats={player} hideName={true} />
                                 </Box>
                             </Flex>
-                            <Flex>
-                                <Box marginRight='4'>
-                                    <img
-                                        width='48'
-                                        height='48'
-                                        src='https://leagueofitems.com/images/items/256/6672.webp'
-                                        style={{ borderRadius: 8 }}
-                                    />
-                                </Box>
-                                <Box marginRight='4'>
-                                    <img
-                                        width='48'
-                                        height='48'
-                                        src='https://cdn-images.audioaddict.com/e/9/5/1/a/8/e951a8a9d049ef525dddbd92de34e462.png?size=120x120'
-                                        style={{ borderRadius: 8 }}
-                                    />
-                                </Box>
-                            </Flex>
+                            {(player.losses ?? 0) + (player.wins ?? 0) > 10 ? (
+                                <Flex>
+                                    <Tooltip
+                                        label={
+                                            <>
+                                                <p
+                                                    style={{
+                                                        textAlign: 'center',
+                                                    }}
+                                                >
+                                                    PROJECT: KRAKEN
+                                                </p>
+                                                <p>
+                                                    Monday Night Customs
+                                                    Founding Member
+                                                </p>
+                                            </>
+                                        }
+                                    >
+                                        <Box marginRight='4'>
+                                            <img
+                                                width='70'
+                                                height='70'
+                                                src={SEASON_0_BADGE}
+                                                style={{ borderRadius: 8 }}
+                                            />
+                                        </Box>
+                                    </Tooltip>
+                                </Flex>
+                            ) : null}
                         </Flex>
                         <Flex margin='4' justifyContent='center'>
                             {
-                                // TODO: we need to add the SPR rank here
+                                // TODO: For season 1, we need to add the SPR rank here
                             }
-                            <SprCard player={player} sprTrend={5} />
+                            <SprCard player={player} sprTrend={0} />
                         </Flex>
                         <Flex margin='4' flex='1' maxWidth='320'>
                             <Radar data={chartData} />
@@ -246,15 +268,25 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                     </Flex>
                 </Flex>
             </Flex>
-            <Select defaultValue={'season_1'} maxWidth={250}>
-                <option value={'season_1'}>{'Season 1'}</option>
+            <Select
+                defaultValue={initialSeasonSelectValue}
+                maxWidth={250}
+                onChange={onSeasonChange}
+            >
+                {
+                    // add back in option for season 1 once season 1 launches
+                    // <option value={'season_1'}>{'Season 1'}</option>
+                }
                 <option value={'all_time'}>{'All Seasons'}</option>
             </Select>
             <Tabs isFitted={true} maxWidth='100%'>
                 <TabList>
                     <Tab>Champion Overview</Tab>
                     <Tab>Match History</Tab>
-                    <Tab>MMR Summary</Tab>
+                    {
+                        // only show MMR summary for all time
+                        season === 'all_time' ? <Tab>MMR Summary</Tab> : null
+                    }
                     <Tab>Teammate Record</Tab>
                     <Tab>Opponent Record</Tab>
                 </TabList>
@@ -292,9 +324,14 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                             }}
                         />
                     </TabPanel>
-                    <TabPanel>
-                        <PlayerMmrSummary player={player} />
-                    </TabPanel>
+                    {
+                        // only show MMR summary for all time
+                        season === 'all_time' ? (
+                            <TabPanel>
+                                <PlayerMmrSummary player={player} />
+                            </TabPanel>
+                        ) : null
+                    }
                     <TabPanel>
                         <SortableTable
                             columns={teammateColumns}

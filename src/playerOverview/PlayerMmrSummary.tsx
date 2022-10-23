@@ -1,4 +1,4 @@
-import { Flex } from '@chakra-ui/react';
+import { Flex, Tooltip as UiTooltip } from '@chakra-ui/react';
 import {
     CategoryScale,
     Chart as ChartJS,
@@ -11,7 +11,7 @@ import {
 } from 'chart.js';
 import React from 'react';
 import { Line } from 'react-chartjs-2';
-import { FiChevronDown, FiChevronUp, FiMinus } from 'react-icons/fi';
+import { FiCheck, FiChevronDown, FiChevronUp, FiMinus } from 'react-icons/fi';
 import { ToxicDataService } from '../services/toxicData/ToxicDataService';
 import { Player } from '../types/domain/Player';
 import {
@@ -99,22 +99,11 @@ export const PlayerMmrSummary = React.memo(function PlayerMmrSummary({
         <Flex direction='column'>
             {playerMmrPerMatchSliced.length > 1 ? (
                 <>
-                    <Flex direction='row' justify='center' align='center'>
-                        {/* 
-                            // TODO: This for season 1
-                            <MmrCard player={player} /> 
-                        */}
-                        <h1 style={{ fontSize: 60 }}>
-                            {`${mmrChangePercentage}`}
-                        </h1>
-                        {mmrChangePercentage === 0 ? (
-                            <FiMinus size={'60'} color={'orange'} />
-                        ) : mmrChangePercentage > 0 ? (
-                            <FiChevronUp size={'60'} color={'green'} />
-                        ) : (
-                            <FiChevronDown size={'60'} color={'red'} />
-                        )}
-                    </Flex>
+                    <UiTooltip label='Lifetime Match Making Rank (MMR) used for matchmaking purposes only'>
+                        <Flex direction='row' justify='center' align='center'>
+                            <h1 style={{ fontSize: 60 }}>{player.mmr}</h1>
+                        </Flex>
+                    </UiTooltip>
                     <Line
                         data={playerMmrPerMatchData}
                         style={{ maxHeight: 300 }}
