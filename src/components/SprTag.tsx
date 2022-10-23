@@ -11,10 +11,14 @@ export const SprTag = ({
     player: Player;
     props?: { size?: string };
 }) => {
-    const rank = getMmrValue(player);
-    const playerIsRanked = rank > 0;
+    // TODO: Renable this for season 1
+    //const rank = getMmrValue(player);
+    //const playerIsRanked = rank > 0;
+    const rank = 0;
+    const playerIsRanked = false;
+
     return (
-        <Tooltip label='Season Power Ranking is a grade for player performance within a season'>
+        <Tooltip label='Season Power Ranking (SPR) is a grade for player performance within a season'>
             <Tag
                 textAlign='center'
                 bg={getMmrColor(rank)}

@@ -73,7 +73,7 @@ const columns: ColumnDef<PlayerTableData, any>[] = [
     columnHelper.accessor((row) => row.winPercentage, {
         id: 'winPercentage',
         cell: (info) => info.getValue(),
-        header: () => <span>Win Percentage</span>,
+        header: () => <span>Win %</span>,
         meta: {
             isNumeric: true,
         },

@@ -50,7 +50,6 @@ export function championClassWinRates(champions: Champion[]) {
         } else {
             // this means that there are champions that we do not know about
             console.log('ERROR: unknown champion: ' + champion.name);
-            console.log(ChampionClassMap);
         }
     }
 
