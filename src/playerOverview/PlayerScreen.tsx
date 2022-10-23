@@ -48,7 +48,12 @@ export async function loader(data: { params: any }) {
     return data.params.playerId;
 }
 
-const initialSeasonSelectValue = 'all_time';
+enum SeasonType {
+    AllTime = 'all_time',
+    SeasonOne = 'season_1',
+}
+
+const initialSeasonSelectValue = SeasonType.AllTime;
 
 /**
  * Given a player, create an array of champions that player has played with image url populated
@@ -184,7 +189,7 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
     );
 
     const onSeasonChange = (event: ChangeEvent<HTMLSelectElement>) => {
-        setSeason(event.target.value);
+        setSeason(event.target.value as SeasonType);
     };
 
     return (
@@ -275,9 +280,9 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
             >
                 {
                     // add back in option for season 1 once season 1 launches
-                    // <option value={'season_1'}>{'Season 1'}</option>
+                    // <option value={SeasonType.SeasonOne}>{'Season 1'}</option>
                 }
-                <option value={'all_time'}>{'All Seasons'}</option>
+                <option value={SeasonType.AllTime}>{'All Seasons'}</option>
             </Select>
             <Tabs isFitted={true} maxWidth='100%'>
                 <TabList>

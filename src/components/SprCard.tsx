@@ -39,7 +39,7 @@ export const SprCard = ({
                                         {sprTrend}
                                     </>
                                 ) : (
-                                    'No Season 1 SPR'
+                                    '0 -'
                                 )}
                             </StatHelpText>
                         </Tooltip>

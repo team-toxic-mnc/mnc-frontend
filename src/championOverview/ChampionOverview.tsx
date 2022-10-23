@@ -58,7 +58,7 @@ const columns: ColumnDef<ChampionOverviewChampion, any>[] = [
     columnHelper.accessor((row) => row.totalGames, {
         id: 'totalGames',
         cell: (info) => info.getValue(),
-        header: () => <span>Total #</span>,
+        header: () => <span>Total Games</span>,
         meta: {
             isNumeric: true,
         },
