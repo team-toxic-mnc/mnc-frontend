@@ -1,6 +1,11 @@
 import { Flex, Tag, TagLeftIcon, Text } from '@chakra-ui/react';
 import { GiWingedSword } from 'react-icons/gi';
-import { SEASON_0_BADGE } from '../../data/accolades';
+import {
+    SEASON_0_BADGE,
+    SEASON_1_1_BADGE,
+    SEASON_1_5_BADGE,
+    SEASON_1_BADGE,
+} from '../../data/accolades';
 
 const paragraphStyle = { marginTop: 20 };
 
@@ -124,9 +129,7 @@ export default function ARTICLE_10_20_2022() {
                                 height: 100,
                                 borderRadius: 8,
                             }}
-                            src={
-                                'https://cdn-images.audioaddict.com/e/9/5/1/a/8/e951a8a9d049ef525dddbd92de34e462.png?size=120x120'
-                            }
+                            src={SEASON_1_BADGE}
                             alt='vaporwave palm trees'
                         />
                         <h1 style={{ textAlign: 'center' }}>
@@ -141,9 +144,7 @@ export default function ARTICLE_10_20_2022() {
                                 height: 100,
                                 borderRadius: 8,
                             }}
-                            src={
-                                'https://cdn-images.audioaddict.com/e/9/5/1/a/8/e951a8a9d049ef525dddbd92de34e462.png?size=120x120'
-                            }
+                            src={SEASON_1_5_BADGE}
                             alt='vaporwave palm trees'
                         />
                         <h1 style={{ textAlign: 'center' }}>Season 1 Top 5</h1>
@@ -156,9 +157,7 @@ export default function ARTICLE_10_20_2022() {
                                 height: 100,
                                 borderRadius: 8,
                             }}
-                            src={
-                                'https://cdn-images.audioaddict.com/e/9/5/1/a/8/e951a8a9d049ef525dddbd92de34e462.png?size=120x120'
-                            }
+                            src={SEASON_1_1_BADGE}
                             alt='vaporwave palm trees'
                         />
                         <h1 style={{ textAlign: 'center' }}>Season 1 Master</h1>
