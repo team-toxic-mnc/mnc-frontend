@@ -43,6 +43,7 @@ import {
 } from './playerScreenColumnHelper';
 import { PlayerScreenChampion } from './types/PlayerScreenChampion';
 import { SEASON_0_BADGE } from '../data/rewards';
+import { AccoladesCollection } from '../components/AccoladesCollection';
 
 export async function loader(data: { params: any }) {
     return data.params.playerId;
@@ -230,36 +231,7 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                                     <StatsCard stats={player} hideName={true} />
                                 </Box>
                             </Flex>
-                            {(player.losses ?? 0) + (player.wins ?? 0) > 10 ? (
-                                <Flex>
-                                    <Tooltip
-                                        label={
-                                            <>
-                                                <p
-                                                    style={{
-                                                        textAlign: 'center',
-                                                    }}
-                                                >
-                                                    PROJECT: KRAKEN
-                                                </p>
-                                                <p>
-                                                    Monday Night Customs
-                                                    Founding Member
-                                                </p>
-                                            </>
-                                        }
-                                    >
-                                        <Box marginRight='4'>
-                                            <img
-                                                width='70'
-                                                height='70'
-                                                src={SEASON_0_BADGE}
-                                                style={{ borderRadius: 8 }}
-                                            />
-                                        </Box>
-                                    </Tooltip>
-                                </Flex>
-                            ) : null}
+                            <AccoladesCollection player={player} />
                         </Flex>
                         <Flex margin='4' justifyContent='center'>
                             {
