@@ -1,4 +1,4 @@
-import { Box, Flex, Tooltip } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import React from 'react';
 import { GAME_100_BADGE, SEASON_0_BADGE } from '../data/accolades';
 import { Player } from '../types/domain/Player';
