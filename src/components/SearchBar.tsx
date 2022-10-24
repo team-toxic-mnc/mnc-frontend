@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { Icon } from '@chakra-ui/react';
+import { FiSearch } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import { ToxicDataService } from '../services/toxicData/ToxicDataService';
@@ -18,7 +19,6 @@ type SearchOption =
 
 export const SearchBar = () => {
     const navigate = useNavigate();
-    const [selectedOption, setSelectedOption] = useState<SearchOption>();
 
     const championsResponse = ToxicDataService.useChampions();
     const championOptions = Array.from(
@@ -62,7 +62,6 @@ export const SearchBar = () => {
     };
 
     const navigateToPage = (option: SearchOption | null) => {
-        setSelectedOption(null);
         if (option) {
             if (option.variant === SearchOptionType.champion) {
                 navigate('/championOverview/' + option.name);
@@ -76,7 +75,7 @@ export const SearchBar = () => {
     return (
         <>
             <Select
-                value={selectedOption}
+                value={null}
                 options={searchOptions}
                 getOptionLabel={(option) => formatOptionLabel(option)}
                 isSearchable
@@ -88,7 +87,7 @@ export const SearchBar = () => {
                 placeholder='Search...'
                 components={{
                     DropdownIndicator: () => null,
-                    IndicatorSeparator: () => null,
+                    IndicatorSeparator: () => <Icon as={FiSearch} margin='1' />,
                 }}
                 styles={{
                     input: (provided: any) => ({
