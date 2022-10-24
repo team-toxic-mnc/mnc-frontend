@@ -1,6 +1,6 @@
 import { Flex, Tag, TagLeftIcon, Text } from '@chakra-ui/react';
 import { GiWingedSword } from 'react-icons/gi';
-import { SEASON_0_BADGE } from '../../data/rewards';
+import { SEASON_0_BADGE } from '../../data/accolades';
 
 const paragraphStyle = { marginTop: 20 };
 
@@ -79,15 +79,18 @@ export default function ARTICLE_10_20_2022() {
                 leaderboard.
             </p>
             <h1 style={{ fontSize: 20, fontWeight: 'bold', marginTop: 16 }}>
-                Season Rewards
+                Accolades
             </h1>
             <p style={paragraphStyle}>
                 So why qualify for a season and get ranked? Well we are also
-                excited to announce <b>Season Rewards</b>! The player profiles
-                are getting a little bit of a cleanup, and with that we are
-                excited to introduce <b>Player Badges</b>. These will appear on
-                your profile, and can be earned by accomplishing various tasks
-                for a season.
+                excited to announce <b>Accolades</b>! Accolades are things you
+                can earn by completing various tasks across your Monday Night
+                Customs games. What are some Accolades you can earn? Well to
+                start, the player profiles are getting a little bit of a
+                cleanup, and with that we are excited to introduce{' '}
+                <b>Player Badges</b>. These are just the first of many possible
+                Accolades you can earn by accomplishing tasks throughout the
+                season, and they will appear on your profile.
             </p>
             <p style={paragraphStyle}>
                 To kick things off, all players who currently have been placed
@@ -164,8 +167,8 @@ export default function ARTICLE_10_20_2022() {
             </Flex>
             <p>
                 These 3 badges are just the beginning of what we have in store
-                for season rewards. You'll hear back from us again when we have
-                more rewards finalized!
+                for Accolades. You'll hear back from us again when we have more
+                Accolades finalized!
             </p>
             <h1 style={{ fontSize: 20, fontWeight: 'bold', marginTop: 16 }}>
                 Season 1 Starts Soon!

@@ -42,7 +42,7 @@ import {
     teammateColumns,
 } from './playerScreenColumnHelper';
 import { PlayerScreenChampion } from './types/PlayerScreenChampion';
-import { SEASON_0_BADGE } from '../data/rewards';
+import { SEASON_0_BADGE } from '../data/accolades';
 
 export async function loader(data: { params: any }) {
     return data.params.playerId;
