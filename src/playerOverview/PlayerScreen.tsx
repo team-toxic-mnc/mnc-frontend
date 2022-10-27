@@ -35,7 +35,12 @@ import {
 import { DataDragonService } from '../services/dataDragon/DataDragonService';
 import { ToxicDataService } from '../services/toxicData/ToxicDataService';
 import { Match } from '../types/domain/Match';
-import { getSeasonKeys, Season } from '../types/domain/Season';
+import {
+    getSeasons,
+    Season,
+    Seasons,
+    SeasonStatus,
+} from '../types/domain/Season';
 import { PlayerMmrSummary } from './PlayerMmrSummary';
 import {
     championColumns,
@@ -54,14 +59,12 @@ type SeasonSelectOption = {
 };
 
 const formatSeasonSelectOption = (season: Season): SeasonSelectOption => {
-    return { label: season, value: season };
+    return { label: season.name, value: season };
 };
 
-const seasonSelectOptions: SeasonSelectOption[] = getSeasonKeys().map(
-    (season) => {
-        return formatSeasonSelectOption(season);
-    }
-);
+const seasonSelectOptions: SeasonSelectOption[] = getSeasons().map((season) => {
+    return formatSeasonSelectOption(season);
+});
 
 /**
  * Given a player, create an array of champions that player has played with image url populated
@@ -108,7 +111,7 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
     const matchHistory = matchHistoryResponse.data ?? [];
 
     const [season, setSeason] = useState<SeasonSelectOption | null>(
-        formatSeasonSelectOption(Season.ALL_SEASONS)
+        formatSeasonSelectOption(Seasons.ALL_SEASONS)
     );
 
     // only recompute the player classes when are looking at a new player
@@ -253,6 +256,9 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
             <Select
                 value={season}
                 options={seasonSelectOptions}
+                isOptionDisabled={(option) =>
+                    option.value.status === SeasonStatus.UNRELEASED
+                }
                 isClearable={false}
                 onChange={(option) => {
                     if (option) {
@@ -273,7 +279,7 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                     <Tab>Match History</Tab>
                     {
                         // only show MMR summary for all time
-                        season?.value === Season.ALL_SEASONS ? (
+                        season?.value === Seasons.ALL_SEASONS ? (
                             <Tab>MMR Summary</Tab>
                         ) : null
                     }
@@ -316,7 +322,7 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                     </TabPanel>
                     {
                         // only show MMR summary for all time
-                        season?.value === Season.ALL_SEASONS ? (
+                        season?.value === Seasons.ALL_SEASONS ? (
                             <TabPanel>
                                 <PlayerMmrSummary player={player} />
                             </TabPanel>
