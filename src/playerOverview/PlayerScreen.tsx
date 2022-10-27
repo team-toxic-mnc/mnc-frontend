@@ -248,23 +248,26 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                     </Flex>
                 </Flex>
             </Flex>
-            <Select
-                value={season}
-                options={seasonSelectOptions}
-                isClearable={false}
-                onChange={(option) => {
-                    if (option) {
-                        setSeason(option);
-                    }
-                }}
-                chakraStyles={{
-                    input: (provided: any) => ({
-                        ...provided,
-                        minWidth: '100px',
-                    }),
-                }}
-                size={'md'}
-            />
+            <Box padding='4px'>
+                <Select
+                    value={season}
+                    options={seasonSelectOptions}
+                    isClearable={false}
+                    isSearchable={false}
+                    onChange={(option) => {
+                        if (option) {
+                            setSeason(option);
+                        }
+                    }}
+                    chakraStyles={{
+                        container: (provided: any) => ({
+                            ...provided,
+                            minWidth: '200px',
+                        }),
+                    }}
+                    size={'md'}
+                />
+            </Box>
             <Tabs isFitted={true} maxWidth='100%'>
                 <TabList>
                     <Tab>Champion Overview</Tab>
