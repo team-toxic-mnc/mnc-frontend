@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import { Error } from '../components/Error';
 import { SortableTable } from '../components/SortableTable';
@@ -14,16 +14,16 @@ import {
     Box,
     Flex,
     Heading,
-    Select,
     Tab,
     TabList,
     TabPanel,
     TabPanels,
     Tabs,
-    Tooltip,
 } from '@chakra-ui/react';
+import { Select } from 'chakra-react-select';
 import { ChartData } from 'chart.js';
 import { Radar } from 'react-chartjs-2';
+import { AccoladesCollection } from '../components/AccoladesCollection';
 import { Loading } from '../components/Loading';
 import { SprCard } from '../components/SprCard';
 import { SummonerCollage } from '../components/SummonerCollage';
@@ -35,6 +35,12 @@ import {
 import { DataDragonService } from '../services/dataDragon/DataDragonService';
 import { ToxicDataService } from '../services/toxicData/ToxicDataService';
 import { Match } from '../types/domain/Match';
+import {
+    getSeasons,
+    Season,
+    Seasons,
+    SeasonStatus,
+} from '../types/domain/Season';
 import { PlayerMmrSummary } from './PlayerMmrSummary';
 import {
     championColumns,
@@ -42,18 +48,23 @@ import {
     teammateColumns,
 } from './playerScreenColumnHelper';
 import { PlayerScreenChampion } from './types/PlayerScreenChampion';
-import { AccoladesCollection } from '../components/AccoladesCollection';
 
 export async function loader(data: { params: any }) {
     return data.params.playerId;
 }
 
-enum SeasonType {
-    AllTime = 'all_time',
-    SeasonOne = 'season_1',
-}
+type SeasonSelectOption = {
+    label: string;
+    value: Season;
+};
 
-const initialSeasonSelectValue = SeasonType.AllTime;
+const formatSeasonSelectOption = (season: Season): SeasonSelectOption => {
+    return { label: season.name, value: season };
+};
+
+const seasonSelectOptions: SeasonSelectOption[] = getSeasons().map((season) => {
+    return formatSeasonSelectOption(season);
+});
 
 /**
  * Given a player, create an array of champions that player has played with image url populated
@@ -99,7 +110,9 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
     const matchHistoryResponse = ToxicDataService.useMatchHistory();
     const matchHistory = matchHistoryResponse.data ?? [];
 
-    const [season, setSeason] = useState(initialSeasonSelectValue);
+    const [season, setSeason] = useState<SeasonSelectOption | null>(
+        formatSeasonSelectOption(Seasons.ALL_SEASONS)
+    );
 
     // only recompute the player classes when are looking at a new player
     const playerClasses = useMemo(
@@ -188,10 +201,6 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
         player.opponents ?? []
     );
 
-    const onSeasonChange = (event: ChangeEvent<HTMLSelectElement>) => {
-        setSeason(event.target.value as SeasonType);
-    };
-
     return (
         <Flex direction='column' justify='center' align='center'>
             <Flex
@@ -245,23 +254,34 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                 </Flex>
             </Flex>
             <Select
-                defaultValue={initialSeasonSelectValue}
-                maxWidth={250}
-                onChange={onSeasonChange}
-            >
-                {
-                    // add back in option for season 1 once season 1 launches
-                    // <option value={SeasonType.SeasonOne}>{'Season 1'}</option>
+                value={season}
+                options={seasonSelectOptions}
+                isOptionDisabled={(option) =>
+                    option.value.status === SeasonStatus.UNRELEASED
                 }
-                <option value={SeasonType.AllTime}>{'All Seasons'}</option>
-            </Select>
+                isClearable={false}
+                onChange={(option) => {
+                    if (option) {
+                        setSeason(option);
+                    }
+                }}
+                chakraStyles={{
+                    input: (provided: any) => ({
+                        ...provided,
+                        minWidth: '100px',
+                    }),
+                }}
+                size={'md'}
+            />
             <Tabs isFitted={true} maxWidth='100%'>
                 <TabList>
                     <Tab>Champion Overview</Tab>
                     <Tab>Match History</Tab>
                     {
                         // only show MMR summary for all time
-                        season === 'all_time' ? <Tab>MMR Summary</Tab> : null
+                        season?.value === Seasons.ALL_SEASONS ? (
+                            <Tab>MMR Summary</Tab>
+                        ) : null
                     }
                     <Tab>Teammate Record</Tab>
                     <Tab>Opponent Record</Tab>
@@ -302,7 +322,7 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                     </TabPanel>
                     {
                         // only show MMR summary for all time
-                        season === 'all_time' ? (
+                        season?.value === Seasons.ALL_SEASONS ? (
                             <TabPanel>
                                 <PlayerMmrSummary player={player} />
                             </TabPanel>
