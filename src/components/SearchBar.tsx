@@ -6,9 +6,9 @@ import {
     ModalOverlay,
     useDisclosure,
 } from '@chakra-ui/react';
-import { OptionProps, Select } from 'chakra-react-select';
+import { Select } from 'chakra-react-select';
 import { FiSearch } from 'react-icons/fi';
-import { Search, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ARTICLES, NewsCardData } from '../news/NewsData';
 import { ToxicDataService } from '../services/toxicData/ToxicDataService';
 import { Champion } from '../types/domain/Champion';
@@ -25,6 +25,22 @@ type SearchOption =
 type SearchOptionGroup = {
     label: string;
     options: SearchOption[];
+};
+
+const sortOptions = (options: SearchOption[]) => {
+    return options.sort((o1, o2) => {
+        const name1 = o1?.label.toUpperCase();
+        const name2 = o2?.label.toUpperCase();
+        if (name1 && name2) {
+            if (name1 < name2) {
+                return -1;
+            }
+            if (name1 > name2) {
+                return 1;
+            }
+        }
+        return 0;
+    });
 };
 
 const getChampionOption = (champion: Champion): SearchOption => {
@@ -65,9 +81,9 @@ export const SearchBar = () => {
     const articleOptions = ARTICLES.map((article) => getArticleOption(article));
 
     const searchOptions: SearchOptionGroup[] = [
-        { label: 'Champions', options: championOptions },
-        { label: 'Players', options: playerOptions },
-        { label: 'Articles', options: articleOptions },
+        { label: 'Champions', options: sortOptions(championOptions) },
+        { label: 'Players', options: sortOptions(playerOptions) },
+        { label: 'Articles', options: sortOptions(articleOptions) },
     ];
 
     const navigateToPage = (option: SearchOption) => {
