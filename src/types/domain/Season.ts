@@ -1,18 +1,11 @@
-export enum SeasonStatus {
-    COMPLETE,
-    ACTIVE,
-    UNRELEASED,
-    NONE,
-}
-
 export type Season = {
     name: string;
-    status: SeasonStatus;
+    active: boolean;
 };
 
 export const Seasons: { [key: string]: Season } = {
-    ALL_SEASONS: { name: 'All Seasons', status: SeasonStatus.NONE },
-    SEASON_ONE: { name: 'Season 1', status: SeasonStatus.UNRELEASED },
+    ALL_SEASONS: { name: 'All Seasons', active: false },
+    // SEASON_ONE: { name: 'Season 1', active: true },
 };
 
 export const getSeasons = (): Array<Season> => {
@@ -20,8 +13,6 @@ export const getSeasons = (): Array<Season> => {
 };
 
 export const getActiveSeason = (): Season => {
-    const activeSeason = Object.values(Seasons).find(
-        (season) => season.status === SeasonStatus.ACTIVE
-    );
+    const activeSeason = Object.values(Seasons).find((season) => season.active);
     return activeSeason ? activeSeason : Seasons.ALL_SEASONS;
 };
