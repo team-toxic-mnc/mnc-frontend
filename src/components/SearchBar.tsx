@@ -6,11 +6,11 @@ import {
     ModalOverlay,
     useDisclosure,
 } from '@chakra-ui/react';
+import { OptionProps, Select } from 'chakra-react-select';
 import { FiSearch } from 'react-icons/fi';
-import { useNavigate } from 'react-router-dom';
-import { Select } from 'chakra-react-select';
-import { ToxicDataService } from '../services/toxicData/ToxicDataService';
+import { Search, useNavigate } from 'react-router-dom';
 import { ARTICLES, NewsCardData } from '../news/NewsData';
+import { ToxicDataService } from '../services/toxicData/ToxicDataService';
 import { Champion } from '../types/domain/Champion';
 import { Player } from '../types/domain/Player';
 
@@ -22,23 +22,28 @@ type SearchOption =
     | undefined
     | null;
 
+type SearchOptionGroup = {
+    label: string;
+    options: SearchOption[];
+};
+
 const getChampionOption = (champion: Champion): SearchOption => {
     return {
-        label: champion.name + ' (champion)',
+        label: champion.name,
         path: '/championOverview/' + champion.name,
     };
 };
 
 const getPlayerOption = (player: Player): SearchOption => {
     return {
-        label: player.name + ' (player)',
+        label: player.name,
         path: '/playerOverview/' + player.name.toLowerCase(),
     };
 };
 
 const getArticleOption = (article: NewsCardData): SearchOption => {
     return {
-        label: article.title + ' (article)',
+        label: article.title,
         path: '/news/' + article.id,
     };
 };
@@ -59,24 +64,13 @@ export const SearchBar = () => {
 
     const articleOptions = ARTICLES.map((article) => getArticleOption(article));
 
-    const searchOptions = championOptions
-        .concat(playerOptions)
-        .concat(articleOptions)
-        .sort((o1, o2) => {
-            const name1 = o1?.label.toUpperCase();
-            const name2 = o2?.label.toUpperCase();
-            if (name1 && name2) {
-                if (name1 < name2) {
-                    return -1;
-                }
-                if (name1 > name2) {
-                    return 1;
-                }
-            }
-            return 0;
-        });
+    const searchOptions: SearchOptionGroup[] = [
+        { label: 'Champions', options: championOptions },
+        { label: 'Players', options: playerOptions },
+        { label: 'Articles', options: articleOptions },
+    ];
 
-    const navigateToPage = (option: SearchOption | null) => {
+    const navigateToPage = (option: SearchOption) => {
         if (option) {
             onClose();
             navigate(option.path);
@@ -96,7 +90,7 @@ export const SearchBar = () => {
             <Modal isOpen={isOpen} onClose={onClose} size='xl'>
                 <ModalOverlay />
                 <ModalContent marginX='4px'>
-                    <Select
+                    <Select<SearchOption, false, SearchOptionGroup>
                         value={null}
                         options={searchOptions}
                         isSearchable
@@ -109,7 +103,7 @@ export const SearchBar = () => {
                         components={{
                             DropdownIndicator: () => null,
                             IndicatorSeparator: () => (
-                                <Icon as={FiSearch} margin='1' />
+                                <Icon as={FiSearch} margin='4' />
                             ),
                         }}
                         chakraStyles={{
