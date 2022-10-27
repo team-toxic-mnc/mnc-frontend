@@ -35,12 +35,7 @@ import {
 import { DataDragonService } from '../services/dataDragon/DataDragonService';
 import { ToxicDataService } from '../services/toxicData/ToxicDataService';
 import { Match } from '../types/domain/Match';
-import {
-    getSeasons,
-    Season,
-    Seasons,
-    SeasonStatus,
-} from '../types/domain/Season';
+import { getSeasons, Season, Seasons } from '../types/domain/Season';
 import { PlayerMmrSummary } from './PlayerMmrSummary';
 import {
     championColumns,
@@ -256,9 +251,6 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
             <Select
                 value={season}
                 options={seasonSelectOptions}
-                isOptionDisabled={(option) =>
-                    option.value.status === SeasonStatus.UNRELEASED
-                }
                 isClearable={false}
                 onChange={(option) => {
                     if (option) {
