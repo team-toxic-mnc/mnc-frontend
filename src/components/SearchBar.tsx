@@ -1,4 +1,11 @@
-import { Icon } from '@chakra-ui/react';
+import {
+    Icon,
+    IconButton,
+    Modal,
+    ModalContent,
+    ModalOverlay,
+    useDisclosure,
+} from '@chakra-ui/react';
 import { FiSearch } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { Select } from 'chakra-react-select';
@@ -37,6 +44,7 @@ const getArticleOption = (article: NewsCardData): SearchOption => {
 };
 
 export const SearchBar = () => {
+    const { isOpen, onOpen, onClose } = useDisclosure();
     const navigate = useNavigate();
 
     const championsResponse = ToxicDataService.useChampions();
@@ -70,6 +78,7 @@ export const SearchBar = () => {
 
     const navigateToPage = (option: SearchOption | null) => {
         if (option) {
+            onClose();
             navigate(option.path);
             window.scrollTo(0, 0);
         }
@@ -77,27 +86,40 @@ export const SearchBar = () => {
 
     return (
         <>
-            <Select
-                value={null}
-                options={searchOptions}
-                isSearchable
-                isClearable
-                blurInputOnSelect
-                controlShouldRenderValue={false}
-                openMenuOnClick={false}
-                onChange={(option) => navigateToPage(option)}
-                placeholder='Search...'
-                components={{
-                    DropdownIndicator: () => null,
-                    IndicatorSeparator: () => <Icon as={FiSearch} margin='1' />,
-                }}
-                chakraStyles={{
-                    input: (provided: any) => ({
-                        ...provided,
-                        minWidth: '100px',
-                    }),
-                }}
-            ></Select>
+            <IconButton
+                onClick={onOpen}
+                icon={<FiSearch />}
+                variant='ghost'
+                aria-label='Search'
+                size='lg'
+            ></IconButton>
+            <Modal isOpen={isOpen} onClose={onClose} size='xl'>
+                <ModalOverlay />
+                <ModalContent marginX='4px'>
+                    <Select
+                        value={null}
+                        options={searchOptions}
+                        isSearchable
+                        isClearable
+                        blurInputOnSelect
+                        controlShouldRenderValue={false}
+                        openMenuOnClick={false}
+                        onChange={(option) => navigateToPage(option)}
+                        placeholder='Search...'
+                        components={{
+                            DropdownIndicator: () => null,
+                            IndicatorSeparator: () => (
+                                <Icon as={FiSearch} margin='1' />
+                            ),
+                        }}
+                        chakraStyles={{
+                            input: (provided: any) => ({
+                                ...provided,
+                            }),
+                        }}
+                    ></Select>
+                </ModalContent>
+            </Modal>
         </>
     );
 };
