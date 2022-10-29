@@ -19,6 +19,12 @@ export default function Home() {
 
     const countdown = useCountdown(new Date(2022, 10, 14));
 
+    const hideCountdown =
+        countdown[0] <= 0 &&
+        countdown[1] <= 0 &&
+        countdown[2] <= 0 &&
+        countdown[3] <= 0;
+
     return (
         <Flex
             style={{
@@ -71,42 +77,55 @@ export default function Home() {
                             }
                             alt='season 1 splash'
                         />
-                        <h1
-                            style={{
-                                color: 'white',
-                                fontSize: '2em',
-                                marginRight: 64,
-                                marginLeft: 64,
-                                fontWeight: 'bold',
-                                fontStyle: 'italic',
-                            }}
-                        >
-                            {`${countdown[0].toLocaleString('en-US', {
-                                minimumIntegerDigits: 2,
-                                useGrouping: false,
-                            })} : ${countdown[1].toLocaleString('en-US', {
-                                minimumIntegerDigits: 2,
-                                useGrouping: false,
-                            })} : ${countdown[2].toLocaleString('en-US', {
-                                minimumIntegerDigits: 2,
-                                useGrouping: false,
-                            })} : ${countdown[3].toLocaleString('en-US', {
-                                minimumIntegerDigits: 2,
-                                useGrouping: false,
-                            })}`}
-                        </h1>
-                        <h1
-                            style={{
-                                color: 'white',
-                                fontSize: 20,
-                                marginRight: 64,
-                                marginLeft: 64,
-                                fontWeight: 'bold',
-                                fontStyle: 'italic',
-                            }}
-                        >
-                            {`STARTS NOVEMBER 14`}
-                        </h1>
+                        {!hideCountdown ? (
+                            <>
+                                <h1
+                                    style={{
+                                        color: 'white',
+                                        fontSize: '2em',
+                                        marginRight: 64,
+                                        marginLeft: 64,
+                                        fontWeight: 'bold',
+                                        fontStyle: 'italic',
+                                    }}
+                                >
+                                    {`${countdown[0].toLocaleString('en-US', {
+                                        minimumIntegerDigits: 2,
+                                        useGrouping: false,
+                                    })} : ${countdown[1].toLocaleString(
+                                        'en-US',
+                                        {
+                                            minimumIntegerDigits: 2,
+                                            useGrouping: false,
+                                        }
+                                    )} : ${countdown[2].toLocaleString(
+                                        'en-US',
+                                        {
+                                            minimumIntegerDigits: 2,
+                                            useGrouping: false,
+                                        }
+                                    )} : ${countdown[3].toLocaleString(
+                                        'en-US',
+                                        {
+                                            minimumIntegerDigits: 2,
+                                            useGrouping: false,
+                                        }
+                                    )}`}
+                                </h1>
+                                <h1
+                                    style={{
+                                        color: 'white',
+                                        fontSize: 20,
+                                        marginRight: 64,
+                                        marginLeft: 64,
+                                        fontWeight: 'bold',
+                                        fontStyle: 'italic',
+                                    }}
+                                >
+                                    {`STARTS NOVEMBER 14`}
+                                </h1>
+                            </>
+                        ) : null}
                     </div>
                 </div>
             </Flex>
