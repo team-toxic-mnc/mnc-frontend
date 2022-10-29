@@ -2,12 +2,11 @@ import { Button, Flex, Heading } from '@chakra-ui/react';
 import { FiArrowRight } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { NewsCards } from '../news/NewsCards';
+import { useCountdown } from '../utils/useCountdown';
 
-const IS_SEASON_1 = true;
-
-const backgroundVideo = IS_SEASON_1
-    ? 'https://cdn.discordapp.com/attachments/972956581220192346/1032190900295716974/Neon_-_21368_VP9.webm'
-    : 'https://blitz-cdn-videos.blitz.gg/ui/video/Homepage-Slide-One.webm';
+const backgroundVideo =
+    'https://cdn.discordapp.com/attachments/972956581220192346/1032190900295716974/Neon_-_21368_VP9.webm';
+//'https://blitz-cdn-videos.blitz.gg/ui/video/Homepage-Slide-One.webm';
 // 'https://screensavers.riotgames.com/v2/latest/content/original/AnimatedArt/animated-freljord.webm';
 //https://screensavers.riotgames.com/v2/latest/content/original/AnimatedArt/arcade-animated-02.webm
 
@@ -17,6 +16,14 @@ export default function Home() {
     const navigateToNews = () => {
         navigate('/news');
     };
+
+    const countdown = useCountdown(new Date(2022, 10, 14, 22));
+
+    const hideCountdown =
+        countdown[0] <= 0 &&
+        countdown[1] <= 0 &&
+        countdown[2] <= 0 &&
+        countdown[3] <= 0;
 
     return (
         <Flex
@@ -64,27 +71,61 @@ export default function Home() {
                             justifyContent: 'center',
                         }}
                     >
-                        {IS_SEASON_1 ? (
-                            <img
-                                src={
-                                    'https://cdn.discordapp.com/attachments/1032423770578755584/1032433210275135519/season_1_transparent.png'
-                                }
-                                alt='season 1 splash'
-                            />
-                        ) : (
-                            <h1
-                                style={{
-                                    color: 'white',
-                                    fontSize: 48,
-                                    marginRight: 64,
-                                    marginLeft: 64,
-                                    fontWeight: 'bold',
-                                    fontStyle: 'italic',
-                                }}
-                            >
-                                WELCOME TO MONDAY NIGHT CUSTOMS!
-                            </h1>
-                        )}
+                        <img
+                            src={
+                                'https://cdn.discordapp.com/attachments/1032423770578755584/1032433210275135519/season_1_transparent.png'
+                            }
+                            alt='season 1 splash'
+                        />
+                        {!hideCountdown ? (
+                            <>
+                                <h1
+                                    style={{
+                                        color: 'white',
+                                        fontSize: '2em',
+                                        marginRight: 64,
+                                        marginLeft: 64,
+                                        fontWeight: 'bold',
+                                        fontStyle: 'italic',
+                                    }}
+                                >
+                                    {`${countdown[0].toLocaleString('en-US', {
+                                        minimumIntegerDigits: 2,
+                                        useGrouping: false,
+                                    })} : ${countdown[1].toLocaleString(
+                                        'en-US',
+                                        {
+                                            minimumIntegerDigits: 2,
+                                            useGrouping: false,
+                                        }
+                                    )} : ${countdown[2].toLocaleString(
+                                        'en-US',
+                                        {
+                                            minimumIntegerDigits: 2,
+                                            useGrouping: false,
+                                        }
+                                    )} : ${countdown[3].toLocaleString(
+                                        'en-US',
+                                        {
+                                            minimumIntegerDigits: 2,
+                                            useGrouping: false,
+                                        }
+                                    )}`}
+                                </h1>
+                                <h1
+                                    style={{
+                                        color: 'white',
+                                        fontSize: 20,
+                                        marginRight: 64,
+                                        marginLeft: 64,
+                                        fontWeight: 'bold',
+                                        fontStyle: 'italic',
+                                    }}
+                                >
+                                    {`STARTS NOVEMBER 14`}
+                                </h1>
+                            </>
+                        ) : null}
                     </div>
                 </div>
             </Flex>
