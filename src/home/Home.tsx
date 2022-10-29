@@ -17,7 +17,7 @@ export default function Home() {
         navigate('/news');
     };
 
-    const countdown = useCountdown(new Date(2022, 10, 14));
+    const countdown = useCountdown(new Date(2022, 10, 14, 22));
 
     const hideCountdown =
         countdown[0] <= 0 &&
