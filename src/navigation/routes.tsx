@@ -25,6 +25,7 @@ import { PickBanScreen } from '../admin/PickBanScreen';
 import { Leaderboard } from '../leaderboard/Leaderboard';
 import { loader as newsLoader, NewsDetail } from '../news/NewsDetail';
 import NewsOverview from '../news/NewsOverview';
+import { PlayerCardScreen } from '../admin/PlayerCardScreen';
 
 export const router = createBrowserRouter([
     {
@@ -75,6 +76,11 @@ export const router = createBrowserRouter([
             {
                 path: '/hydra',
                 element: <Slideshow />,
+            },
+            {
+                path: '/hydra/:championId',
+                loader: championLoader,
+                element: <PlayerCardScreen />,
             },
             {
                 path: '/barghest',
