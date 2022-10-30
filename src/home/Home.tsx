@@ -1,5 +1,5 @@
 import { Button, Flex, Heading } from '@chakra-ui/react';
-import { FiArrowRight } from 'react-icons/fi';
+import { FiArrowRight, FiTwitch, FiYoutube } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { NewsCards } from '../news/NewsCards';
 import { useCountdown } from '../utils/useCountdown';

@@ -25,7 +25,9 @@ import {
     FiHome,
     FiMenu,
     FiShield,
+    FiTwitch,
     FiUsers,
+    FiYoutube,
     FiZap,
 } from 'react-icons/fi';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -87,6 +89,14 @@ interface SidebarProps extends BoxProps {
     onClose: () => void;
 }
 
+function navigateToYoutube() {
+    window.location.href = 'https://www.youtube.com/doomgeek';
+}
+
+function navigateToTwitch() {
+    window.location.href = 'https://www.twitch.tv/doomgeek';
+}
+
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
     return (
         <Box
@@ -128,6 +138,47 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
                     ></NavItem>
                 ))}
             </VStack>
+            <div
+                style={{
+                    display: 'flex',
+                    position: 'absolute',
+                    bottom: 0,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: '100%',
+                    padding: 8,
+                }}
+            >
+                <Button
+                    variant='ghost'
+                    flex={1}
+                    padding={1}
+                    size='md'
+                    marginBottom='4'
+                    marginRight='1'
+                    flexDirection='row'
+                    onClick={navigateToYoutube}
+                >
+                    <Flex alignItems='center'>
+                        <FiYoutube />
+                    </Flex>
+                </Button>
+                <Button
+                    variant='ghost'
+                    flex={1}
+                    padding={1}
+                    size='md'
+                    marginBottom='4'
+                    marginRight='1'
+                    flexDirection='row'
+                    onClick={navigateToTwitch}
+                >
+                    <Flex alignItems='center'>
+                        <FiTwitch />
+                    </Flex>
+                </Button>
+            </div>
         </Box>
     );
 };
