@@ -29,7 +29,12 @@ export const StatsCard = React.memo(function StatsCard({
     return (
         <Flex flex='1' direction='row' justify='space-evenly'>
             {stats.imageUri !== undefined ? (
-                <Flex flex='1' marginRight='16'>
+                <Flex
+                    padding='4'
+                    justifyContent='flex-end'
+                    alignItems={'flex-end'}
+                    width='200px'
+                >
                     <img
                         alt=''
                         src={stats.imageUri}
@@ -37,7 +42,7 @@ export const StatsCard = React.memo(function StatsCard({
                     />
                 </Flex>
             ) : null}
-            <Flex flex='1' direction='column'>
+            <Flex flex='1' direction='column' padding='4'>
                 {hideName === true ? null : (
                     <Heading
                         color='bodyFont'

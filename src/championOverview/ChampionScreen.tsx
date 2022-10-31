@@ -73,7 +73,7 @@ const columns: ColumnDef<ChampionPlayer, any>[] = [
     columnHelper.accessor((row) => row.winPercentage, {
         id: 'winPercentage',
         cell: (info) => info.getValue(),
-        header: () => <span>Win Percentage</span>,
+        header: () => <span>Win %</span>,
         meta: {
             isNumeric: true,
         },
@@ -126,7 +126,7 @@ export const ChampionScreen = React.memo(function ChampionScreen() {
 
     const statsCardChampion = {
         ...champion,
-        imageUri: getChampionImage(dataDragonChampionId).square,
+        imageUri: getChampionImage(dataDragonChampionId).portrait,
         extraStats: {
             Class: championClass.reduce((prevValue, currentValue) => {
                 return (prevValue !== '' ? prevValue + ',' : '') + currentValue;
@@ -142,9 +142,9 @@ export const ChampionScreen = React.memo(function ChampionScreen() {
 
     return (
         <Flex direction='column' justify='center' align='center'>
-            <div style={{ marginBottom: 32 }}>
+            <Flex marginBottom={8}>
                 <StatsCard stats={statsCardChampion} />
-            </div>
+            </Flex>
             <SortableTable
                 columns={columns}
                 data={championPlayerData}
