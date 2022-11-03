@@ -29,6 +29,7 @@ import { SprCard } from '../components/SprCard';
 import { SummonerCollage } from '../components/SummonerCollage';
 import { ChampionClass, championClassWinRates } from '../data/championClasses';
 import {
+    getPlayerSelectedChampion,
     MatchWithImages,
     playerMatchHistoryColumns,
 } from '../matchHistory/matchHistoryColumnHelper';
@@ -182,10 +183,15 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
             );
         })
         .map((match) => {
+            const matchWithImages = getMatchWithImages(match, championIdMap);
             return {
-                ...getMatchWithImages(match, championIdMap),
+                ...matchWithImages,
                 winner: isPlayerMatchWinner(player, match) ? 'WIN' : 'LOSS',
                 playerName: player.name,
+                championName: getPlayerSelectedChampion(
+                    player.name,
+                    matchWithImages
+                ).championName,
             };
         });
 

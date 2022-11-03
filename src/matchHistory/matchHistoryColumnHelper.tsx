@@ -22,6 +22,7 @@ export type MatchWithImages = {
     };
     winner: string;
     playerName?: string;
+    championName?: string;
 };
 
 const columnHelper = createColumnHelper<MatchWithImages>();
@@ -97,7 +98,7 @@ export const matchHistoryColumns: ColumnDef<MatchWithImages, any>[] = [
     }),
 ];
 
-function getPlayerSelectedChampion(
+export function getPlayerSelectedChampion(
     playerName: string,
     match: MatchWithImages
 ): { imageUrl: string; championName: string } {
@@ -143,7 +144,7 @@ export const playerMatchHistoryColumns: ColumnDef<MatchWithImages, any>[] = [
         },
         header: () => <span>Date</span>,
     }),
-    columnHelper.accessor((row) => row.date, {
+    columnHelper.accessor((row) => row.championName, {
         id: 'selectedChamp',
         cell: (info) => {
             // get the player's selected champion
