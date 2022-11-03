@@ -12,7 +12,7 @@ export const AccoladesCollection = React.memo(function AccoladesCollection({
     {
         return (
             <Flex>
-                {(player.losses ?? 0) + (player.wins ?? 0) > 10 ? (
+                {(player.losses ?? 0) + (player.wins ?? 0) >= 10 ? (
                     <AccoladeBadge
                         title='PROJECT: KRAKEN'
                         description='Monday Night Customs Founding Member'
