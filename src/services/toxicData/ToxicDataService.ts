@@ -8,6 +8,7 @@ import { MatchData } from '../../types/service/toxicData/MatchData';
 import { MmrData } from '../../types/service/toxicData/MmrData';
 import { MmrPerMatchData } from '../../types/service/toxicData/MmrPerMatchData';
 import { StatsData } from '../../types/service/toxicData/StatsData';
+import { TrueSkillData } from '../../types/service/toxicData/TrueSkillData';
 import {
     getChampionPickBanMap,
     mapMatchHistory,
@@ -23,6 +24,8 @@ const statsEndpoint =
     'https://toxic-api-production.gggrunt16.workers.dev/stats';
 const matchHistoryEndpoint =
     'https://toxic-api-production.gggrunt16.workers.dev/matches';
+const trueskillEndpoint =
+    'https://toxic-api-production.gggrunt16.workers.dev/trueskill';
 
 export const fetchPlayers = () =>
     axios
@@ -54,6 +57,15 @@ const fetchMmrPerMatch = () =>
 const fetchMatchHistory = () =>
     axios
         .get<MatchData>(matchHistoryEndpoint, {
+            headers: {
+                Accept: 'application/json',
+            },
+        })
+        .then((res) => res.data);
+
+const fetchTrueskill = () =>
+    axios
+        .get<TrueSkillData>(trueskillEndpoint, {
             headers: {
                 Accept: 'application/json',
             },
@@ -95,6 +107,20 @@ const useMmrPerMatch = () => {
     );
 };
 
+const usePlayersTrueSkill = () => {
+    return useQuery<TrueSkillData, Error>(['trueskill'], fetchTrueskill, {
+        select: (data) => {
+            // we use all lower case ids, where this endpoint is giving us casing in the names
+            const result: TrueSkillData = {};
+            for (const entry of Object.entries(data)) {
+                result[entry[0].toLowerCase()] = entry[1];
+            }
+            return result;
+        },
+        staleTime: 20000,
+    });
+};
+
 type ServiceResponseBase = {
     isLoading: boolean;
     isError: boolean;
@@ -108,16 +134,26 @@ export const ToxicDataService = {
         // gets the player's MMR
         const mmrResponse = usePlayersMmr();
 
-        const isLoading = statsResponse.isLoading || mmrResponse.isLoading;
-        const isError = statsResponse.isError || mmrResponse.isError;
+        // gets the player's trueskill
+        const trueSkillResponse = usePlayersTrueSkill();
 
-        // merge mmr response and stats response here
-        if (statsResponse.data && mmrResponse.data) {
+        const isLoading =
+            statsResponse.isLoading ||
+            mmrResponse.isLoading ||
+            trueSkillResponse.isLoading;
+        const isError =
+            statsResponse.isError ||
+            mmrResponse.isError ||
+            trueSkillResponse.isError;
+
+        // merge mmr response, stats response, and trueskill response here
+        if (statsResponse.data && mmrResponse.data && trueSkillResponse.data) {
             const players = statsResponse.data.players;
             const data = players.map((player) => {
                 return {
                     ...player,
                     mmr: mmrResponse.data.mmr[player.name],
+                    trueskill: trueSkillResponse.data[player.name].rating,
                 };
             });
 
@@ -143,11 +179,20 @@ export const ToxicDataService = {
         // gets the player's MMR
         const mmrResponse = usePlayersMmr();
 
-        const isLoading = statsResponse.isLoading || mmrResponse.isLoading;
-        const isError = statsResponse.isError || mmrResponse.isError;
+        // gets the player's trueskill
+        const trueSkillResponse = usePlayersTrueSkill();
 
-        // merge mmr response and stats response here
-        if (statsResponse.data && mmrResponse.data) {
+        const isLoading =
+            statsResponse.isLoading ||
+            mmrResponse.isLoading ||
+            trueSkillResponse.isLoading;
+        const isError =
+            statsResponse.isError ||
+            mmrResponse.isError ||
+            trueSkillResponse.isError;
+
+        // merge mmr response, stats response, and trueskill response here
+        if (statsResponse.data && mmrResponse.data && trueSkillResponse.data) {
             const players = statsResponse.data.players;
             const playerData = players.find((player) => {
                 return player.name === id;
@@ -160,6 +205,9 @@ export const ToxicDataService = {
                     ...playerData,
                     name: id,
                     mmr: mmrData,
+                    trueskill: playerData
+                        ? trueSkillResponse.data[playerData.name].rating
+                        : undefined,
                 },
                 isLoading,
                 isError,

@@ -18,8 +18,8 @@ type PlayerTableData = {
     winPercentage: string;
     losses: number;
     totalGames: number;
-    mmr: number;
-    mmrChange: number;
+    spr: number;
+    // mmrChange: number;
 };
 
 /**
@@ -27,8 +27,8 @@ type PlayerTableData = {
  * @param players A collection of playeres to process
  */
 const processPlayers = (
-    players: Player[] | undefined,
-    mmrMap: { [key: string]: { gameId: number; mmr: number }[] }
+    players: Player[] | undefined
+    // sprMap: { [key: string]: { gameId: number; spr: number }[] }
 ): PlayerTableData[] => {
     return players
         ? players
@@ -37,7 +37,7 @@ const processPlayers = (
                   const wins = player.wins ?? 0;
                   const losses = player.losses ?? 0;
                   const totalGames = wins + losses;
-                  const mmr = mmrMap[player.name] ?? [];
+                  // const spr = mmrMap[player.name] ?? [];
                   return {
                       ...player,
                       wins,
@@ -45,10 +45,10 @@ const processPlayers = (
                       winPercentage:
                           Math.round((wins / totalGames) * 100) + '%',
                       totalGames: totalGames,
-                      mmr:
+                      spr:
                           totalGames >= 10 ? Math.round(player.mmr ?? 1500) : 0,
-                      mmrChange:
-                          totalGames > 10 ? getMmrTrendingChange(mmr) : -999,
+                      // mmrChange:
+                      //     totalGames > 10 ? getMmrTrendingChange(mmr) : -999,
                   };
               })
         : [];
@@ -86,8 +86,8 @@ const columns: ColumnDef<PlayerTableData, any>[] = [
             isNumeric: true,
         },
     }),
-    columnHelper.accessor((row) => row.mmr, {
-        id: 'mmr',
+    columnHelper.accessor((row) => row.spr, {
+        id: 'spr',
         cell: (info) => {
             return <SprTag props={{ size: 'md' }} player={info.row.original} />;
         },
@@ -96,41 +96,41 @@ const columns: ColumnDef<PlayerTableData, any>[] = [
             isNumeric: true,
         },
     }),
-    columnHelper.accessor((row) => row.mmrChange, {
-        id: 'mmrChange',
-        cell: (info) => {
-            const value = info.getValue();
-            return (
-                <div
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flexDirection: 'row',
-                    }}
-                >
-                    {value === -999 ? (
-                        <h1>-</h1>
-                    ) : (
-                        <>
-                            {value}
-                            {value === 0 ? (
-                                <FiMinus size={'24'} color={'orange'} />
-                            ) : value > 0 ? (
-                                <FiChevronUp size={'24'} color={'green'} />
-                            ) : (
-                                <FiChevronDown size={'24'} color={'red'} />
-                            )}
-                        </>
-                    )}
-                </div>
-            );
-        },
-        header: () => <span>SPR Trend</span>,
-        meta: {
-            isNumeric: true,
-        },
-    }),
+    // columnHelper.accessor((row) => row.mmrChange, {
+    //     id: 'mmrChange',
+    //     cell: (info) => {
+    //         const value = info.getValue();
+    //         return (
+    //             <div
+    //                 style={{
+    //                     display: 'flex',
+    //                     alignItems: 'center',
+    //                     justifyContent: 'center',
+    //                     flexDirection: 'row',
+    //                 }}
+    //             >
+    //                 {value === -999 ? (
+    //                     <h1>-</h1>
+    //                 ) : (
+    //                     <>
+    //                         {value}
+    //                         {value === 0 ? (
+    //                             <FiMinus size={'24'} color={'orange'} />
+    //                         ) : value > 0 ? (
+    //                             <FiChevronUp size={'24'} color={'green'} />
+    //                         ) : (
+    //                             <FiChevronDown size={'24'} color={'red'} />
+    //                         )}
+    //                     </>
+    //                 )}
+    //             </div>
+    //         );
+    //     },
+    //     header: () => <span>SPR Trend</span>,
+    //     meta: {
+    //         isNumeric: true,
+    //     },
+    // }),
 ];
 
 export const Leaderboard = React.memo(function Leaderboard() {
@@ -138,12 +138,12 @@ export const Leaderboard = React.memo(function Leaderboard() {
     const usePlayersResponse = ToxicDataService.usePlayers();
     const data = usePlayersResponse.data;
 
-    const mmrPerMatchResponse = ToxicDataService.useMmrPerMatch();
-    const mmrPerMatch = mmrPerMatchResponse.data ?? [];
-    const mmrPerMatchMap =
-        mapMmrHistoryCollectionToPlayerMmrHistoryMap(mmrPerMatch);
+    // const mmrPerMatchResponse = ToxicDataService.useMmrPerMatch();
+    // const mmrPerMatch = mmrPerMatchResponse.data ?? [];
+    // const mmrPerMatchMap =
+    //     mapMmrHistoryCollectionToPlayerMmrHistoryMap(mmrPerMatch);
 
-    const processedData = processPlayers(data, mmrPerMatchMap);
+    const processedData = processPlayers(data);
 
     return (
         <Flex direction='column' justify='center' align='center'>

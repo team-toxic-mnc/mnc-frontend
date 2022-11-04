@@ -13,6 +13,7 @@ export type Player = {
     wins?: number;
     losses?: number;
     mmr?: number;
+    trueskill?: number;
     champions?: {
         [key: string]: Champion;
     };
