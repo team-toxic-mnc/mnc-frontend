@@ -11,6 +11,7 @@ import {
     getMmrTrendingChange,
     mapMmrHistoryCollectionToPlayerMmrHistoryMap,
 } from '../utils/mmrHelpers';
+import { getSprValue } from '../utils/sprHelpers';
 
 type PlayerTableData = {
     name: string;
@@ -32,6 +33,9 @@ const processPlayers = (
 ): PlayerTableData[] => {
     return players
         ? players
+              .filter(
+                  (player) => (player.wins ?? 0) + (player.losses ?? 0) > 10
+              )
               .sort((a, b) => a.name.localeCompare(b.name))
               .map((player) => {
                   const wins = player.wins ?? 0;
@@ -45,8 +49,7 @@ const processPlayers = (
                       winPercentage:
                           Math.round((wins / totalGames) * 100) + '%',
                       totalGames: totalGames,
-                      spr:
-                          totalGames >= 10 ? Math.round(player.mmr ?? 1500) : 0,
+                      spr: totalGames >= 10 ? getSprValue(player) : 0,
                       // mmrChange:
                       //     totalGames > 10 ? getMmrTrendingChange(mmr) : -999,
                   };
@@ -135,7 +138,7 @@ const columns: ColumnDef<PlayerTableData, any>[] = [
 
 export const Leaderboard = React.memo(function Leaderboard() {
     const navigate = useNavigate();
-    const usePlayersResponse = ToxicDataService.usePlayers();
+    const usePlayersResponse = ToxicDataService.usePlayers(1);
     const data = usePlayersResponse.data;
 
     // const mmrPerMatchResponse = ToxicDataService.useMmrPerMatch();

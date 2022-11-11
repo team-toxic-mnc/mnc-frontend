@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import { useCallback } from 'react';
 import { Champion } from '../../types/domain/Champion';
 import { Match } from '../../types/domain/Match';
 import { MmrHistoryItem } from '../../types/domain/MmrHistoryItem';
@@ -27,13 +28,18 @@ const matchHistoryEndpoint =
 const trueskillEndpoint =
     'https://toxic-api-production.gggrunt16.workers.dev/trueskill';
 
-export const fetchPlayers = () =>
+export const fetchPlayers = (season?: number) =>
     axios
-        .get<MmrData>(placementEndpoint, {
-            headers: {
-                Accept: 'application/json',
-            },
-        })
+        .get<MmrData>(
+            season
+                ? `${placementEndpoint}?season=${season.toString()}`
+                : placementEndpoint,
+            {
+                headers: {
+                    Accept: 'application/json',
+                },
+            }
+        )
         .then((res) => res.data);
 
 export const fetchStats = () =>
@@ -54,13 +60,18 @@ const fetchMmrPerMatch = () =>
         })
         .then((res) => res.data);
 
-const fetchMatchHistory = () =>
+const fetchMatchHistory = (season?: number) =>
     axios
-        .get<MatchData>(matchHistoryEndpoint, {
-            headers: {
-                Accept: 'application/json',
-            },
-        })
+        .get<MatchData>(
+            season
+                ? `${matchHistoryEndpoint}?season=${season.toString()}`
+                : matchHistoryEndpoint,
+            {
+                headers: {
+                    Accept: 'application/json',
+                },
+            }
+        )
         .then((res) => res.data);
 
 const fetchTrueskill = () =>
@@ -77,7 +88,7 @@ const usePlayerStats = () => {
         StatsData,
         Error,
         { players: Player[]; champions: { [id: string]: Champion } }
-    >(['stats'], fetchStats, {
+    >([`stats`], fetchStats, {
         select: (data) => {
             return mapStats(data);
         },
@@ -85,16 +96,32 @@ const usePlayerStats = () => {
     });
 };
 
-const usePlayersMmr = () => {
-    return useQuery<MmrData, Error>(['simpleMmr'], fetchPlayers, {
-        staleTime: 20000,
-    });
+const usePlayersMmr = (season?: number) => {
+    const fetchPlayersFunc = useCallback(() => {
+        return fetchPlayers(season);
+    }, [season]);
+
+    return useQuery<MmrData, Error>(
+        [`simpleMmr${season ?? ''}`],
+        fetchPlayersFunc,
+        {
+            staleTime: 20000,
+        }
+    );
 };
 
-const useMatchHistory = () => {
-    return useQuery<MatchData, Error>(['matchHistory'], fetchMatchHistory, {
-        staleTime: 2000,
-    });
+const useMatchHistory = (season?: number) => {
+    const fetchMatchHistoryFunc = useCallback(() => {
+        return fetchMatchHistory(season);
+    }, [season]);
+
+    return useQuery<MatchData, Error>(
+        [`matchHistory${season ?? ''}`],
+        fetchMatchHistoryFunc,
+        {
+            staleTime: 2000,
+        }
+    );
 };
 
 const useMmrPerMatch = () => {
@@ -127,12 +154,14 @@ type ServiceResponseBase = {
 };
 
 export const ToxicDataService = {
-    usePlayers: (): { data: Player[] | undefined } & ServiceResponseBase => {
+    usePlayers: (
+        season?: number
+    ): { data: Player[] | undefined } & ServiceResponseBase => {
         // gets the player information without MMR AND champion information
         const statsResponse = usePlayerStats();
 
         // gets the player's MMR
-        const mmrResponse = usePlayersMmr();
+        const mmrResponse = usePlayersMmr(season);
 
         // gets the player's trueskill
         const trueSkillResponse = usePlayersTrueSkill();
@@ -150,10 +179,11 @@ export const ToxicDataService = {
         if (statsResponse.data && mmrResponse.data && trueSkillResponse.data) {
             const players = statsResponse.data.players;
             const data = players.map((player) => {
+                const trueskill = trueSkillResponse.data[player.name];
                 return {
                     ...player,
                     mmr: mmrResponse.data.mmr[player.name],
-                    trueskill: trueSkillResponse.data[player.name].rating,
+                    trueskill: trueskill ? trueskill.rating : 0,
                 };
             });
 
@@ -171,13 +201,14 @@ export const ToxicDataService = {
         }
     },
     usePlayer: (
-        id: string
+        id: string,
+        season?: number
     ): { data: Player | undefined } & ServiceResponseBase => {
         // gets the player information without MMR AND champion information
         const statsResponse = usePlayerStats();
 
         // gets the player's MMR
-        const mmrResponse = usePlayersMmr();
+        const mmrResponse = usePlayersMmr(season);
 
         // gets the player's trueskill
         const trueSkillResponse = usePlayersTrueSkill();
@@ -220,14 +251,16 @@ export const ToxicDataService = {
             };
         }
     },
-    useChampions: (): {
+    useChampions: (
+        season?: number
+    ): {
         data: { [id: string]: Champion } | undefined;
     } & ServiceResponseBase => {
         // gets the player information without MMR AND champion information
         const statsResponse = usePlayerStats();
 
         // gets the match history used to compute ban and pick rate
-        const matchHistoryResponse = useMatchHistory();
+        const matchHistoryResponse = useMatchHistory(season);
 
         const isLoading =
             statsResponse.isLoading || matchHistoryResponse.isLoading;
@@ -263,13 +296,14 @@ export const ToxicDataService = {
         }
     },
     useChampion: (
-        id: string
+        id: string,
+        season?: number
     ): { data: Champion | undefined } & ServiceResponseBase => {
         // gets the player information without MMR AND champion information
         const statsResponse = usePlayerStats();
 
         // gets the match history used to compute ban and pick rate
-        const matchHistoryResponse = useMatchHistory();
+        const matchHistoryResponse = useMatchHistory(season);
 
         const isLoading =
             statsResponse.isLoading || matchHistoryResponse.isLoading;
@@ -302,10 +336,12 @@ export const ToxicDataService = {
             };
         }
     },
-    useMatchHistory: (): {
+    useMatchHistory: (
+        season?: number
+    ): {
         data: Match[] | undefined;
     } & ServiceResponseBase => {
-        const matchHistoryResponse = useMatchHistory();
+        const matchHistoryResponse = useMatchHistory(season);
 
         if (matchHistoryResponse.data) {
             const matchData = matchHistoryResponse.data;

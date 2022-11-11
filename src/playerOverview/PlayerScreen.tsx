@@ -97,18 +97,24 @@ function isPlayerMatchWinner(player: Player, match: Match) {
 export const PlayerScreen = React.memo(function PlayerScreen() {
     const navigate = useNavigate();
     const playerId = useLoaderData() as string;
-    const playerResponse = ToxicDataService.usePlayer(playerId ?? '');
+
+    const [season, setSeason] = useState<SeasonSelectOption | null>(
+        formatSeasonSelectOption(Seasons.SEASON_ONE)
+    );
+
+    const playerResponse = ToxicDataService.usePlayer(
+        playerId ?? '',
+        season?.value.id
+    );
     const player = playerResponse.data;
 
     const championIdMapResponse = DataDragonService.useChampionIdMap();
     const championIdMap = championIdMapResponse.data ?? {};
 
-    const matchHistoryResponse = ToxicDataService.useMatchHistory();
-    const matchHistory = matchHistoryResponse.data ?? [];
-
-    const [season, setSeason] = useState<SeasonSelectOption | null>(
-        formatSeasonSelectOption(Seasons.ALL_SEASONS)
+    const matchHistoryResponse = ToxicDataService.useMatchHistory(
+        season?.value.id
     );
+    const matchHistory = matchHistoryResponse.data ?? [];
 
     // only recompute the player classes when are looking at a new player
     const playerClasses = useMemo(
