@@ -4,14 +4,14 @@ const MIN_GAMES_REQUIRED = 30;
 const MAXIMUM_VALUE = 1800;
 
 export function getSprValue(player: Player): number {
-    return player.trueskill && player.glicko
-        ? Math.round(player.trueskill) + Math.round(player.glicko)
-        : 0;
+    return player.glicko ? Math.round(player.glicko) : 0;
 }
 
 export function getSprColor(spr: number) {
     return spr > 0
-        ? `hsl(${120 * ((50 - spr) / MAXIMUM_VALUE) * -1 + 120}, 100%, 67%)`
+        ? `hsl(${
+              120 * ((MAXIMUM_VALUE - spr) / MAXIMUM_VALUE) * 4 * -1 + 120
+          }, 100%, 67%)`
         : 'transparent';
 }
 
