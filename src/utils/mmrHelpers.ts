@@ -1,9 +1,11 @@
 import { GlickoHistoryItem } from '../types/domain/GlickoHistoryItem';
 import { Player } from '../types/domain/Player';
 
+const TRUESKILL_MMR_CONVERSION_FACTOR = 100;
+
 export function getMmrValue(player: Player): number {
-    return player.glicko && (player.wins ?? 0) + (player.losses ?? 0) >= 10
-        ? Math.round(player.glicko)
+    return player.trueskill
+        ? Math.round(player.trueskill * TRUESKILL_MMR_CONVERSION_FACTOR)
         : 0;
 }
 
