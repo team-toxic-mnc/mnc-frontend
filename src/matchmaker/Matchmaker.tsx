@@ -3,9 +3,12 @@ import { CreatableSelect } from 'chakra-react-select';
 import { useState } from 'react';
 import { ToxicDataService } from '../services/toxicData/ToxicDataService';
 import { Player } from '../types/domain/Player';
+import { getActiveSeason } from '../types/domain/Season';
+import { AVERAGE_RATING } from '../types/service/toxicData/TrueSkillData';
 import MatchTable from './MatchTable';
 
 export const Matchmaker = () => {
+    const currentSeason = getActiveSeason();
     const [customPlayers, setCustomPlayers] = useState<Player[]>([]);
     const [selectedPlayers, setSelectedPlayers] = useState<readonly Player[]>(
         []
@@ -14,7 +17,7 @@ export const Matchmaker = () => {
     const [blueTeam, setBlueTeam] = useState<readonly Player[]>([]);
     const [redTeam, setRedTeam] = useState<readonly Player[]>([]);
 
-    const playersResponse = ToxicDataService.usePlayers();
+    const playersResponse = ToxicDataService.usePlayers(currentSeason.id);
     const players = playersResponse.data ?? [];
 
     const handleInputChange = (value: string) => {
@@ -27,7 +30,7 @@ export const Matchmaker = () => {
 
     const handleCreate = (inputValue: string) => {
         if (inputValue !== '') {
-            const newPlayer = { name: inputValue, glicko: 1500 };
+            const newPlayer = { name: inputValue, trueskill: AVERAGE_RATING };
             setCustomPlayers([...customPlayers, newPlayer]);
             setSelectedPlayers([...selectedPlayers, newPlayer]);
         }
@@ -36,7 +39,7 @@ export const Matchmaker = () => {
     const addMatch = () => {
         if (selectedPlayers.length === 10) {
             const playerPool: Player[] = [...selectedPlayers].sort(
-                (p1, p2) => (p1.glicko ?? 0) - (p2.glicko ?? 0)
+                (p1, p2) => (p1.trueskill ?? 0) - (p2.trueskill ?? 0)
             );
 
             const team1 = playerPool.splice(0, 1);
@@ -104,7 +107,7 @@ export const Matchmaker = () => {
                                 onCreateOption={handleCreate}
                                 getNewOptionData={(inputValue) => ({
                                     name: inputValue,
-                                    glicko: 1500,
+                                    trueskill: AVERAGE_RATING,
                                 })}
                                 placeholder='Add players...'
                                 size='lg'

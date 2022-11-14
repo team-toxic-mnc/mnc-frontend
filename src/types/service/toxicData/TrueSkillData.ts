@@ -6,3 +6,5 @@ export type TrueSkillEntry = {
 export type TrueSkillData = {
     [id: string]: TrueSkillEntry;
 };
+
+export const AVERAGE_RATING = 25;
