@@ -60,7 +60,7 @@ export const PlayerMmrSummary = React.memo(function PlayerMmrSummary({
 }: {
     player: Player;
 }) {
-    const mmrPerMatchResponse = ToxicDataService.useMmrPerMatch();
+    const mmrPerMatchResponse = ToxicDataService.useGlickoPerMatch();
     const mmrPerMatch = mmrPerMatchResponse.data ?? [];
     const mmrPerMatchMap =
         mapMmrHistoryCollectionToPlayerMmrHistoryMap(mmrPerMatch);
@@ -101,7 +101,7 @@ export const PlayerMmrSummary = React.memo(function PlayerMmrSummary({
                 <>
                     <UiTooltip label='Lifetime Match Making Rank (MMR) used for matchmaking purposes only'>
                         <Flex direction='row' justify='center' align='center'>
-                            <h1 style={{ fontSize: 60 }}>{player.mmr}</h1>
+                            <h1 style={{ fontSize: 60 }}>{player.glicko}</h1>
                         </Flex>
                     </UiTooltip>
                     <Line

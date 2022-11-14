@@ -1,16 +1,10 @@
 import { Flex, Heading } from '@chakra-ui/react';
 import { ColumnDef, createColumnHelper, Row } from '@tanstack/react-table';
 import React from 'react';
-import { FiChevronDown, FiChevronUp, FiMinus } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { SortableTable } from '../components/SortableTable';
-import { SprTag } from '../components/SprTag';
 import { ToxicDataService } from '../services/toxicData/ToxicDataService';
 import { Player } from '../types/domain/Player';
-import {
-    getMmrTrendingChange,
-    mapMmrHistoryCollectionToPlayerMmrHistoryMap,
-} from '../utils/mmrHelpers';
 
 type PlayerTableData = {
     name: string;
@@ -18,18 +12,14 @@ type PlayerTableData = {
     winPercentage: string;
     losses: number;
     totalGames: number;
-    mmr: number;
-    mmrChange: number;
+    glicko: number;
 };
 
 /**
  * Given a collection of players, map to a collection of players with processed stats
  * @param players A collection of playeres to process
  */
-const processPlayers = (
-    players: Player[] | undefined,
-    mmrMap: { [key: string]: { gameId: number; mmr: number }[] }
-): PlayerTableData[] => {
+const processPlayers = (players: Player[] | undefined): PlayerTableData[] => {
     return players
         ? players
               .sort((a, b) => a.name.localeCompare(b.name))
@@ -37,7 +27,6 @@ const processPlayers = (
                   const wins = player.wins ?? 0;
                   const losses = player.losses ?? 0;
                   const totalGames = wins + losses;
-                  const mmr = mmrMap[player.name] ?? [];
                   return {
                       ...player,
                       wins,
@@ -45,10 +34,10 @@ const processPlayers = (
                       winPercentage:
                           Math.round((wins / totalGames) * 100) + '%',
                       totalGames: totalGames,
-                      mmr:
-                          totalGames >= 10 ? Math.round(player.mmr ?? 1500) : 0,
-                      mmrChange:
-                          totalGames > 10 ? getMmrTrendingChange(mmr) : -999,
+                      glicko:
+                          totalGames >= 10
+                              ? Math.round(player.glicko ?? 1500)
+                              : 0,
                   };
               })
         : [];
@@ -147,12 +136,7 @@ export const PlayerOverview = React.memo(function PlayerOverview() {
     const usePlayersResponse = ToxicDataService.usePlayers();
     const data = usePlayersResponse.data;
 
-    const mmrPerMatchResponse = ToxicDataService.useMmrPerMatch();
-    const mmrPerMatch = mmrPerMatchResponse.data ?? [];
-    const mmrPerMatchMap =
-        mapMmrHistoryCollectionToPlayerMmrHistoryMap(mmrPerMatch);
-
-    const processedData = processPlayers(data, mmrPerMatchMap);
+    const processedData = processPlayers(data);
 
     return (
         <Flex direction='column' justify='center' align='center'>

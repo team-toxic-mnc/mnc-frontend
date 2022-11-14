@@ -27,7 +27,7 @@ export const Matchmaker = () => {
 
     const handleCreate = (inputValue: string) => {
         if (inputValue !== '') {
-            const newPlayer = { name: inputValue, mmr: 1500 };
+            const newPlayer = { name: inputValue, glicko: 1500 };
             setCustomPlayers([...customPlayers, newPlayer]);
             setSelectedPlayers([...selectedPlayers, newPlayer]);
         }
@@ -36,7 +36,7 @@ export const Matchmaker = () => {
     const addMatch = () => {
         if (selectedPlayers.length === 10) {
             const playerPool: Player[] = [...selectedPlayers].sort(
-                (p1, p2) => (p1.mmr ?? 0) - (p2.mmr ?? 0)
+                (p1, p2) => (p1.glicko ?? 0) - (p2.glicko ?? 0)
             );
 
             const team1 = playerPool.splice(0, 1);
@@ -104,7 +104,7 @@ export const Matchmaker = () => {
                                 onCreateOption={handleCreate}
                                 getNewOptionData={(inputValue) => ({
                                     name: inputValue,
-                                    mmr: 1500,
+                                    glicko: 1500,
                                 })}
                                 placeholder='Add players...'
                                 size='lg'

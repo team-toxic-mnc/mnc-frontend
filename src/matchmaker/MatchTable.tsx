@@ -15,7 +15,7 @@ import { Player } from '../types/domain/Player';
 function getPlayerMmrText(player: Player): string {
     const totalGames = (player.wins ?? 0) + (player.losses ?? 0);
     return totalGames >= 10
-        ? `(${Math.round(player.mmr ?? 0).toString()})`
+        ? `(${Math.round(player.glicko ?? 0).toString()})`
         : `(unrated)`;
 }
 
@@ -23,7 +23,7 @@ const getTeamMmr = (team: readonly Player[]) => {
     return Math.round(
         team.reduce(
             (teamMmr, player) =>
-                player.mmr ? teamMmr + player.mmr : teamMmr + 1500,
+                player.glicko ? teamMmr + player.glicko : teamMmr + 1500,
             0
         ) / 5
     );

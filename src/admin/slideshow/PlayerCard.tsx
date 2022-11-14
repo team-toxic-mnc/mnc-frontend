@@ -52,7 +52,7 @@ export const PlayerCard = (props: { player: Player }) => {
     const mmrTextStyle: CSS.Properties = {
         fontSize: '60px',
         fontWeight: 'bold',
-        color: getMmrColor(props.player.mmr ?? 0),
+        color: getMmrColor(props.player.glicko ?? 0),
         textShadow: '2px 2px 7px black',
         textAlign: 'start',
     };
@@ -188,7 +188,7 @@ export const PlayerCard = (props: { player: Player }) => {
                         MMR
                     </h1>
                     <h1 style={mmrTextStyle}>
-                        {Math.round(props.player.mmr ?? 0)}
+                        {Math.round(props.player.glicko ?? 0)}
                     </h1>
                     <h1
                         style={{

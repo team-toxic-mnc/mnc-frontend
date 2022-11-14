@@ -12,7 +12,7 @@ export type Player = {
     name: string;
     wins?: number;
     losses?: number;
-    mmr?: number;
+    glicko?: number;
     trueskill?: number;
     champions?: {
         [key: string]: Champion;

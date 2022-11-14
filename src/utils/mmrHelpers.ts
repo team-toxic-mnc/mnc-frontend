@@ -1,9 +1,9 @@
-import { MmrHistoryItem } from '../types/domain/MmrHistoryItem';
+import { GlickoHistoryItem } from '../types/domain/GlickoHistoryItem';
 import { Player } from '../types/domain/Player';
 
 export function getMmrValue(player: Player): number {
-    return player.mmr && (player.wins ?? 0) + (player.losses ?? 0) >= 10
-        ? Math.round(player.mmr)
+    return player.glicko && (player.wins ?? 0) + (player.losses ?? 0) >= 10
+        ? Math.round(player.glicko)
         : 0;
 }
 
@@ -18,7 +18,7 @@ export function getMmrColor(mmr: number) {
  * player name to an collection of their games (with the game id and the player's resulting mmr for that game)
  */
 export function mapMmrHistoryCollectionToPlayerMmrHistoryMap(
-    data: MmrHistoryItem[]
+    data: GlickoHistoryItem[]
 ): { [key: string]: { gameId: number; mmr: number }[] } {
     const playerMMR: { [key: string]: { gameId: number; mmr: number }[] } = {};
 
