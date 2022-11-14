@@ -1,18 +1,17 @@
-import { Tag, TagLeftIcon } from '@chakra-ui/tag';
-import { Player } from '../types/domain/Player';
-import { getMmrColor, getMmrValue } from '../utils/mmrHelpers';
-import { GiWingedSword } from 'react-icons/gi';
 import { Text, Tooltip } from '@chakra-ui/react';
+import { Tag, TagLeftIcon } from '@chakra-ui/tag';
+import { GiWingedSword } from 'react-icons/gi';
+import { Player } from '../types/domain/Player';
 import { getSprColor, getSprValue } from '../utils/sprHelpers';
 
 export const SprTag = ({
     player,
     props,
 }: {
-    player: Player;
+    player?: Player;
     props?: { size?: string };
 }) => {
-    const rank = getSprValue(player);
+    const rank = player ? getSprValue(player) : 0;
     const playerIsRanked = rank > 0;
 
     return (
