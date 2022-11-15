@@ -1,27 +1,24 @@
-import { Tag, TagLeftIcon } from '@chakra-ui/tag';
-import { Player } from '../types/domain/Player';
-import { getMmrColor, getMmrValue } from '../utils/mmrHelpers';
-import { GiWingedSword } from 'react-icons/gi';
 import { Text, Tooltip } from '@chakra-ui/react';
+import { Tag, TagLeftIcon } from '@chakra-ui/tag';
+import { GiWingedSword } from 'react-icons/gi';
+import { Player } from '../types/domain/Player';
+import { getSprColor, getSprValue } from '../utils/sprHelpers';
 
 export const SprTag = ({
     player,
     props,
 }: {
-    player: Player;
+    player?: Player;
     props?: { size?: string };
 }) => {
-    // TODO: Renable this for season 1
-    //const rank = getMmrValue(player);
-    //const playerIsRanked = rank > 0;
-    const rank = 0;
-    const playerIsRanked = false;
+    const rank = player ? getSprValue(player) : 0;
+    const playerIsRanked = rank > 0;
 
     return (
         <Tooltip label='Season Power Ranking (SPR) is a grade for player performance within a season'>
             <Tag
                 textAlign='center'
-                bg={getMmrColor(rank)}
+                bg={getSprColor(rank)}
                 color={'gray.600'}
                 size={props?.size}
                 minW='100%'

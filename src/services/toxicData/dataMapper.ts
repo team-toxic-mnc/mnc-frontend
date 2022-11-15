@@ -1,9 +1,9 @@
 import { Champion } from '../../types/domain/Champion';
 import { Match } from '../../types/domain/Match';
-import { MmrHistoryItem } from '../../types/domain/MmrHistoryItem';
+import { GlickoHistoryItem } from '../../types/domain/GlickoHistoryItem';
 import { Player, PlayerRecord } from '../../types/domain/Player';
 import { MatchData } from '../../types/service/toxicData/MatchData';
-import { MmrPerMatchData } from '../../types/service/toxicData/MmrPerMatchData';
+import { GlickoPerMatchData } from '../../types/service/toxicData/GlickoPerMatchData';
 import { StatsData } from '../../types/service/toxicData/StatsData';
 
 export function mapStats(data: StatsData): {
@@ -220,7 +220,9 @@ export function mapMatchHistory(data: MatchData): Match[] {
     return sortedHistory;
 }
 
-export function mapMmrPerMatch(data: MmrPerMatchData[]): MmrHistoryItem[] {
+export function mapGlickoPerMatch(
+    data: GlickoPerMatchData[]
+): GlickoHistoryItem[] {
     return data.map((value, index) => {
         const players: { [key: string]: number } = {};
 

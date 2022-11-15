@@ -1,36 +1,45 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import { useCallback } from 'react';
 import { Champion } from '../../types/domain/Champion';
 import { Match } from '../../types/domain/Match';
-import { MmrHistoryItem } from '../../types/domain/MmrHistoryItem';
+import { GlickoHistoryItem } from '../../types/domain/GlickoHistoryItem';
 import { Player } from '../../types/domain/Player';
 import { MatchData } from '../../types/service/toxicData/MatchData';
-import { MmrData } from '../../types/service/toxicData/MmrData';
-import { MmrPerMatchData } from '../../types/service/toxicData/MmrPerMatchData';
+import { GlickoData } from '../../types/service/toxicData/GlickoData';
+import { GlickoPerMatchData } from '../../types/service/toxicData/GlickoPerMatchData';
 import { StatsData } from '../../types/service/toxicData/StatsData';
+import { TrueSkillData } from '../../types/service/toxicData/TrueSkillData';
 import {
     getChampionPickBanMap,
     mapMatchHistory,
-    mapMmrPerMatch,
+    mapGlickoPerMatch,
     mapStats,
 } from './dataMapper';
 
 const placementEndpoint =
     'https://toxic-api-production.gggrunt16.workers.dev/placement';
-const mmrPerMatchEndpoint =
+const glickoPerMatchEndpoint =
     'https://toxic-api-production.gggrunt16.workers.dev/mmr_per_match';
 const statsEndpoint =
     'https://toxic-api-production.gggrunt16.workers.dev/stats';
 const matchHistoryEndpoint =
     'https://toxic-api-production.gggrunt16.workers.dev/matches';
+const trueskillEndpoint =
+    'https://toxic-api-production.gggrunt16.workers.dev/trueskill';
 
-export const fetchPlayers = () =>
+export const fetchPlayers = (season?: number) =>
     axios
-        .get<MmrData>(placementEndpoint, {
-            headers: {
-                Accept: 'application/json',
-            },
-        })
+        .get<GlickoData>(
+            season
+                ? `${placementEndpoint}?season=${season.toString()}`
+                : placementEndpoint,
+            {
+                headers: {
+                    Accept: 'application/json',
+                },
+            }
+        )
         .then((res) => res.data);
 
 export const fetchStats = () =>
@@ -42,18 +51,32 @@ export const fetchStats = () =>
         })
         .then((res) => res.data);
 
-const fetchMmrPerMatch = () =>
+const fetchGlickoPerMatch = () =>
     axios
-        .get<MmrPerMatchData[]>(mmrPerMatchEndpoint, {
+        .get<GlickoPerMatchData[]>(glickoPerMatchEndpoint, {
             headers: {
                 Accept: 'application/json',
             },
         })
         .then((res) => res.data);
 
-const fetchMatchHistory = () =>
+const fetchMatchHistory = (season?: number) =>
     axios
-        .get<MatchData>(matchHistoryEndpoint, {
+        .get<MatchData>(
+            season
+                ? `${matchHistoryEndpoint}?season=${season.toString()}`
+                : matchHistoryEndpoint,
+            {
+                headers: {
+                    Accept: 'application/json',
+                },
+            }
+        )
+        .then((res) => res.data);
+
+const fetchTrueskill = () =>
+    axios
+        .get<TrueSkillData>(trueskillEndpoint, {
             headers: {
                 Accept: 'application/json',
             },
@@ -65,7 +88,7 @@ const usePlayerStats = () => {
         StatsData,
         Error,
         { players: Player[]; champions: { [id: string]: Champion } }
-    >(['stats'], fetchStats, {
+    >([`stats`], fetchStats, {
         select: (data) => {
             return mapStats(data);
         },
@@ -73,26 +96,56 @@ const usePlayerStats = () => {
     });
 };
 
-const usePlayersMmr = () => {
-    return useQuery<MmrData, Error>(['simpleMmr'], fetchPlayers, {
-        staleTime: 20000,
-    });
+const usePlayersGlicko = (season?: number) => {
+    const fetchPlayersFunc = useCallback(() => {
+        return fetchPlayers(season);
+    }, [season]);
+
+    return useQuery<GlickoData, Error>(
+        [`simpleMmr${season ?? ''}`],
+        fetchPlayersFunc,
+        {
+            staleTime: 20000,
+        }
+    );
 };
 
-const useMatchHistory = () => {
-    return useQuery<MatchData, Error>(['matchHistory'], fetchMatchHistory, {
-        staleTime: 2000,
-    });
-};
+const useMatchHistory = (season?: number) => {
+    const fetchMatchHistoryFunc = useCallback(() => {
+        return fetchMatchHistory(season);
+    }, [season]);
 
-const useMmrPerMatch = () => {
-    return useQuery<MmrPerMatchData[], Error>(
-        ['mmrPerMatch'],
-        fetchMmrPerMatch,
+    return useQuery<MatchData, Error>(
+        [`matchHistory${season ?? ''}`],
+        fetchMatchHistoryFunc,
         {
             staleTime: 2000,
         }
     );
+};
+
+const useGlickoPerMatch = () => {
+    return useQuery<GlickoPerMatchData[], Error>(
+        ['mmrPerMatch'],
+        fetchGlickoPerMatch,
+        {
+            staleTime: 2000,
+        }
+    );
+};
+
+const usePlayersTrueSkill = () => {
+    return useQuery<TrueSkillData, Error>(['trueskill'], fetchTrueskill, {
+        select: (data) => {
+            // we use all lower case ids, where this endpoint is giving us casing in the names
+            const result: TrueSkillData = {};
+            for (const entry of Object.entries(data)) {
+                result[entry[0].toLowerCase()] = entry[1];
+            }
+            return result;
+        },
+        staleTime: 20000,
+    });
 };
 
 type ServiceResponseBase = {
@@ -101,23 +154,40 @@ type ServiceResponseBase = {
 };
 
 export const ToxicDataService = {
-    usePlayers: (): { data: Player[] | undefined } & ServiceResponseBase => {
-        // gets the player information without MMR AND champion information
+    usePlayers: (
+        season?: number
+    ): { data: Player[] | undefined } & ServiceResponseBase => {
+        // gets the player information without glicko AND champion information
         const statsResponse = usePlayerStats();
 
-        // gets the player's MMR
-        const mmrResponse = usePlayersMmr();
+        // gets the player's glicko
+        const glickoResponse = usePlayersGlicko(season);
 
-        const isLoading = statsResponse.isLoading || mmrResponse.isLoading;
-        const isError = statsResponse.isError || mmrResponse.isError;
+        // gets the player's trueskill
+        const trueSkillResponse = usePlayersTrueSkill();
 
-        // merge mmr response and stats response here
-        if (statsResponse.data && mmrResponse.data) {
+        const isLoading =
+            statsResponse.isLoading ||
+            glickoResponse.isLoading ||
+            trueSkillResponse.isLoading;
+        const isError =
+            statsResponse.isError ||
+            glickoResponse.isError ||
+            trueSkillResponse.isError;
+
+        // merge glicko response, stats response, and trueskill response here
+        if (
+            statsResponse.data &&
+            glickoResponse.data &&
+            trueSkillResponse.data
+        ) {
             const players = statsResponse.data.players;
             const data = players.map((player) => {
+                const trueskill = trueSkillResponse.data[player.name];
                 return {
                     ...player,
-                    mmr: mmrResponse.data.mmr[player.name],
+                    glicko: glickoResponse.data.mmr[player.name],
+                    trueskill: trueskill ? trueskill.rating : 0,
                 };
             });
 
@@ -135,31 +205,48 @@ export const ToxicDataService = {
         }
     },
     usePlayer: (
-        id: string
+        id: string,
+        season?: number
     ): { data: Player | undefined } & ServiceResponseBase => {
-        // gets the player information without MMR AND champion information
+        // gets the player information without glicko AND champion information
         const statsResponse = usePlayerStats();
 
-        // gets the player's MMR
-        const mmrResponse = usePlayersMmr();
+        // gets the player's glicko
+        const glickoResponse = usePlayersGlicko(season);
 
-        const isLoading = statsResponse.isLoading || mmrResponse.isLoading;
-        const isError = statsResponse.isError || mmrResponse.isError;
+        // gets the player's trueskill
+        const trueSkillResponse = usePlayersTrueSkill();
 
-        // merge mmr response and stats response here
-        if (statsResponse.data && mmrResponse.data) {
+        const isLoading =
+            statsResponse.isLoading ||
+            glickoResponse.isLoading ||
+            trueSkillResponse.isLoading;
+        const isError =
+            statsResponse.isError ||
+            glickoResponse.isError ||
+            trueSkillResponse.isError;
+
+        // merge glicko response, stats response, and trueskill response here
+        if (
+            statsResponse.data &&
+            glickoResponse.data &&
+            trueSkillResponse.data
+        ) {
             const players = statsResponse.data.players;
             const playerData = players.find((player) => {
                 return player.name === id;
             });
 
-            const mmrData = Math.round(mmrResponse.data.mmr[id]);
+            const glickoData = Math.round(glickoResponse.data.mmr[id]);
 
             return {
                 data: {
                     ...playerData,
                     name: id,
-                    mmr: mmrData,
+                    glicko: glickoData,
+                    trueskill: playerData
+                        ? trueSkillResponse.data[playerData.name].rating
+                        : undefined,
                 },
                 isLoading,
                 isError,
@@ -172,14 +259,16 @@ export const ToxicDataService = {
             };
         }
     },
-    useChampions: (): {
+    useChampions: (
+        season?: number
+    ): {
         data: { [id: string]: Champion } | undefined;
     } & ServiceResponseBase => {
-        // gets the player information without MMR AND champion information
+        // gets the player information without glicko AND champion information
         const statsResponse = usePlayerStats();
 
         // gets the match history used to compute ban and pick rate
-        const matchHistoryResponse = useMatchHistory();
+        const matchHistoryResponse = useMatchHistory(season);
 
         const isLoading =
             statsResponse.isLoading || matchHistoryResponse.isLoading;
@@ -215,19 +304,20 @@ export const ToxicDataService = {
         }
     },
     useChampion: (
-        id: string
+        id: string,
+        season?: number
     ): { data: Champion | undefined } & ServiceResponseBase => {
-        // gets the player information without MMR AND champion information
+        // gets the player information without glicko AND champion information
         const statsResponse = usePlayerStats();
 
         // gets the match history used to compute ban and pick rate
-        const matchHistoryResponse = useMatchHistory();
+        const matchHistoryResponse = useMatchHistory(season);
 
         const isLoading =
             statsResponse.isLoading || matchHistoryResponse.isLoading;
         const isError = statsResponse.isError || matchHistoryResponse.isError;
 
-        // merge mmr response and stats response here
+        // merge glicko response and stats response here
         if (statsResponse.data && matchHistoryResponse.data) {
             const champion = statsResponse.data.champions[id];
 
@@ -254,10 +344,12 @@ export const ToxicDataService = {
             };
         }
     },
-    useMatchHistory: (): {
+    useMatchHistory: (
+        season?: number
+    ): {
         data: Match[] | undefined;
     } & ServiceResponseBase => {
-        const matchHistoryResponse = useMatchHistory();
+        const matchHistoryResponse = useMatchHistory(season);
 
         if (matchHistoryResponse.data) {
             const matchData = matchHistoryResponse.data;
@@ -274,23 +366,23 @@ export const ToxicDataService = {
             };
         }
     },
-    useMmrPerMatch: (): {
-        data: MmrHistoryItem[] | undefined;
+    useGlickoPerMatch: (): {
+        data: GlickoHistoryItem[] | undefined;
     } & ServiceResponseBase => {
-        const mmrPerMatchResponse = useMmrPerMatch();
+        const glickoPerMatchResponse = useGlickoPerMatch();
 
-        if (mmrPerMatchResponse.data) {
-            const mmrData = mmrPerMatchResponse.data;
+        if (glickoPerMatchResponse.data) {
+            const glickoData = glickoPerMatchResponse.data;
             return {
-                data: mapMmrPerMatch(mmrData),
-                isLoading: mmrPerMatchResponse.isLoading,
-                isError: mmrPerMatchResponse.isError,
+                data: mapGlickoPerMatch(glickoData),
+                isLoading: glickoPerMatchResponse.isLoading,
+                isError: glickoPerMatchResponse.isError,
             };
         } else {
             return {
                 data: undefined,
-                isLoading: mmrPerMatchResponse.isLoading,
-                isError: mmrPerMatchResponse.isError,
+                isLoading: glickoPerMatchResponse.isLoading,
+                isError: glickoPerMatchResponse.isError,
             };
         }
     },

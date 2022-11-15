@@ -69,12 +69,12 @@ export const statsReducer = createReducer(initialState, (builder) => {
                 if (currentPlayer) {
                     state.players[player.name] = {
                         ...currentPlayer,
-                        mmr: player.mmr,
+                        glicko: player.glicko,
                     };
                 } else {
                     state.players[player.name] = {
                         name: player.name,
-                        mmr: player.mmr,
+                        glicko: player.glicko,
                     };
                 }
             }

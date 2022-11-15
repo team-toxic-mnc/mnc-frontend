@@ -1,11 +1,12 @@
 export type Season = {
+    id?: number;
     name: string;
     active: boolean;
 };
 
 export const Seasons: { [key: string]: Season } = {
-    ALL_SEASONS: { name: 'All Seasons', active: false },
-    // SEASON_ONE: { name: 'Season 1', active: true },
+    ALL_SEASONS: { name: 'All Seasons', active: false, id: undefined },
+    SEASON_ONE: { name: 'Season 1', active: true, id: 1 },
 };
 
 export const getSeasons = (): Array<Season> => {

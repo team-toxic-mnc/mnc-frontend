@@ -40,8 +40,7 @@ interface LinkItemProps {
 }
 const LinkItems: Array<LinkItemProps> = [
     { name: 'Home', icon: FiHome, route: '/' },
-    // TODO: HIDE THIS UNTIL SEASON 1
-    // { name: 'Leaderboard', icon: FiAward, route: '/leaderboard' },
+    { name: 'Leaderboard', icon: FiAward, route: '/leaderboard' },
     { name: 'Player Overview', icon: FiUsers, route: '/playerOverview' },
     { name: 'Champion Overview', icon: FiShield, route: '/championOverview' },
     { name: 'Match History', icon: FiCalendar, route: '/matchHistory' },

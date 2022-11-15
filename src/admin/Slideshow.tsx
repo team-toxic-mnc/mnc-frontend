@@ -126,7 +126,7 @@ export const Slideshow = React.memo(function Slideshow({
     const sortedPlayers = players
         ? players
               .filter((value) => (value.wins ?? 0) + (value.losses ?? 0) >= 10)
-              .sort((a, b) => (b.mmr ?? 0) - (a.mmr ?? 0))
+              .sort((a, b) => (b.glicko ?? 0) - (a.glicko ?? 0))
         : [];
 
     // sort the champions by win rate
@@ -192,22 +192,22 @@ export const Slideshow = React.memo(function Slideshow({
                     <h1 style={styles.header}>LATEST MMR STANDINGS</h1>
                     <StatsRow
                         name={sortedPlayers[0].name}
-                        value={sortedPlayers[0].mmr}
+                        value={sortedPlayers[0].glicko}
                         valueType={StatsRowValueType.mmr}
                     />
                     <StatsRow
                         name={sortedPlayers[1].name}
-                        value={sortedPlayers[1].mmr}
+                        value={sortedPlayers[1].glicko}
                         valueType={StatsRowValueType.mmr}
                     />
                     <StatsRow
                         name={sortedPlayers[2].name}
-                        value={sortedPlayers[2].mmr}
+                        value={sortedPlayers[2].glicko}
                         valueType={StatsRowValueType.mmr}
                     />
                     <StatsRow
                         name={sortedPlayers[3].name}
-                        value={sortedPlayers[3].mmr}
+                        value={sortedPlayers[3].glicko}
                         valueType={StatsRowValueType.mmr}
                     />
                 </div>
@@ -217,22 +217,22 @@ export const Slideshow = React.memo(function Slideshow({
                     <h1 style={styles.header}>{'LATEST MMR STANDINGS'}</h1>
                     <StatsRow
                         name={sortedPlayers[4].name}
-                        value={sortedPlayers[4].mmr}
+                        value={sortedPlayers[4].glicko}
                         valueType={StatsRowValueType.mmr}
                     />
                     <StatsRow
                         name={sortedPlayers[5].name}
-                        value={sortedPlayers[5].mmr}
+                        value={sortedPlayers[5].glicko}
                         valueType={StatsRowValueType.mmr}
                     />
                     <StatsRow
                         name={sortedPlayers[6].name}
-                        value={sortedPlayers[6].mmr}
+                        value={sortedPlayers[6].glicko}
                         valueType={StatsRowValueType.mmr}
                     />
                     <StatsRow
                         name={sortedPlayers[7].name}
-                        value={sortedPlayers[7].mmr}
+                        value={sortedPlayers[7].glicko}
                         valueType={StatsRowValueType.mmr}
                     />
                 </div>
@@ -242,22 +242,22 @@ export const Slideshow = React.memo(function Slideshow({
                     <h1 style={styles.header}>{'LATEST MMR STANDINGS'}</h1>
                     <StatsRow
                         name={sortedPlayers[8].name}
-                        value={sortedPlayers[8].mmr}
+                        value={sortedPlayers[8].glicko}
                         valueType={StatsRowValueType.mmr}
                     />
                     <StatsRow
                         name={sortedPlayers[9].name}
-                        value={sortedPlayers[9].mmr}
+                        value={sortedPlayers[9].glicko}
                         valueType={StatsRowValueType.mmr}
                     />
                     <StatsRow
                         name={sortedPlayers[10].name}
-                        value={sortedPlayers[10].mmr}
+                        value={sortedPlayers[10].glicko}
                         valueType={StatsRowValueType.mmr}
                     />
                     <StatsRow
                         name={sortedPlayers[11].name}
-                        value={sortedPlayers[11].mmr}
+                        value={sortedPlayers[11].glicko}
                         valueType={StatsRowValueType.mmr}
                     />
                 </div>
@@ -267,22 +267,22 @@ export const Slideshow = React.memo(function Slideshow({
                     <h1 style={styles.header}>{'LATEST MMR STANDINGS'}</h1>
                     <StatsRow
                         name={sortedPlayers[12].name}
-                        value={sortedPlayers[12].mmr}
+                        value={sortedPlayers[12].glicko}
                         valueType={StatsRowValueType.mmr}
                     />
                     <StatsRow
                         name={sortedPlayers[13].name}
-                        value={sortedPlayers[13].mmr}
+                        value={sortedPlayers[13].glicko}
                         valueType={StatsRowValueType.mmr}
                     />
                     <StatsRow
                         name={sortedPlayers[14].name}
-                        value={sortedPlayers[14].mmr}
+                        value={sortedPlayers[14].glicko}
                         valueType={StatsRowValueType.mmr}
                     />
                     <StatsRow
                         name={sortedPlayers[15].name}
-                        value={sortedPlayers[15].mmr}
+                        value={sortedPlayers[15].glicko}
                         valueType={StatsRowValueType.mmr}
                     />
                 </div>

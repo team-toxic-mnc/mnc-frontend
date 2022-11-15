@@ -1,5 +1,5 @@
-export interface MmrData {
+export type GlickoPerMatchData = {
     mmr: {
         [key: string]: number;
     };
-}
+};

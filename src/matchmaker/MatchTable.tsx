@@ -12,18 +12,18 @@ import {
 } from '@chakra-ui/react';
 import { Player } from '../types/domain/Player';
 
-function getPlayerMmrText(player: Player): string {
+function getPlayerSprText(player: Player): string {
     const totalGames = (player.wins ?? 0) + (player.losses ?? 0);
     return totalGames >= 10
-        ? `(${Math.round(player.mmr ?? 0).toString()})`
+        ? `(${Math.round(player.glicko ?? 0).toString()})`
         : `(unrated)`;
 }
 
-const getTeamMmr = (team: readonly Player[]) => {
+const getTeamSpr = (team: readonly Player[]) => {
     return Math.round(
         team.reduce(
             (teamMmr, player) =>
-                player.mmr ? teamMmr + player.mmr : teamMmr + 1500,
+                player.glicko ? teamMmr + player.glicko : teamMmr + 1500,
             0
         ) / 5
     );
@@ -69,10 +69,10 @@ export const MatchTable = ({
                         <Thead>
                             <Tr>
                                 <Th color='blue.500'>
-                                    Blue Team ({getTeamMmr(blueTeam)})
+                                    Blue Team ({getTeamSpr(blueTeam)})
                                 </Th>
                                 <Th color='red.600' textAlign='right'>
-                                    Red Team ({getTeamMmr(redTeam)})
+                                    Red Team ({getTeamSpr(redTeam)})
                                 </Th>
                             </Tr>
                         </Thead>
@@ -80,51 +80,51 @@ export const MatchTable = ({
                             <Tr>
                                 <Td>
                                     {blueTeam[0].name}{' '}
-                                    {getPlayerMmrText(blueTeam[0])}
+                                    {getPlayerSprText(blueTeam[0])}
                                 </Td>
                                 <Td textAlign='right'>
                                     {redTeam[0].name}{' '}
-                                    {getPlayerMmrText(redTeam[0])}
+                                    {getPlayerSprText(redTeam[0])}
                                 </Td>
                             </Tr>
                             <Tr>
                                 <Td>
                                     {blueTeam[1].name}{' '}
-                                    {getPlayerMmrText(blueTeam[1])}
+                                    {getPlayerSprText(blueTeam[1])}
                                 </Td>
                                 <Td textAlign='right'>
                                     {redTeam[1].name}{' '}
-                                    {getPlayerMmrText(redTeam[1])}
+                                    {getPlayerSprText(redTeam[1])}
                                 </Td>
                             </Tr>
                             <Tr>
                                 <Td>
                                     {blueTeam[2].name}{' '}
-                                    {getPlayerMmrText(blueTeam[2])}
+                                    {getPlayerSprText(blueTeam[2])}
                                 </Td>
                                 <Td textAlign='right'>
                                     {redTeam[2].name}{' '}
-                                    {getPlayerMmrText(redTeam[2])}
+                                    {getPlayerSprText(redTeam[2])}
                                 </Td>
                             </Tr>
                             <Tr>
                                 <Td>
                                     {blueTeam[3].name}{' '}
-                                    {getPlayerMmrText(blueTeam[3])}
+                                    {getPlayerSprText(blueTeam[3])}
                                 </Td>
                                 <Td textAlign='right'>
                                     {redTeam[3].name}{' '}
-                                    {getPlayerMmrText(redTeam[3])}
+                                    {getPlayerSprText(redTeam[3])}
                                 </Td>
                             </Tr>
                             <Tr>
                                 <Td>
                                     {blueTeam[4].name}{' '}
-                                    {getPlayerMmrText(blueTeam[4])}
+                                    {getPlayerSprText(blueTeam[4])}
                                 </Td>
                                 <Td textAlign='right'>
                                     {redTeam[4].name}{' '}
-                                    {getPlayerMmrText(redTeam[4])}
+                                    {getPlayerSprText(redTeam[4])}
                                 </Td>
                             </Tr>
                         </Tbody>
