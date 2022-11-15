@@ -252,7 +252,14 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                             {
                                 // TODO: For season 1, we need to add the SPR rank here
                             }
-                            <SprCard player={player} sprTrend={0} />
+                            <SprCard
+                                player={
+                                    season?.value === Seasons.ALL_SEASONS
+                                        ? undefined
+                                        : player
+                                }
+                                sprTrend={0}
+                            />
                         </Flex>
                         <Flex margin='4' flex='1' maxWidth='320'>
                             <Radar data={chartData} />

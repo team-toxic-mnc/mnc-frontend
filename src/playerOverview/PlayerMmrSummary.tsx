@@ -11,11 +11,11 @@ import {
 } from 'chart.js';
 import React from 'react';
 import { Line } from 'react-chartjs-2';
-import { FiCheck, FiChevronDown, FiChevronUp, FiMinus } from 'react-icons/fi';
 import { ToxicDataService } from '../services/toxicData/ToxicDataService';
 import { Player } from '../types/domain/Player';
 import {
     getMmrTrendingChange,
+    getMmrValue,
     mapMmrHistoryCollectionToPlayerMmrHistoryMap,
 } from '../utils/mmrHelpers';
 
@@ -60,7 +60,9 @@ export const PlayerMmrSummary = React.memo(function PlayerMmrSummary({
 }: {
     player: Player;
 }) {
-    const mmrPerMatchResponse = ToxicDataService.useMmrPerMatch();
+    /* Add back when we have a trueskill-per-match endpoint
+
+    const mmrPerMatchResponse = ToxicDataService.useGlickoPerMatch();
     const mmrPerMatch = mmrPerMatchResponse.data ?? [];
     const mmrPerMatchMap =
         mapMmrHistoryCollectionToPlayerMmrHistoryMap(mmrPerMatch);
@@ -95,13 +97,22 @@ export const PlayerMmrSummary = React.memo(function PlayerMmrSummary({
         ],
     };
 
+    */
+
+    const mmr = getMmrValue(player);
+
     return (
         <Flex direction='column'>
-            {playerMmrPerMatchSliced.length > 1 ? (
+            <UiTooltip label='Lifetime Match Making Rank (MMR) used for matchmaking purposes only'>
+                <Flex direction='row' justify='center' align='center'>
+                    <h1 style={{ fontSize: 60 }}>{mmr}</h1>
+                </Flex>
+            </UiTooltip>
+            {/* {playerMmrPerMatchSliced.length > 1 ? (
                 <>
                     <UiTooltip label='Lifetime Match Making Rank (MMR) used for matchmaking purposes only'>
                         <Flex direction='row' justify='center' align='center'>
-                            <h1 style={{ fontSize: 60 }}>{player.mmr}</h1>
+                            <h1 style={{ fontSize: 60 }}>{player.glicko}</h1>
                         </Flex>
                     </UiTooltip>
                     <Line
@@ -136,7 +147,7 @@ export const PlayerMmrSummary = React.memo(function PlayerMmrSummary({
                         {`Player needs to complete more games.`}
                     </h1>
                 </Flex>
-            )}
+            )} */}
         </Flex>
     );
 });

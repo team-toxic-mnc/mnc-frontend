@@ -1,16 +1,11 @@
 import { Flex, Heading } from '@chakra-ui/react';
 import { ColumnDef, createColumnHelper, Row } from '@tanstack/react-table';
 import React from 'react';
-import { FiChevronDown, FiChevronUp, FiMinus } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { SortableTable } from '../components/SortableTable';
 import { SprTag } from '../components/SprTag';
 import { ToxicDataService } from '../services/toxicData/ToxicDataService';
 import { Player } from '../types/domain/Player';
-import {
-    getMmrTrendingChange,
-    mapMmrHistoryCollectionToPlayerMmrHistoryMap,
-} from '../utils/mmrHelpers';
 import { getSprValue } from '../utils/sprHelpers';
 
 type PlayerTableData = {
