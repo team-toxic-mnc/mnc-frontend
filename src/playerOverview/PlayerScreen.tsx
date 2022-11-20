@@ -102,11 +102,14 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
         formatSeasonSelectOption(Seasons.SEASON_ONE)
     );
 
-    const playerResponse = ToxicDataService.usePlayer(
+    const playerResponse = ToxicDataService.usePlayer(playerId ?? '');
+    const player = playerResponse.data;
+
+    const seasonPlayerResponse = ToxicDataService.usePlayer(
         playerId ?? '',
         season?.value.id
     );
-    const player = playerResponse.data;
+    const seasonPlayer = seasonPlayerResponse.data;
 
     const championIdMapResponse = DataDragonService.useChampionIdMap();
     const championIdMap = championIdMapResponse.data ?? {};
@@ -164,12 +167,12 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
         return <Loading />;
     }
 
-    if (player === undefined) {
+    if (player === undefined || seasonPlayer === undefined) {
         return <Error error={'Player not found!'} />;
     }
 
     const playerChampionData: Champion[] = processPlayerChampions(
-        player,
+        seasonPlayer,
         championIdMap
     );
 
