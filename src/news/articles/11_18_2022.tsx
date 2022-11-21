@@ -10,6 +10,14 @@ export default function ARTICLE_11_18_2022() {
                 and how will they impact you?
             </p>
 
+            <img
+                style={paragraphStyle}
+                src={
+                    'https://cdn.discordapp.com/attachments/1044352840161820803/1044376086412275783/spr_mmr.jpg'
+                }
+                alt='spr_mmr_diagram'
+            />
+
             <h1 style={{ fontSize: 20, fontWeight: 'bold', marginTop: 16 }}>
                 MMR
             </h1>
@@ -21,32 +29,6 @@ export default function ARTICLE_11_18_2022() {
                 accurate and stable over many matches and provide fairer
                 matchmaking.
             </p>
-
-            <h1 style={{ fontSize: 20, fontWeight: 'bold', marginTop: 16 }}>
-                SPR
-            </h1>
-            <p style={paragraphStyle}>
-                SPR is "Season Power Ranking" and a players "ranking" for a
-                single season. SPRs will be reset each season, and each player
-                who has played at least once game since the start of the season
-                now officially has an SPR! The purpose of the SPR system is to
-                provide a way to competitively rank players within a season;
-                while MMRs remain relatively stable and work silently in the
-                background to support fair matchmaking, SPRs will change a lot
-                more dramatically and will determine exactly who is at the top
-                of the Season leaderboard.
-            </p>
-            <img
-                style={paragraphStyle}
-                src={
-                    'https://cdn.discordapp.com/attachments/1044352840161820803/1044376086412275783/spr_mmr.jpg'
-                }
-                alt='spr_mmr_diagram'
-            />
-
-            <h1 style={{ fontSize: 20, fontWeight: 'bold', marginTop: 16 }}>
-                Site Updates
-            </h1>
 
             <p style={paragraphStyle}>
                 Since MMR is no longer being used to rank players, it's been
@@ -62,6 +44,21 @@ export default function ARTICLE_11_18_2022() {
                 src='https://cdn.discordapp.com/attachments/1044352840161820803/1044374473484271697/image.png'
                 alt='mmr'
             ></img>
+
+            <h1 style={{ fontSize: 20, fontWeight: 'bold', marginTop: 16 }}>
+                SPR
+            </h1>
+            <p style={paragraphStyle}>
+                SPR is "Season Power Ranking" and a players "ranking" for a
+                single season. SPRs will be reset each season, and each player
+                who has played at least once game since the start of the season
+                now officially has an SPR! The purpose of the SPR system is to
+                provide a way to competitively rank players within a season;
+                while MMRs remain relatively stable and work silently in the
+                background to support fair matchmaking, SPRs will change a lot
+                more dramatically and will determine exactly who is at the top
+                of the Season leaderboard.
+            </p>
 
             <p style={paragraphStyle}>
                 SPRs can be found on both an individual player overview and on
