@@ -8,6 +8,7 @@ import { ARTICLES } from './NewsData';
 import { Error } from '../components/Error';
 import ARTICLE_10_20_2022 from './articles/10_20_2022';
 import { FiArrowLeft } from 'react-icons/fi';
+import ARTICLE_11_18_2022 from './articles/11_18_2022';
 
 export async function loader(data: { params: any }) {
     return data.params.newsId;
@@ -17,6 +18,8 @@ function articleLookup(articleId: string) {
     switch (articleId) {
         case '1':
             return <ARTICLE_10_20_2022 />;
+        case '2':
+            return <ARTICLE_11_18_2022 />;
         default:
             return null;
     }
