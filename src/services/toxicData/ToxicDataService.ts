@@ -144,13 +144,13 @@ const useMatchHistory = (season?: number) => {
 };
 
 const useGlickoPerMatch = (season?: number) => {
-    const fetchGilckoFunc = useCallback(() => {
+    const fetchGlickoFunc = useCallback(() => {
         return fetchGlickoPerMatch(season);
     }, [season]);
 
     return useQuery<GlickoPerMatchData[], Error>(
         [`mmrPerMatch${season ?? ''}`],
-        fetchGilckoFunc,
+        fetchGlickoFunc,
         {
             staleTime: 2000,
         }

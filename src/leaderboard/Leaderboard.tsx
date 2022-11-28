@@ -6,7 +6,6 @@ import { SortableTable } from '../components/SortableTable';
 import { SprTag } from '../components/SprTag';
 import { ToxicDataService } from '../services/toxicData/ToxicDataService';
 import { Player } from '../types/domain/Player';
-import { getSprValue } from '../utils/sprHelpers';
 
 type PlayerTableData = {
     name: string;
@@ -14,7 +13,6 @@ type PlayerTableData = {
     winPercentage: string;
     losses: number;
     totalGames: number;
-    spr: number;
     // mmrChange: number;
 };
 
@@ -28,9 +26,6 @@ const processPlayers = (
 ): PlayerTableData[] => {
     return players
         ? players
-              .filter(
-                  (player) => (player.wins ?? 0) + (player.losses ?? 0) > 10
-              )
               .sort((a, b) => a.name.localeCompare(b.name))
               .map((player) => {
                   const wins = player.wins ?? 0;
@@ -44,7 +39,6 @@ const processPlayers = (
                       winPercentage:
                           Math.round((wins / totalGames) * 100) + '%',
                       totalGames: totalGames,
-                      spr: totalGames >= 10 ? getSprValue(player) : 0,
                       // mmrChange:
                       //     totalGames > 10 ? getMmrTrendingChange(mmr) : -999,
                   };
@@ -84,7 +78,7 @@ const columns: ColumnDef<PlayerTableData, any>[] = [
             isNumeric: true,
         },
     }),
-    columnHelper.accessor((row) => row.spr, {
+    columnHelper.accessor((row) => row, {
         id: 'spr',
         cell: (info) => {
             return <SprTag props={{ size: 'md' }} player={info.row.original} />;
