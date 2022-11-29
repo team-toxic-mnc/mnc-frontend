@@ -42,22 +42,32 @@ export const fetchPlayers = (season?: number) =>
         )
         .then((res) => res.data);
 
-export const fetchStats = () =>
+export const fetchStats = (season?: number) =>
     axios
-        .get<StatsData>(statsEndpoint, {
-            headers: {
-                Accept: 'application/json',
-            },
-        })
+        .get<StatsData>(
+            season
+                ? `${statsEndpoint}?season=${season.toString()}`
+                : statsEndpoint,
+            {
+                headers: {
+                    Accept: 'application/json',
+                },
+            }
+        )
         .then((res) => res.data);
 
-const fetchGlickoPerMatch = () =>
+const fetchGlickoPerMatch = (season?: number) =>
     axios
-        .get<GlickoPerMatchData[]>(glickoPerMatchEndpoint, {
-            headers: {
-                Accept: 'application/json',
-            },
-        })
+        .get<GlickoPerMatchData[]>(
+            season
+                ? `${glickoPerMatchEndpoint}?season=${season.toString()}`
+                : glickoPerMatchEndpoint,
+            {
+                headers: {
+                    Accept: 'application/json',
+                },
+            }
+        )
         .then((res) => res.data);
 
 const fetchMatchHistory = (season?: number) =>
@@ -74,21 +84,30 @@ const fetchMatchHistory = (season?: number) =>
         )
         .then((res) => res.data);
 
-const fetchTrueskill = () =>
+const fetchTrueskill = (season?: number) =>
     axios
-        .get<TrueSkillData>(trueskillEndpoint, {
-            headers: {
-                Accept: 'application/json',
-            },
-        })
+        .get<TrueSkillData>(
+            season
+                ? `${trueskillEndpoint}?season=${season.toString()}`
+                : trueskillEndpoint,
+            {
+                headers: {
+                    Accept: 'application/json',
+                },
+            }
+        )
         .then((res) => res.data);
 
-const usePlayerStats = () => {
+const usePlayerStats = (season?: number) => {
+    const fetchStatsFunc = useCallback(() => {
+        return fetchStats(season);
+    }, [season]);
+
     return useQuery<
         StatsData,
         Error,
         { players: Player[]; champions: { [id: string]: Champion } }
-    >([`stats`], fetchStats, {
+    >([`stats${season ?? ''}`], fetchStatsFunc, {
         select: (data) => {
             return mapStats(data);
         },
@@ -124,18 +143,26 @@ const useMatchHistory = (season?: number) => {
     );
 };
 
-const useGlickoPerMatch = () => {
+const useGlickoPerMatch = (season?: number) => {
+    const fetchGlickoFunc = useCallback(() => {
+        return fetchGlickoPerMatch(season);
+    }, [season]);
+
     return useQuery<GlickoPerMatchData[], Error>(
-        ['mmrPerMatch'],
-        fetchGlickoPerMatch,
+        [`mmrPerMatch${season ?? ''}`],
+        fetchGlickoFunc,
         {
             staleTime: 2000,
         }
     );
 };
 
-const usePlayersTrueSkill = () => {
-    return useQuery<TrueSkillData, Error>(['trueskill'], fetchTrueskill, {
+const usePlayersTrueSkill = (season?: number) => {
+    const func = useCallback(() => {
+        return fetchTrueskill(season);
+    }, [season]);
+
+    return useQuery<TrueSkillData, Error>([`trueskill${season ?? ''}`], func, {
         select: (data) => {
             // we use all lower case ids, where this endpoint is giving us casing in the names
             const result: TrueSkillData = {};
@@ -158,13 +185,13 @@ export const ToxicDataService = {
         season?: number
     ): { data: Player[] | undefined } & ServiceResponseBase => {
         // gets the player information without glicko AND champion information
-        const statsResponse = usePlayerStats();
+        const statsResponse = usePlayerStats(season);
 
         // gets the player's glicko
         const glickoResponse = usePlayersGlicko(season);
 
         // gets the player's trueskill
-        const trueSkillResponse = usePlayersTrueSkill();
+        const trueSkillResponse = usePlayersTrueSkill(season);
 
         const isLoading =
             statsResponse.isLoading ||
@@ -209,13 +236,13 @@ export const ToxicDataService = {
         season?: number
     ): { data: Player | undefined } & ServiceResponseBase => {
         // gets the player information without glicko AND champion information
-        const statsResponse = usePlayerStats();
+        const statsResponse = usePlayerStats(season);
 
         // gets the player's glicko
         const glickoResponse = usePlayersGlicko(season);
 
         // gets the player's trueskill
-        const trueSkillResponse = usePlayersTrueSkill();
+        const trueSkillResponse = usePlayersTrueSkill(season);
 
         const isLoading =
             statsResponse.isLoading ||
@@ -265,7 +292,7 @@ export const ToxicDataService = {
         data: { [id: string]: Champion } | undefined;
     } & ServiceResponseBase => {
         // gets the player information without glicko AND champion information
-        const statsResponse = usePlayerStats();
+        const statsResponse = usePlayerStats(season);
 
         // gets the match history used to compute ban and pick rate
         const matchHistoryResponse = useMatchHistory(season);
@@ -308,7 +335,7 @@ export const ToxicDataService = {
         season?: number
     ): { data: Champion | undefined } & ServiceResponseBase => {
         // gets the player information without glicko AND champion information
-        const statsResponse = usePlayerStats();
+        const statsResponse = usePlayerStats(season);
 
         // gets the match history used to compute ban and pick rate
         const matchHistoryResponse = useMatchHistory(season);
