@@ -6,6 +6,7 @@ import { SortableTable } from '../components/SortableTable';
 import { SprTag } from '../components/SprTag';
 import { ToxicDataService } from '../services/toxicData/ToxicDataService';
 import { Player } from '../types/domain/Player';
+import { getSprValue } from '../utils/sprHelpers';
 
 type PlayerTableData = {
     name: string;
@@ -13,6 +14,7 @@ type PlayerTableData = {
     winPercentage: string;
     losses: number;
     totalGames: number;
+    spr: number;
     // mmrChange: number;
 };
 
@@ -31,14 +33,16 @@ const processPlayers = (
                   const wins = player.wins ?? 0;
                   const losses = player.losses ?? 0;
                   const totalGames = wins + losses;
-                  // const spr = mmrMap[player.name] ?? [];
+                  const winPercentage =
+                      Math.round((wins / totalGames) * 100) + '%';
+                  const spr = getSprValue(player);
                   return {
                       ...player,
                       wins,
                       losses,
-                      winPercentage:
-                          Math.round((wins / totalGames) * 100) + '%',
+                      winPercentage: winPercentage,
                       totalGames: totalGames,
+                      spr: spr,
                       // mmrChange:
                       //     totalGames > 10 ? getMmrTrendingChange(mmr) : -999,
                   };
@@ -78,10 +82,10 @@ const columns: ColumnDef<PlayerTableData, any>[] = [
             isNumeric: true,
         },
     }),
-    columnHelper.accessor((row) => row, {
+    columnHelper.accessor((row) => row.spr, {
         id: 'spr',
         cell: (info) => {
-            return <SprTag props={{ size: 'md' }} value={info.row.original} />;
+            return <SprTag props={{ size: 'md' }} value={info.getValue()} />;
         },
         header: () => <span>SPR</span>,
         meta: {
@@ -149,6 +153,7 @@ export const Leaderboard = React.memo(function Leaderboard() {
             <SortableTable
                 columns={columns}
                 data={processedData}
+                defaultSort={[{ id: 'spr', desc: true }]}
                 getRowProps={(row: Row<any>) => {
                     return {
                         onClick: () => {
