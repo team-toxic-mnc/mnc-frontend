@@ -1,6 +1,7 @@
 import {
     Button,
     Flex,
+    ResponsiveValue,
     Table,
     TableContainer,
     Tbody,
@@ -10,22 +11,30 @@ import {
     Tr,
     useToast,
 } from '@chakra-ui/react';
+import { TextAlign } from 'chart.js';
 import { Player } from '../types/domain/Player';
+import { getMmrValue, INITIAL_MMR } from '../utils/mmrHelpers';
 
-function getPlayerSprText(player: Player): string {
-    const totalGames = (player.wins ?? 0) + (player.losses ?? 0);
-    return totalGames >= 10
-        ? `(${Math.round(player.glicko ?? 0).toString()})`
-        : `(unrated)`;
-}
-
-const getTeamSpr = (team: readonly Player[]) => {
+const getTeamMmr = (team: readonly Player[]): number => {
     return Math.round(
-        team.reduce(
-            (teamMmr, player) =>
-                player.glicko ? teamMmr + player.glicko : teamMmr + 1500,
-            0
-        ) / 5
+        team.reduce((teamMmr, player) => {
+            const playerMmr = getMmrValue(player);
+            return playerMmr > 0 ? teamMmr + playerMmr : teamMmr + INITIAL_MMR;
+        }, 0) / 5
+    );
+};
+
+const PlayerCell = ({
+    player,
+    rightAlign,
+}: {
+    player: Player;
+    rightAlign?: boolean;
+}) => {
+    return (
+        <Td textAlign={rightAlign ? 'right' : 'left'}>
+            {player.name} ({getMmrValue(player)})
+        </Td>
     );
 };
 
@@ -69,63 +78,33 @@ export const MatchTable = ({
                         <Thead>
                             <Tr>
                                 <Th color='blue.500'>
-                                    Blue Team ({getTeamSpr(blueTeam)})
+                                    Blue Team ({getTeamMmr(blueTeam)})
                                 </Th>
                                 <Th color='red.600' textAlign='right'>
-                                    Red Team ({getTeamSpr(redTeam)})
+                                    Red Team ({getTeamMmr(redTeam)})
                                 </Th>
                             </Tr>
                         </Thead>
                         <Tbody>
                             <Tr>
-                                <Td>
-                                    {blueTeam[0].name}{' '}
-                                    {getPlayerSprText(blueTeam[0])}
-                                </Td>
-                                <Td textAlign='right'>
-                                    {redTeam[0].name}{' '}
-                                    {getPlayerSprText(redTeam[0])}
-                                </Td>
+                                <PlayerCell player={blueTeam[0]} />
+                                <PlayerCell player={redTeam[0]} rightAlign />
                             </Tr>
                             <Tr>
-                                <Td>
-                                    {blueTeam[1].name}{' '}
-                                    {getPlayerSprText(blueTeam[1])}
-                                </Td>
-                                <Td textAlign='right'>
-                                    {redTeam[1].name}{' '}
-                                    {getPlayerSprText(redTeam[1])}
-                                </Td>
+                                <PlayerCell player={blueTeam[1]} />
+                                <PlayerCell player={redTeam[1]} rightAlign />
                             </Tr>
                             <Tr>
-                                <Td>
-                                    {blueTeam[2].name}{' '}
-                                    {getPlayerSprText(blueTeam[2])}
-                                </Td>
-                                <Td textAlign='right'>
-                                    {redTeam[2].name}{' '}
-                                    {getPlayerSprText(redTeam[2])}
-                                </Td>
+                                <PlayerCell player={blueTeam[2]} />
+                                <PlayerCell player={redTeam[2]} rightAlign />
                             </Tr>
                             <Tr>
-                                <Td>
-                                    {blueTeam[3].name}{' '}
-                                    {getPlayerSprText(blueTeam[3])}
-                                </Td>
-                                <Td textAlign='right'>
-                                    {redTeam[3].name}{' '}
-                                    {getPlayerSprText(redTeam[3])}
-                                </Td>
+                                <PlayerCell player={blueTeam[3]} />
+                                <PlayerCell player={redTeam[3]} rightAlign />
                             </Tr>
                             <Tr>
-                                <Td>
-                                    {blueTeam[4].name}{' '}
-                                    {getPlayerSprText(blueTeam[4])}
-                                </Td>
-                                <Td textAlign='right'>
-                                    {redTeam[4].name}{' '}
-                                    {getPlayerSprText(redTeam[4])}
-                                </Td>
+                                <PlayerCell player={blueTeam[4]} />
+                                <PlayerCell player={redTeam[4]} rightAlign />
                             </Tr>
                         </Tbody>
                     </Table>
