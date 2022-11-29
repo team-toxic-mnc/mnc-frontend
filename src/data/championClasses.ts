@@ -56,6 +56,7 @@ export function championClassWinRates(champions: Champion[]) {
     return classWinRate;
 }
 
+// from the league of legends fandom wiki
 export const ChampionClassMap: { [id: string]: ChampionClass[] } = {
     Camille: [ChampionClass.Diver],
     Elise: [ChampionClass.Diver],
@@ -218,4 +219,5 @@ export const ChampionClassMap: { [id: string]: ChampionClass[] } = {
     Poppy: [ChampionClass.Warden],
     Shen: [ChampionClass.Warden],
     'Tahm Kench': [ChampionClass.Warden],
+    "K'Sante": [ChampionClass.Warden, ChampionClass.Skirmishers],
 };

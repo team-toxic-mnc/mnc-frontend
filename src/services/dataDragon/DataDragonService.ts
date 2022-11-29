@@ -4,7 +4,7 @@ import { Champions } from '../../types/service/dataDragon/DataDragonChampions';
 import { mapChampions } from './dataMapper';
 
 const championDataEndpoint =
-    'https://ddragon.leagueoflegends.com/cdn/12.17.1/data/en_US/champion.json';
+    'https://ddragon.leagueoflegends.com/cdn/12.22.1/data/en_US/champion.json';
 
 const fetchChampions = () =>
     axios
