@@ -11,10 +11,10 @@ import { Player } from '../types/domain/Player';
 import { SprTag } from './SprTag';
 
 export const SprCard = ({
-    player,
+    value,
     sprTrend,
 }: {
-    player?: Player;
+    value?: number | Player;
     sprTrend: number;
 }) => {
     return (
@@ -22,7 +22,7 @@ export const SprCard = ({
             <Box>
                 <Stat>
                     <Flex direction='column' align='center'>
-                        <SprTag props={{ size: 'xl' }} player={player} />
+                        <SprTag props={{ size: 'xl' }} value={value} />
                         <StatLabel fontSize='20'>SPR</StatLabel>
                         <Tooltip label='Average SPR change from recent games, up to the last five'>
                             <StatHelpText fontSize='14'>

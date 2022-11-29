@@ -256,7 +256,7 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                                 // TODO: For season 1, we need to add the SPR rank here
                             }
                             <SprCard
-                                player={
+                                value={
                                     season?.value === Seasons.ALL_SEASONS
                                         ? undefined
                                         : player

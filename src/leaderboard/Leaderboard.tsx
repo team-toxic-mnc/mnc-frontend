@@ -81,7 +81,7 @@ const columns: ColumnDef<PlayerTableData, any>[] = [
     columnHelper.accessor((row) => row, {
         id: 'spr',
         cell: (info) => {
-            return <SprTag props={{ size: 'md' }} player={info.row.original} />;
+            return <SprTag props={{ size: 'md' }} value={info.row.original} />;
         },
         header: () => <span>SPR</span>,
         meta: {
