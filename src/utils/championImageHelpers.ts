@@ -8,7 +8,7 @@ import { Match } from '../types/domain/Match';
 export function getChampionImage(championId: string): ChampionImages {
     return {
         portrait: `http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${championId}_0.jpg`,
-        square: `https://ddragon.leagueoflegends.com/cdn/12.17.1/img/champion/${championId}.png`,
+        square: `https://ddragon.leagueoflegends.com/cdn/12.22.1/img/champion/${championId}.png`,
     };
 }
 
