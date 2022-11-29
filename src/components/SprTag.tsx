@@ -5,26 +5,32 @@ import { Player } from '../types/domain/Player';
 import { getSprColor, getSprValue } from '../utils/sprHelpers';
 
 export const SprTag = ({
-    player,
+    value,
     props,
 }: {
-    player?: Player;
+    value?: number | Player;
     props?: { size?: string };
 }) => {
-    const rank = player ? getSprValue(player) : 0;
-    const playerIsRanked = rank > 0;
+    let spr = 0;
+    if (value) {
+        if (typeof value === 'number') {
+            spr = value;
+        } else if (typeof value === 'object') {
+            spr = getSprValue(value);
+        }
+    }
 
     return (
         <Tooltip label='Season Power Ranking (SPR) is a grade for player performance within a season'>
             <Tag
                 textAlign='center'
-                bg={getSprColor(rank)}
+                bg={getSprColor(spr)}
                 color={'gray.600'}
                 size={props?.size}
                 minW='100%'
             >
                 <TagLeftIcon as={GiWingedSword}></TagLeftIcon>
-                <Text minW='30px'>{playerIsRanked ? rank : '—'}</Text>
+                <Text minW='30px'>{spr > 0 ? spr : '—'}</Text>
             </Tag>
         </Tooltip>
     );

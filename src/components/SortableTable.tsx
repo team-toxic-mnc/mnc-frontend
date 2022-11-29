@@ -12,6 +12,7 @@ import {
 import {
     Cell,
     Column,
+    ColumnSort,
     flexRender,
     getCoreRowModel,
     getSortedRowModel,
@@ -27,6 +28,7 @@ const defaultPropGetter = () => ({});
 export function SortableTable({
     columns,
     data,
+    defaultSort = [],
     getHeaderProps = defaultPropGetter,
     getColumnProps = defaultPropGetter,
     getRowProps = defaultPropGetter,
@@ -34,12 +36,13 @@ export function SortableTable({
 }: {
     columns: any;
     data: any;
+    defaultSort?: ColumnSort[];
     getHeaderProps?: (header: Header<any, any>) => any;
     getColumnProps?: (column: Column<any>) => any;
     getRowProps?: (row: Row<any>) => any;
     getCellProps?: (cell: Cell<any, any>) => any;
 }) {
-    const [sorting, setSorting] = React.useState<SortingState>([]);
+    const [sorting, setSorting] = React.useState<SortingState>(defaultSort);
     const table = useReactTable({
         columns,
         data,
