@@ -123,41 +123,41 @@ const columns: ColumnDef<PlayerTableData, any>[] = [
             isNumeric: true,
         },
     }),
-    columnHelper.accessor((row) => row.mmrChange, {
-        id: 'mmrChange',
-        cell: (info) => {
-            const value = info.getValue();
-            return (
-                <div
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flexDirection: 'row',
-                    }}
-                >
-                    {value === -999 ? (
-                        <h1>-</h1>
-                    ) : (
-                        <>
-                            {value}
-                            {value === 0 ? (
-                                <FiMinus size={'24'} color={'orange'} />
-                            ) : value > 0 ? (
-                                <FiChevronUp size={'24'} color={'green'} />
-                            ) : (
-                                <FiChevronDown size={'24'} color={'red'} />
-                            )}
-                        </>
-                    )}
-                </div>
-            );
-        },
-        header: () => <span>SPR Trend</span>,
-        meta: {
-            isNumeric: true,
-        },
-    }),
+    // columnHelper.accessor((row) => row.mmrChange, {
+    //     id: 'mmrChange',
+    //     cell: (info) => {
+    //         const value = info.getValue();
+    //         return (
+    //             <div
+    //                 style={{
+    //                     display: 'flex',
+    //                     alignItems: 'center',
+    //                     justifyContent: 'center',
+    //                     flexDirection: 'row',
+    //                 }}
+    //             >
+    //                 {value === -999 ? (
+    //                     <h1>-</h1>
+    //                 ) : (
+    //                     <>
+    //                         {value}
+    //                         {value === 0 ? (
+    //                             <FiMinus size={'24'} color={'orange'} />
+    //                         ) : value > 0 ? (
+    //                             <FiChevronUp size={'24'} color={'green'} />
+    //                         ) : (
+    //                             <FiChevronDown size={'24'} color={'red'} />
+    //                         )}
+    //                     </>
+    //                 )}
+    //             </div>
+    //         );
+    //     },
+    //     header: () => <span>SPR Trend</span>,
+    //     meta: {
+    //         isNumeric: true,
+    //     },
+    // }),
 ];
 
 export const Leaderboard = React.memo(function Leaderboard() {
