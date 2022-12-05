@@ -6,12 +6,17 @@ import {
     RowSelection,
 } from '@tanstack/react-table';
 import React from 'react';
+import { FiChevronDown, FiChevronUp, FiMinus } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { SortableTable } from '../components/SortableTable';
 import { SprTag } from '../components/SprTag';
 import { ToxicDataService } from '../services/toxicData/ToxicDataService';
 import { Player } from '../types/domain/Player';
-import { getSprValue } from '../utils/sprHelpers';
+import {
+    getSprTrendingChange,
+    mapSprHistoryCollectionToPlayerSprHistoryMap,
+    getSprValue,
+} from '../utils/sprHelpers';
 
 type PlayerTableData = {
     name: string;
@@ -22,7 +27,7 @@ type PlayerTableData = {
     spr: number;
     rank: number;
     player: Player;
-    // mmrChange: number;
+    mmrChange: number;
 };
 
 /**
@@ -30,8 +35,8 @@ type PlayerTableData = {
  * @param players A collection of playeres to process
  */
 const processPlayers = (
-    players: Player[] | undefined
-    // sprMap: { [key: string]: { gameId: number; spr: number }[] }
+    players: Player[] | undefined,
+    sprMap: { [key: string]: { gameId: number; spr: number }[] }
 ): PlayerTableData[] => {
     return players
         ? players
@@ -54,8 +59,10 @@ const processPlayers = (
                       spr: spr,
                       rank: index + 1,
                       player: player,
-                      // mmrChange:
-                      //     totalGames > 10 ? getMmrTrendingChange(mmr) : -999,
+                      mmrChange:
+                          totalGames > 10
+                              ? getSprTrendingChange(sprMap[player.name])
+                              : -999,
                   };
               })
         : [];
@@ -116,54 +123,56 @@ const columns: ColumnDef<PlayerTableData, any>[] = [
             isNumeric: true,
         },
     }),
-    // columnHelper.accessor((row) => row.mmrChange, {
-    //     id: 'mmrChange',
-    //     cell: (info) => {
-    //         const value = info.getValue();
-    //         return (
-    //             <div
-    //                 style={{
-    //                     display: 'flex',
-    //                     alignItems: 'center',
-    //                     justifyContent: 'center',
-    //                     flexDirection: 'row',
-    //                 }}
-    //             >
-    //                 {value === -999 ? (
-    //                     <h1>-</h1>
-    //                 ) : (
-    //                     <>
-    //                         {value}
-    //                         {value === 0 ? (
-    //                             <FiMinus size={'24'} color={'orange'} />
-    //                         ) : value > 0 ? (
-    //                             <FiChevronUp size={'24'} color={'green'} />
-    //                         ) : (
-    //                             <FiChevronDown size={'24'} color={'red'} />
-    //                         )}
-    //                     </>
-    //                 )}
-    //             </div>
-    //         );
-    //     },
-    //     header: () => <span>SPR Trend</span>,
-    //     meta: {
-    //         isNumeric: true,
-    //     },
-    // }),
+    columnHelper.accessor((row) => row.mmrChange, {
+        id: 'mmrChange',
+        cell: (info) => {
+            const value = info.getValue();
+            return (
+                <div
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexDirection: 'row',
+                    }}
+                >
+                    {value === -999 ? (
+                        <h1>-</h1>
+                    ) : (
+                        <>
+                            {value}
+                            {value === 0 ? (
+                                <FiMinus size={'24'} color={'orange'} />
+                            ) : value > 0 ? (
+                                <FiChevronUp size={'24'} color={'green'} />
+                            ) : (
+                                <FiChevronDown size={'24'} color={'red'} />
+                            )}
+                        </>
+                    )}
+                </div>
+            );
+        },
+        header: () => <span>SPR Trend</span>,
+        meta: {
+            isNumeric: true,
+        },
+    }),
 ];
 
 export const Leaderboard = React.memo(function Leaderboard() {
+    const SEASON_NUMBER = 1;
     const navigate = useNavigate();
-    const usePlayersResponse = ToxicDataService.usePlayers(1);
+    const usePlayersResponse = ToxicDataService.usePlayers(SEASON_NUMBER);
     const data = usePlayersResponse.data;
 
-    // const mmrPerMatchResponse = ToxicDataService.useMmrPerMatch();
-    // const mmrPerMatch = mmrPerMatchResponse.data ?? [];
-    // const mmrPerMatchMap =
-    //     mapMmrHistoryCollectionToPlayerMmrHistoryMap(mmrPerMatch);
+    const glickoPerMatchResponse =
+        ToxicDataService.useGlickoPerMatch(SEASON_NUMBER);
+    const glickoPerMatch = glickoPerMatchResponse.data ?? [];
+    const sprPerMatchMap =
+        mapSprHistoryCollectionToPlayerSprHistoryMap(glickoPerMatch);
 
-    const processedData = processPlayers(data);
+    const processedData = processPlayers(data, sprPerMatchMap);
 
     return (
         <Flex direction='column' justify='center' align='center'>
@@ -174,6 +183,9 @@ export const Leaderboard = React.memo(function Leaderboard() {
                 alt='season 1 splash'
             />
             <Heading>Leaderboard</Heading>
+            <h1 style={{ marginBottom: 8 }}>
+                * Players must complete 30 games before their SPR is qualified
+            </h1>
             <SortableTable
                 columns={columns}
                 data={processedData}

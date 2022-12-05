@@ -13,11 +13,7 @@ import React from 'react';
 import { Line } from 'react-chartjs-2';
 import { ToxicDataService } from '../services/toxicData/ToxicDataService';
 import { Player } from '../types/domain/Player';
-import {
-    getMmrTrendingChange,
-    getMmrValue,
-    mapMmrHistoryCollectionToPlayerMmrHistoryMap,
-} from '../utils/mmrHelpers';
+import { getMmrValue } from '../utils/mmrHelpers';
 
 ChartJS.register(
     PointElement,

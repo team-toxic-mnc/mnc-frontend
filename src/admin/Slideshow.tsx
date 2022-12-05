@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getMmrColor } from '../utils/mmrHelpers';
+import { getSprColor } from '../utils/sprHelpers';
 
 import CSS from 'csstype';
 import { PlayerCard } from './slideshow/PlayerCard';
@@ -89,7 +89,7 @@ const StatsRow = (props: {
                     fontWeight: 'bold',
                     color:
                         props.valueType === StatsRowValueType.mmr
-                            ? getMmrColor(props.value ?? 0)
+                            ? getSprColor(props.value ?? 0)
                             : 'white',
                     textShadow:
                         props.valueType === StatsRowValueType.mmr
@@ -112,10 +112,12 @@ export const Slideshow = React.memo(function Slideshow({
 }: {
     transparentBackground?: boolean;
 }) {
-    const playersResponse = ToxicDataService.usePlayers();
+    // TODO: read the hydra data based on a url query parameter
+    const SEASON_NUMBER = 1;
+    const playersResponse = ToxicDataService.usePlayers(SEASON_NUMBER);
     const players = playersResponse.data ?? [];
 
-    const championsResponse = ToxicDataService.useChampions();
+    const championsResponse = ToxicDataService.useChampions(SEASON_NUMBER);
     const champions = Array.from(Object.values(championsResponse.data ?? {}));
 
     const [slideNo, setSlideNo] = useState(0);
@@ -125,14 +127,16 @@ export const Slideshow = React.memo(function Slideshow({
     // sort the players by MMR
     const sortedPlayers = players
         ? players
-              .filter((value) => (value.wins ?? 0) + (value.losses ?? 0) >= 10)
+              // ignore the placements filter
+              //.filter((value) => (value.wins ?? 0) + (value.losses ?? 0) >= 10)
               .sort((a, b) => (b.glicko ?? 0) - (a.glicko ?? 0))
         : [];
 
     // sort the champions by win rate
     const sortedChampions = champions
         ? champions
-              .filter((value) => value.totalGames >= 10)
+              // ignore the placements filter
+              //.filter((value) => value.totalGames >= 10)
               .sort((a, b) => b.winPercentage - a.winPercentage)
         : [];
 
@@ -173,6 +177,8 @@ export const Slideshow = React.memo(function Slideshow({
         return null;
     }
 
+    const LATEST_RANKED_STANDINGS_HEADER = 'LATEST RANKED STANDINGS';
+
     return (
         <div
             style={{
@@ -189,7 +195,9 @@ export const Slideshow = React.memo(function Slideshow({
         >
             <div style={slideNo === 0 ? visibleContainer : hiddenContainer}>
                 <div style={styles.content}>
-                    <h1 style={styles.header}>LATEST MMR STANDINGS</h1>
+                    <h1 style={styles.header}>
+                        {LATEST_RANKED_STANDINGS_HEADER}
+                    </h1>
                     <StatsRow
                         name={sortedPlayers[0].name}
                         value={sortedPlayers[0].glicko}
@@ -214,7 +222,9 @@ export const Slideshow = React.memo(function Slideshow({
             </div>
             <div style={slideNo === 1 ? visibleContainer : hiddenContainer}>
                 <div style={styles.content}>
-                    <h1 style={styles.header}>{'LATEST MMR STANDINGS'}</h1>
+                    <h1 style={styles.header}>
+                        {LATEST_RANKED_STANDINGS_HEADER}
+                    </h1>
                     <StatsRow
                         name={sortedPlayers[4].name}
                         value={sortedPlayers[4].glicko}
@@ -239,7 +249,9 @@ export const Slideshow = React.memo(function Slideshow({
             </div>
             <div style={slideNo === 2 ? visibleContainer : hiddenContainer}>
                 <div style={styles.content}>
-                    <h1 style={styles.header}>{'LATEST MMR STANDINGS'}</h1>
+                    <h1 style={styles.header}>
+                        {LATEST_RANKED_STANDINGS_HEADER}
+                    </h1>
                     <StatsRow
                         name={sortedPlayers[8].name}
                         value={sortedPlayers[8].glicko}
@@ -264,7 +276,9 @@ export const Slideshow = React.memo(function Slideshow({
             </div>
             <div style={slideNo === 3 ? visibleContainer : hiddenContainer}>
                 <div style={styles.content}>
-                    <h1 style={styles.header}>{'LATEST MMR STANDINGS'}</h1>
+                    <h1 style={styles.header}>
+                        {LATEST_RANKED_STANDINGS_HEADER}
+                    </h1>
                     <StatsRow
                         name={sortedPlayers[12].name}
                         value={sortedPlayers[12].glicko}

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { getMmrColor } from '../../utils/mmrHelpers';
+import { getSprColor } from '../../utils/sprHelpers';
 
 import CSS from 'csstype';
 import { Player } from '../../types/domain/Player';
@@ -52,7 +52,7 @@ export const PlayerCard = (props: { player: Player }) => {
     const mmrTextStyle: CSS.Properties = {
         fontSize: '60px',
         fontWeight: 'bold',
-        color: getMmrColor(props.player.glicko ?? 0),
+        color: getSprColor(props.player.glicko ?? 0),
         textShadow: '2px 2px 7px black',
         textAlign: 'start',
     };
