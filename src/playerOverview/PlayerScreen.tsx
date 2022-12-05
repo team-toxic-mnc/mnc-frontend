@@ -251,19 +251,18 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                             </Flex>
                             <AccoladesCollection player={player} />
                         </Flex>
-                        <Flex margin='4' justifyContent='center'>
-                            {
-                                // TODO: For season 1, we need to add the SPR rank here
-                            }
-                            <SprCard
-                                value={
-                                    season?.value === Seasons.ALL_SEASONS
-                                        ? undefined
-                                        : player
-                                }
-                                sprTrend={0}
-                            />
-                        </Flex>
+                        {season?.value !== Seasons.ALL_SEASONS ? (
+                            <Flex margin='4' justifyContent='center'>
+                                <SprCard
+                                    value={
+                                        season?.value === Seasons.ALL_SEASONS
+                                            ? undefined
+                                            : seasonPlayer
+                                    }
+                                    sprTrend={0}
+                                />
+                            </Flex>
+                        ) : null}
                         <Flex margin='4' flex='1' maxWidth='320'>
                             <Radar data={chartData} />
                         </Flex>

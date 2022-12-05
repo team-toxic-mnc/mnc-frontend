@@ -12,10 +12,12 @@ export const SprTag = ({
     props?: { size?: string };
 }) => {
     let spr = 0;
+    let isQualified = true;
     if (value) {
         if (typeof value === 'number') {
             spr = value;
         } else if (typeof value === 'object') {
+            isQualified = (value.wins ?? 0) + (value.losses ?? 0) >= 30;
             spr = getSprValue(value);
         }
     }
@@ -24,13 +26,16 @@ export const SprTag = ({
         <Tooltip label='Season Power Ranking (SPR) is a grade for player performance within a season'>
             <Tag
                 textAlign='center'
-                bg={getSprColor(spr)}
+                bg={isQualified ? getSprColor(spr) : undefined}
                 color={'gray.600'}
                 size={props?.size}
                 minW='100%'
             >
                 <TagLeftIcon as={GiWingedSword}></TagLeftIcon>
-                <Text minW='30px'>{spr > 0 ? spr : '—'}</Text>
+                <Text minW='30px'>
+                    {spr > 0 ? spr : '—'}
+                    {isQualified ? undefined : '*'}
+                </Text>
             </Tag>
         </Tooltip>
     );

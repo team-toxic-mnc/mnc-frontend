@@ -1,5 +1,10 @@
 import { Flex, Heading } from '@chakra-ui/react';
-import { ColumnDef, createColumnHelper, Row } from '@tanstack/react-table';
+import {
+    ColumnDef,
+    createColumnHelper,
+    Row,
+    RowSelection,
+} from '@tanstack/react-table';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SortableTable } from '../components/SortableTable';
@@ -15,6 +20,8 @@ type PlayerTableData = {
     losses: number;
     totalGames: number;
     spr: number;
+    rank: number;
+    player: Player;
     // mmrChange: number;
 };
 
@@ -28,14 +35,16 @@ const processPlayers = (
 ): PlayerTableData[] => {
     return players
         ? players
-              .sort((a, b) => a.name.localeCompare(b.name))
-              .map((player) => {
+              .sort((a, b) => {
+                  return getSprValue(b) - getSprValue(a);
+              })
+              .map((player, index) => {
                   const wins = player.wins ?? 0;
                   const losses = player.losses ?? 0;
                   const totalGames = wins + losses;
+                  const spr = getSprValue(player);
                   const winPercentage =
                       Math.round((wins / totalGames) * 100) + '%';
-                  const spr = getSprValue(player);
                   return {
                       ...player,
                       wins,
@@ -43,6 +52,8 @@ const processPlayers = (
                       winPercentage: winPercentage,
                       totalGames: totalGames,
                       spr: spr,
+                      rank: index + 1,
+                      player: player,
                       // mmrChange:
                       //     totalGames > 10 ? getMmrTrendingChange(mmr) : -999,
                   };
@@ -53,6 +64,14 @@ const processPlayers = (
 const columnHelper = createColumnHelper<PlayerTableData>();
 
 const columns: ColumnDef<PlayerTableData, any>[] = [
+    columnHelper.accessor((row) => row.rank, {
+        id: 'rank',
+        cell: (info) => info.getValue(),
+        header: () => <span>Rank</span>,
+        meta: {
+            isNumeric: true,
+        },
+    }),
     columnHelper.accessor((row) => row.name, {
         id: 'name',
         cell: (info) => info.getValue(),
@@ -85,7 +104,12 @@ const columns: ColumnDef<PlayerTableData, any>[] = [
     columnHelper.accessor((row) => row.spr, {
         id: 'spr',
         cell: (info) => {
-            return <SprTag props={{ size: 'md' }} value={info.getValue()} />;
+            return (
+                <SprTag
+                    props={{ size: 'md' }}
+                    value={info.row.original.player}
+                />
+            );
         },
         header: () => <span>SPR</span>,
         meta: {
