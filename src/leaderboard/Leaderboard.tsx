@@ -1,12 +1,22 @@
 import { Flex, Heading } from '@chakra-ui/react';
-import { ColumnDef, createColumnHelper, Row } from '@tanstack/react-table';
+import {
+    ColumnDef,
+    createColumnHelper,
+    Row,
+    RowSelection,
+} from '@tanstack/react-table';
 import React from 'react';
+import { FiChevronDown, FiChevronUp, FiMinus } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { SortableTable } from '../components/SortableTable';
 import { SprTag } from '../components/SprTag';
 import { ToxicDataService } from '../services/toxicData/ToxicDataService';
 import { Player } from '../types/domain/Player';
-import { getSprValue } from '../utils/sprHelpers';
+import {
+    getSprTrendingChange,
+    mapSprHistoryCollectionToPlayerSprHistoryMap,
+    getSprValue,
+} from '../utils/sprHelpers';
 
 type PlayerTableData = {
     name: string;
@@ -15,7 +25,9 @@ type PlayerTableData = {
     losses: number;
     totalGames: number;
     spr: number;
-    // mmrChange: number;
+    rank: number;
+    player: Player;
+    mmrChange: number;
 };
 
 /**
@@ -23,19 +35,21 @@ type PlayerTableData = {
  * @param players A collection of playeres to process
  */
 const processPlayers = (
-    players: Player[] | undefined
-    // sprMap: { [key: string]: { gameId: number; spr: number }[] }
+    players: Player[] | undefined,
+    sprMap: { [key: string]: { gameId: number; spr: number }[] }
 ): PlayerTableData[] => {
     return players
         ? players
-              .sort((a, b) => a.name.localeCompare(b.name))
-              .map((player) => {
+              .sort((a, b) => {
+                  return getSprValue(b) - getSprValue(a);
+              })
+              .map((player, index) => {
                   const wins = player.wins ?? 0;
                   const losses = player.losses ?? 0;
                   const totalGames = wins + losses;
+                  const spr = getSprValue(player);
                   const winPercentage =
                       Math.round((wins / totalGames) * 100) + '%';
-                  const spr = getSprValue(player);
                   return {
                       ...player,
                       wins,
@@ -43,8 +57,12 @@ const processPlayers = (
                       winPercentage: winPercentage,
                       totalGames: totalGames,
                       spr: spr,
-                      // mmrChange:
-                      //     totalGames > 10 ? getMmrTrendingChange(mmr) : -999,
+                      rank: index + 1,
+                      player: player,
+                      mmrChange:
+                          totalGames > 10
+                              ? getSprTrendingChange(sprMap[player.name])
+                              : -999,
                   };
               })
         : [];
@@ -53,6 +71,14 @@ const processPlayers = (
 const columnHelper = createColumnHelper<PlayerTableData>();
 
 const columns: ColumnDef<PlayerTableData, any>[] = [
+    columnHelper.accessor((row) => row.rank, {
+        id: 'rank',
+        cell: (info) => info.getValue(),
+        header: () => <span>Rank</span>,
+        meta: {
+            isNumeric: true,
+        },
+    }),
     columnHelper.accessor((row) => row.name, {
         id: 'name',
         cell: (info) => info.getValue(),
@@ -85,7 +111,12 @@ const columns: ColumnDef<PlayerTableData, any>[] = [
     columnHelper.accessor((row) => row.spr, {
         id: 'spr',
         cell: (info) => {
-            return <SprTag props={{ size: 'md' }} value={info.getValue()} />;
+            return (
+                <SprTag
+                    props={{ size: 'md' }}
+                    value={info.row.original.player}
+                />
+            );
         },
         header: () => <span>SPR</span>,
         meta: {
@@ -130,16 +161,18 @@ const columns: ColumnDef<PlayerTableData, any>[] = [
 ];
 
 export const Leaderboard = React.memo(function Leaderboard() {
+    const SEASON_NUMBER = 1;
     const navigate = useNavigate();
-    const usePlayersResponse = ToxicDataService.usePlayers(1);
+    const usePlayersResponse = ToxicDataService.usePlayers(SEASON_NUMBER);
     const data = usePlayersResponse.data;
 
-    // const mmrPerMatchResponse = ToxicDataService.useMmrPerMatch();
-    // const mmrPerMatch = mmrPerMatchResponse.data ?? [];
-    // const mmrPerMatchMap =
-    //     mapMmrHistoryCollectionToPlayerMmrHistoryMap(mmrPerMatch);
+    const glickoPerMatchResponse =
+        ToxicDataService.useGlickoPerMatch(SEASON_NUMBER);
+    const glickoPerMatch = glickoPerMatchResponse.data ?? [];
+    const sprPerMatchMap =
+        mapSprHistoryCollectionToPlayerSprHistoryMap(glickoPerMatch);
 
-    const processedData = processPlayers(data);
+    const processedData = processPlayers(data, sprPerMatchMap);
 
     return (
         <Flex direction='column' justify='center' align='center'>
@@ -150,6 +183,9 @@ export const Leaderboard = React.memo(function Leaderboard() {
                 alt='season 1 splash'
             />
             <Heading>Leaderboard</Heading>
+            <h1 style={{ marginBottom: 8 }}>
+                * Players must complete 30 games before their SPR is qualified
+            </h1>
             <SortableTable
                 columns={columns}
                 data={processedData}

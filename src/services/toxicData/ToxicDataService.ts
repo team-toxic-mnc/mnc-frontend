@@ -393,10 +393,12 @@ export const ToxicDataService = {
             };
         }
     },
-    useGlickoPerMatch: (): {
+    useGlickoPerMatch: (
+        season?: number
+    ): {
         data: GlickoHistoryItem[] | undefined;
     } & ServiceResponseBase => {
-        const glickoPerMatchResponse = useGlickoPerMatch();
+        const glickoPerMatchResponse = useGlickoPerMatch(season);
 
         if (glickoPerMatchResponse.data) {
             const glickoData = glickoPerMatchResponse.data;

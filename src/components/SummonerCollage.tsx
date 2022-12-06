@@ -5,12 +5,8 @@ import { Champion } from '../types/domain/Champion';
 import { Player } from '../types/domain/Player';
 import { getChampionImage } from '../utils/championImageHelpers';
 
-export function getRandomIcon(id: number) {
-    return (
-        'https://ddragon.leagueoflegends.com/cdn/12.18.1/img/profileicon/' +
-        (588 + id) +
-        '.png'
-    );
+export function getPlaceholderIcon() {
+    return 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Profile_avatar_placeholder_large.png/120px-Profile_avatar_placeholder_large.png?20150327203541';
 }
 
 export function sortChampionsByWinRate(player: Player): Champion[] {
@@ -59,7 +55,7 @@ export const SummonerCollage = React.memo(function Error({
                         <img
                             alt='random icon 1'
                             style={{ flex: 1 }}
-                            src={getRandomIcon(0)}
+                            src={getPlaceholderIcon()}
                         />
                     </Box>
                 )}
@@ -76,7 +72,7 @@ export const SummonerCollage = React.memo(function Error({
                         <img
                             alt='random icon 2'
                             style={{ flex: 1 }}
-                            src={getRandomIcon(2)}
+                            src={getPlaceholderIcon()}
                         />
                     </Box>
                 )}
@@ -95,7 +91,7 @@ export const SummonerCollage = React.memo(function Error({
                         <img
                             alt='random icon 3'
                             style={{ flex: 1 }}
-                            src={getRandomIcon(3)}
+                            src={getPlaceholderIcon()}
                         />
                     </Box>
                 )}
@@ -112,7 +108,7 @@ export const SummonerCollage = React.memo(function Error({
                         <img
                             alt='random champion icon 4'
                             style={{ flex: 1 }}
-                            src={getRandomIcon(1)}
+                            src={getPlaceholderIcon()}
                         />
                     </Box>
                 )}

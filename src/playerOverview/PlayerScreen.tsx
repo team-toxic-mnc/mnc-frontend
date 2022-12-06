@@ -44,6 +44,10 @@ import {
     teammateColumns,
 } from './playerScreenColumnHelper';
 import { PlayerScreenChampion } from './types/PlayerScreenChampion';
+import {
+    getSprTrendingChange,
+    mapSprHistoryCollectionToPlayerSprHistoryMap,
+} from '../utils/sprHelpers';
 
 export async function loader(data: { params: any }) {
     return data.params.playerId;
@@ -118,6 +122,16 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
         season?.value.id
     );
     const matchHistory = matchHistoryResponse.data ?? [];
+
+    const glickoPerMatchResponse = ToxicDataService.useGlickoPerMatch(
+        season?.value.id
+    );
+    const glickoPerMatch = glickoPerMatchResponse.data ?? [];
+    const glickoPerMatchMap =
+        mapSprHistoryCollectionToPlayerSprHistoryMap(glickoPerMatch);
+    const sprChangePercentage = getSprTrendingChange(
+        glickoPerMatchMap[player ? player.name : ''] ?? []
+    );
 
     // only recompute the player classes when are looking at a new player
     const playerClasses = useMemo(
@@ -251,19 +265,18 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
                             </Flex>
                             <AccoladesCollection player={player} />
                         </Flex>
-                        <Flex margin='4' justifyContent='center'>
-                            {
-                                // TODO: For season 1, we need to add the SPR rank here
-                            }
-                            <SprCard
-                                value={
-                                    season?.value === Seasons.ALL_SEASONS
-                                        ? undefined
-                                        : player
-                                }
-                                sprTrend={0}
-                            />
-                        </Flex>
+                        {season?.value !== Seasons.ALL_SEASONS ? (
+                            <Flex margin='4' justifyContent='center'>
+                                <SprCard
+                                    value={
+                                        season?.value === Seasons.ALL_SEASONS
+                                            ? undefined
+                                            : seasonPlayer
+                                    }
+                                    sprTrend={sprChangePercentage}
+                                />
+                            </Flex>
+                        ) : null}
                         <Flex margin='4' flex='1' maxWidth='320'>
                             <Radar data={chartData} />
                         </Flex>
