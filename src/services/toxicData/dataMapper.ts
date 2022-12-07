@@ -245,7 +245,7 @@ export function getChampionPickBanMap(latestMatchList: Match[]): {
     // the
     const matches = latestMatchList.reverse();
     const pickBan: {
-        [id: string]: { pick: number; ban: number; matchNo: number }[];
+        [id: string]: { pick: number; ban: number }[];
     } = {};
 
     // initialize all champion pick bans to 0%
@@ -272,7 +272,6 @@ export function getChampionPickBanMap(latestMatchList: Match[]): {
                     (((latestPickBanData.ban / 100) * (matchNo - 1)) /
                         matchNo) *
                     100,
-                matchNo,
             });
         }
 
@@ -291,7 +290,6 @@ export function getChampionPickBanMap(latestMatchList: Match[]): {
                     (((latestPickBanData.ban / 100) * (matchNo - 1)) /
                         matchNo) *
                     100,
-                matchNo,
             });
         }
 
@@ -313,7 +311,6 @@ export function getChampionPickBanMap(latestMatchList: Match[]): {
                         (((latestPickBanData.ban / 100) * (matchNo - 1) + 1) /
                             matchNo) *
                         100,
-                    matchNo,
                 });
             }
         }
@@ -336,7 +333,6 @@ export function getChampionPickBanMap(latestMatchList: Match[]): {
                         (((latestPickBanData.ban / 100) * (matchNo - 1) + 1) /
                             matchNo) *
                         100,
-                    matchNo,
                 });
             }
         }
@@ -358,7 +354,6 @@ export function getChampionPickBanMap(latestMatchList: Match[]): {
                                 (matchNo - 1)) /
                                 matchNo) *
                             100,
-                        matchNo,
                     });
                 }
             }
