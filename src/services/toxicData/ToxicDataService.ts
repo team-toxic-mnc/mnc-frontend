@@ -310,10 +310,18 @@ export const ToxicDataService = {
 
             // loop through data, and update the pick/ban rate
             for (const championName of Object.keys(data)) {
+                const championPickBanData = championPickBanMap[championName];
+
                 data[championName] = {
                     ...data[championName],
-                    banPercentage: championPickBanMap[championName]?.ban,
-                    pickPercentage: championPickBanMap[championName]?.pick,
+                    banPercentage: championPickBanData
+                        ? championPickBanData[championPickBanData.length - 1]
+                              .ban
+                        : undefined,
+                    pickPercentage: championPickBanData
+                        ? championPickBanData[championPickBanData.length - 1]
+                              .pick
+                        : undefined,
                 };
             }
 
@@ -351,11 +359,16 @@ export const ToxicDataService = {
             const matchData = matchHistoryResponse.data;
             const matches = matchData ? mapMatchHistory(matchData) : [];
             const championPickBanMap = getChampionPickBanMap(matches);
+            const championPickBanData = championPickBanMap[id];
 
             const data = {
                 ...champion,
-                banPercentage: championPickBanMap[id]?.ban,
-                pickPercentage: championPickBanMap[id]?.pick,
+                banPercentage: championPickBanData
+                    ? championPickBanData[championPickBanData.length - 1].ban
+                    : undefined,
+                pickPercentage: championPickBanData
+                    ? championPickBanData[championPickBanData.length - 1].pick
+                    : undefined,
             };
 
             return {
