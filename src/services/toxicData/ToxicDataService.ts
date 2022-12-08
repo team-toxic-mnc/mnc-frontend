@@ -369,6 +369,7 @@ export const ToxicDataService = {
                 pickPercentage: championPickBanData
                     ? championPickBanData[championPickBanData.length - 1].pick
                     : undefined,
+                pickBanHistory: championPickBanData,
             };
 
             return {

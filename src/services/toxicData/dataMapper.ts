@@ -238,14 +238,18 @@ export function mapGlickoPerMatch(
     });
 }
 
-// matches is expected to be listed from newest to oldest
+/**
+ * Take a collection of matches and return a map of champions to historical pick ban rates across those games
+ * @param latestMatchList A list of matches ordered from oldest to newest
+ * @returns A map, where the key is champion name, and the value is an array of historical pick/ban rates across all matches
+ */
 export function getChampionPickBanMap(latestMatchList: Match[]): {
     [id: string]: { pick: number; ban: number }[];
 } {
     // the
     const matches = latestMatchList.reverse();
     const pickBan: {
-        [id: string]: { pick: number; ban: number }[];
+        [id: string]: { pick: number; ban: number; matchNo: number }[];
     } = {};
 
     // initialize all champion pick bans to 0%
@@ -272,6 +276,7 @@ export function getChampionPickBanMap(latestMatchList: Match[]): {
                     (((latestPickBanData.ban / 100) * (matchNo - 1)) /
                         matchNo) *
                     100,
+                matchNo,
             });
         }
 
@@ -290,6 +295,7 @@ export function getChampionPickBanMap(latestMatchList: Match[]): {
                     (((latestPickBanData.ban / 100) * (matchNo - 1)) /
                         matchNo) *
                     100,
+                matchNo,
             });
         }
 
@@ -311,6 +317,7 @@ export function getChampionPickBanMap(latestMatchList: Match[]): {
                         (((latestPickBanData.ban / 100) * (matchNo - 1) + 1) /
                             matchNo) *
                         100,
+                    matchNo,
                 });
             }
         }
@@ -333,6 +340,7 @@ export function getChampionPickBanMap(latestMatchList: Match[]): {
                         (((latestPickBanData.ban / 100) * (matchNo - 1) + 1) /
                             matchNo) *
                         100,
+                    matchNo,
                 });
             }
         }
@@ -341,7 +349,7 @@ export function getChampionPickBanMap(latestMatchList: Match[]): {
         for (const championName of Object.keys(pickBan)) {
             if (pickBan[championName].length !== matchNo) {
                 if (pickBan[championName].length === 0) {
-                    pickBan[championName].push({ pick: 0, ban: 0 });
+                    pickBan[championName].push({ pick: 0, ban: 0, matchNo: 0 });
                 } else {
                     pickBan[championName].push({
                         pick:
@@ -354,6 +362,7 @@ export function getChampionPickBanMap(latestMatchList: Match[]): {
                                 (matchNo - 1)) /
                                 matchNo) *
                             100,
+                        matchNo,
                     });
                 }
             }
