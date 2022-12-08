@@ -1,4 +1,5 @@
 import { Flex } from '@chakra-ui/layout';
+import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@chakra-ui/react';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import React from 'react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
@@ -11,7 +12,9 @@ import { DataDragonService } from '../services/dataDragon/DataDragonService';
 import { ToxicDataService } from '../services/toxicData/ToxicDataService';
 import { Champion } from '../types/domain/Champion';
 import { Player } from '../types/domain/Player';
+import { Seasons } from '../types/domain/Season';
 import { getChampionImage } from '../utils/championImageHelpers';
+import { ChampionPickBanView } from './ChampionPickBanView';
 
 export async function loader(data: { params: any }) {
     return data.params.championId;
@@ -132,10 +135,10 @@ export const ChampionScreen = React.memo(function ChampionScreen() {
                 return (prevValue !== '' ? prevValue + ',' : '') + currentValue;
             }, ''),
             'Ban Rate': champion.banPercentage
-                ? `${champion.banPercentage}%`
+                ? `${Math.round(champion.banPercentage)}%`
                 : 'N/A',
             'Pick Rate': champion.pickPercentage
-                ? `${champion.pickPercentage}%`
+                ? `${Math.round(champion.pickPercentage)}%`
                 : 'N/A',
         },
     };
@@ -145,17 +148,35 @@ export const ChampionScreen = React.memo(function ChampionScreen() {
             <Flex marginBottom={8}>
                 <StatsCard stats={statsCardChampion} />
             </Flex>
-            <SortableTable
-                columns={columns}
-                data={championPlayerData}
-                getRowProps={(row: any) => {
-                    return {
-                        onClick: () => {
-                            navigate('/playerOverview/' + row.getValue('name'));
-                        },
-                    };
-                }}
-            />
+            <Tabs isFitted={true} maxWidth='100%'>
+                <TabList>
+                    <Tab>Match History</Tab>
+                    <Tab>Pick & Ban Record</Tab>
+                </TabList>
+                <TabPanels>
+                    <TabPanel>
+                        <SortableTable
+                            columns={columns}
+                            data={championPlayerData}
+                            getRowProps={(row: any) => {
+                                return {
+                                    onClick: () => {
+                                        navigate(
+                                            '/playerOverview/' +
+                                                row.getValue('name')
+                                        );
+                                    },
+                                };
+                            }}
+                        />
+                    </TabPanel>
+                    <TabPanel>
+                        <Flex minWidth={'600'}>
+                            <ChampionPickBanView champion={champion} />
+                        </Flex>
+                    </TabPanel>
+                </TabPanels>
+            </Tabs>
         </Flex>
     );
 });

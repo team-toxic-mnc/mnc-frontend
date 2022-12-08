@@ -6,4 +6,5 @@ export type Champion = {
     totalGames: number;
     banPercentage?: number;
     pickPercentage?: number;
+    pickBanHistory?: { pick: number; ban: number }[];
 };
