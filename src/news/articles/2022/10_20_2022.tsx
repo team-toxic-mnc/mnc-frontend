@@ -5,7 +5,7 @@ import {
     SEASON_1_1_BADGE,
     SEASON_1_5_BADGE,
     SEASON_1_BADGE,
-} from '../../data/accolades';
+} from '../../../data/accolades';
 
 const paragraphStyle = { marginTop: 20 };
 
