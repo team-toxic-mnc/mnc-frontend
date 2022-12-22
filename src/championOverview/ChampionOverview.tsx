@@ -90,16 +90,16 @@ export const ChampionOverview = React.memo(function ChampionOverview() {
     const championIdMapResponse = DataDragonService.useChampionIdMap();
     const championIdMap = championIdMapResponse.data ?? {};
 
-    const processedChampionArray = Array.from(
-        Object.values(champions ?? {})
-    ).map((champion) => {
-        return {
-            ...champion,
-            imageUrl: championIdMap[champion.name]
-                ? getChampionImage(championIdMap[champion.name]).square
-                : '',
-        };
-    });
+    const processedChampionArray = Array.from(Object.values(champions ?? {}))
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .map((champion) => {
+            return {
+                ...champion,
+                imageUrl: championIdMap[champion.name]
+                    ? getChampionImage(championIdMap[champion.name]).square
+                    : '',
+            };
+        });
 
     return (
         <Flex direction='column' justify='center' align='center'>
