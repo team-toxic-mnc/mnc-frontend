@@ -74,16 +74,16 @@ const processPlayerChampions = (
     data: Player,
     championIdMap: { [key: string]: string }
 ): PlayerScreenChampion[] => {
-    return (
-        data.champions ? Array.from(Object.values(data.champions)) : []
-    ).map((champion: Champion) => {
-        return {
-            ...champion,
-            imageUrl: championIdMap[champion.name]
-                ? getChampionImage(championIdMap[champion.name]).square
-                : '',
-        };
-    });
+    return (data.champions ? Array.from(Object.values(data.champions)) : [])
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .map((champion: Champion) => {
+            return {
+                ...champion,
+                imageUrl: championIdMap[champion.name]
+                    ? getChampionImage(championIdMap[champion.name]).square
+                    : '',
+            };
+        });
 };
 
 function isPlayerMatchWinner(player: Player, match: Match) {
