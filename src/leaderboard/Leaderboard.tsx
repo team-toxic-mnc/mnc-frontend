@@ -41,7 +41,17 @@ const processPlayers = (
     return players
         ? players
               .sort((a, b) => {
-                  return getSprValue(b) - getSprValue(a);
+                  // put all players who have completed their qualifying games to the top of the leaderboard
+                  const playerASpr =
+                      (a.wins ?? 0) + (a.losses ?? 0) >= 30
+                          ? getSprValue(a) * 1000
+                          : getSprValue(a);
+                  const playerBSpr =
+                      (b.wins ?? 0) + (b.losses ?? 0) >= 30
+                          ? getSprValue(b) * 1000
+                          : getSprValue(b);
+
+                  return playerBSpr - playerASpr;
               })
               .map((player, index) => {
                   const wins = player.wins ?? 0;
@@ -189,7 +199,6 @@ export const Leaderboard = React.memo(function Leaderboard() {
             <SortableTable
                 columns={columns}
                 data={processedData}
-                defaultSort={[{ id: 'spr', desc: true }]}
                 getRowProps={(row: Row<any>) => {
                     return {
                         onClick: () => {

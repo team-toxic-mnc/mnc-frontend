@@ -24,6 +24,12 @@ const styles = {
         flexDirection: 'column',
         alignItems: 'center',
     } as any,
+    footer: {
+        fontSize: 24,
+        color: 'white',
+        marginTop: 32,
+        textAlign: 'center',
+    } as any,
 };
 
 const containerBase: CSS.Properties = {
@@ -55,6 +61,7 @@ enum StatsRowValueType {
 const StatsRow = (props: {
     name?: string;
     value?: number;
+    showAsterick?: boolean;
     valueType?: StatsRowValueType;
     imageUri?: string;
 }) => {
@@ -88,7 +95,8 @@ const StatsRow = (props: {
                     fontSize: 60,
                     fontWeight: 'bold',
                     color:
-                        props.valueType === StatsRowValueType.mmr
+                        props.valueType === StatsRowValueType.mmr &&
+                        !props.showAsterick
                             ? getSprColor(props.value ?? 0)
                             : 'white',
                     textShadow:
@@ -97,7 +105,7 @@ const StatsRow = (props: {
                             : undefined,
                 }}
             >
-                {Math.round(props.value ?? 0)}
+                {Math.round(props.value ?? 0)} {props.showAsterick ? '*' : ''}
                 {props.valueType === StatsRowValueType.percentage ? '%' : ''}
             </h1>
         </div>
@@ -124,12 +132,23 @@ export const Slideshow = React.memo(function Slideshow({
     const championIdMapResponse = DataDragonService.useChampionIdMap();
     const championIdMap = championIdMapResponse.data ?? {};
 
-    // sort the players by MMR
+    // sort the players by SPR
     const sortedPlayers = players
         ? players
               // ignore the placements filter
               //.filter((value) => (value.wins ?? 0) + (value.losses ?? 0) >= 10)
-              .sort((a, b) => (b.glicko ?? 0) - (a.glicko ?? 0))
+              .sort((a, b) => {
+                  // put all qualified players at the beginning of the leaderboard
+                  const aValue =
+                      (a.wins ?? 0) + (a.losses ?? 0) >= 30
+                          ? (a.glicko ?? 0) * 1000
+                          : a.glicko ?? 0;
+                  const bValue =
+                      (b.wins ?? 0) + (b.losses ?? 0) >= 30
+                          ? (b.glicko ?? 0) * 1000
+                          : b.glicko ?? 0;
+                  return bValue - aValue;
+              })
         : [];
 
     // sort the champions by win rate
@@ -178,6 +197,7 @@ export const Slideshow = React.memo(function Slideshow({
     }
 
     const LATEST_RANKED_STANDINGS_HEADER = 'LATEST RANKED STANDINGS';
+    const ASTERICK_EXPLANATION = '* unqualified SPR';
 
     return (
         <div
@@ -202,22 +222,43 @@ export const Slideshow = React.memo(function Slideshow({
                         name={sortedPlayers[0].name}
                         value={sortedPlayers[0].glicko}
                         valueType={StatsRowValueType.mmr}
+                        showAsterick={
+                            (sortedPlayers[0].wins ?? 0) +
+                                (sortedPlayers[0].losses ?? 0) <
+                            30
+                        }
                     />
                     <StatsRow
                         name={sortedPlayers[1].name}
                         value={sortedPlayers[1].glicko}
                         valueType={StatsRowValueType.mmr}
+                        showAsterick={
+                            (sortedPlayers[1].wins ?? 0) +
+                                (sortedPlayers[1].losses ?? 0) <
+                            30
+                        }
                     />
                     <StatsRow
                         name={sortedPlayers[2].name}
                         value={sortedPlayers[2].glicko}
                         valueType={StatsRowValueType.mmr}
+                        showAsterick={
+                            (sortedPlayers[2].wins ?? 0) +
+                                (sortedPlayers[2].losses ?? 0) <
+                            30
+                        }
                     />
                     <StatsRow
                         name={sortedPlayers[3].name}
                         value={sortedPlayers[3].glicko}
                         valueType={StatsRowValueType.mmr}
+                        showAsterick={
+                            (sortedPlayers[3].wins ?? 0) +
+                                (sortedPlayers[3].losses ?? 0) <
+                            30
+                        }
                     />
+                    <p style={styles.footer}>{ASTERICK_EXPLANATION}</p>
                 </div>
             </div>
             <div style={slideNo === 1 ? visibleContainer : hiddenContainer}>
@@ -229,22 +270,43 @@ export const Slideshow = React.memo(function Slideshow({
                         name={sortedPlayers[4].name}
                         value={sortedPlayers[4].glicko}
                         valueType={StatsRowValueType.mmr}
+                        showAsterick={
+                            (sortedPlayers[4].wins ?? 0) +
+                                (sortedPlayers[4].losses ?? 0) <
+                            30
+                        }
                     />
                     <StatsRow
                         name={sortedPlayers[5].name}
                         value={sortedPlayers[5].glicko}
                         valueType={StatsRowValueType.mmr}
+                        showAsterick={
+                            (sortedPlayers[5].wins ?? 0) +
+                                (sortedPlayers[5].losses ?? 0) <
+                            30
+                        }
                     />
                     <StatsRow
                         name={sortedPlayers[6].name}
                         value={sortedPlayers[6].glicko}
                         valueType={StatsRowValueType.mmr}
+                        showAsterick={
+                            (sortedPlayers[6].wins ?? 0) +
+                                (sortedPlayers[6].losses ?? 0) <
+                            30
+                        }
                     />
                     <StatsRow
                         name={sortedPlayers[7].name}
                         value={sortedPlayers[7].glicko}
                         valueType={StatsRowValueType.mmr}
+                        showAsterick={
+                            (sortedPlayers[7].wins ?? 0) +
+                                (sortedPlayers[7].losses ?? 0) <
+                            30
+                        }
                     />
+                    <p style={styles.footer}>{ASTERICK_EXPLANATION}</p>
                 </div>
             </div>
             <div style={slideNo === 2 ? visibleContainer : hiddenContainer}>
@@ -256,22 +318,43 @@ export const Slideshow = React.memo(function Slideshow({
                         name={sortedPlayers[8].name}
                         value={sortedPlayers[8].glicko}
                         valueType={StatsRowValueType.mmr}
+                        showAsterick={
+                            (sortedPlayers[8].wins ?? 0) +
+                                (sortedPlayers[8].losses ?? 0) <
+                            30
+                        }
                     />
                     <StatsRow
                         name={sortedPlayers[9].name}
                         value={sortedPlayers[9].glicko}
                         valueType={StatsRowValueType.mmr}
+                        showAsterick={
+                            (sortedPlayers[9].wins ?? 0) +
+                                (sortedPlayers[9].losses ?? 0) <
+                            30
+                        }
                     />
                     <StatsRow
                         name={sortedPlayers[10].name}
                         value={sortedPlayers[10].glicko}
                         valueType={StatsRowValueType.mmr}
+                        showAsterick={
+                            (sortedPlayers[10].wins ?? 0) +
+                                (sortedPlayers[10].losses ?? 0) <
+                            30
+                        }
                     />
                     <StatsRow
                         name={sortedPlayers[11].name}
                         value={sortedPlayers[11].glicko}
                         valueType={StatsRowValueType.mmr}
+                        showAsterick={
+                            (sortedPlayers[11].wins ?? 0) +
+                                (sortedPlayers[11].losses ?? 0) <
+                            30
+                        }
                     />
+                    <p style={styles.footer}>{ASTERICK_EXPLANATION}</p>
                 </div>
             </div>
             <div style={slideNo === 3 ? visibleContainer : hiddenContainer}>
@@ -283,22 +366,43 @@ export const Slideshow = React.memo(function Slideshow({
                         name={sortedPlayers[12].name}
                         value={sortedPlayers[12].glicko}
                         valueType={StatsRowValueType.mmr}
+                        showAsterick={
+                            (sortedPlayers[12].wins ?? 0) +
+                                (sortedPlayers[12].losses ?? 0) <
+                            30
+                        }
                     />
                     <StatsRow
                         name={sortedPlayers[13].name}
                         value={sortedPlayers[13].glicko}
                         valueType={StatsRowValueType.mmr}
+                        showAsterick={
+                            (sortedPlayers[13].wins ?? 0) +
+                                (sortedPlayers[13].losses ?? 0) <
+                            30
+                        }
                     />
                     <StatsRow
                         name={sortedPlayers[14].name}
                         value={sortedPlayers[14].glicko}
                         valueType={StatsRowValueType.mmr}
+                        showAsterick={
+                            (sortedPlayers[14].wins ?? 0) +
+                                (sortedPlayers[14].losses ?? 0) <
+                            30
+                        }
                     />
                     <StatsRow
                         name={sortedPlayers[15].name}
                         value={sortedPlayers[15].glicko}
                         valueType={StatsRowValueType.mmr}
+                        showAsterick={
+                            (sortedPlayers[15].wins ?? 0) +
+                                (sortedPlayers[15].losses ?? 0) <
+                            30
+                        }
                     />
+                    <p style={styles.footer}>{ASTERICK_EXPLANATION}</p>
                 </div>
             </div>
             {playerSlides}
