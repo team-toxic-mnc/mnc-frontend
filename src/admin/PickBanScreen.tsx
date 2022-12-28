@@ -17,8 +17,20 @@ import {
 
 const emptyArray: any[] = [];
 
+type PickBanScreenUrlParams = {
+    matchId: string;
+    swapTeams: boolean;
+};
+
+export async function loader(data: { params: any }) {
+    return {
+        matchId: data.params.matchId,
+        swapTeams: data.params.swap,
+    };
+}
+
 export const PickBanScreen = React.memo(function PickBanScreen() {
-    const matchIdParam = useLoaderData() as string;
+    const pickBanScreenParams = useLoaderData() as PickBanScreenUrlParams;
 
     const playersResponse = ToxicDataService.usePlayers();
     const players = playersResponse.data ?? [];
@@ -103,43 +115,53 @@ export const PickBanScreen = React.memo(function PickBanScreen() {
     };
 
     useEffect(() => {
-        const match = matchIdParam
-            ? matchHistory.find((value) => value.id === matchIdParam)
+        const match = pickBanScreenParams.matchId
+            ? matchHistory.find(
+                  (value) => value.id === pickBanScreenParams.matchId
+              )
             : undefined;
 
         if (match) {
-            setTeam1Player1(match.team1.players[0].name);
-            setTeam1Player2(match.team1.players[1].name);
-            setTeam1Player3(match.team1.players[2].name);
-            setTeam1Player4(match.team1.players[3].name);
-            setTeam1Player5(match.team1.players[4].name);
-            setTeam2Player1(match.team2.players[0].name);
-            setTeam2Player2(match.team2.players[1].name);
-            setTeam2Player3(match.team2.players[2].name);
-            setTeam2Player4(match.team2.players[3].name);
-            setTeam2Player5(match.team2.players[4].name);
+            // check the swap teams parameter
+            const team1 = pickBanScreenParams.swapTeams
+                ? match.team2
+                : match.team1;
+            const team2 = pickBanScreenParams.swapTeams
+                ? match.team1
+                : match.team2;
 
-            setTeam1Champion1(match.team1.players[0].champion.name);
-            setTeam1Champion2(match.team1.players[1].champion.name);
-            setTeam1Champion3(match.team1.players[2].champion.name);
-            setTeam1Champion4(match.team1.players[3].champion.name);
-            setTeam1Champion5(match.team1.players[4].champion.name);
-            setTeam2Champion1(match.team2.players[0].champion.name);
-            setTeam2Champion2(match.team2.players[1].champion.name);
-            setTeam2Champion3(match.team2.players[2].champion.name);
-            setTeam2Champion4(match.team2.players[3].champion.name);
-            setTeam2Champion5(match.team2.players[4].champion.name);
+            setTeam1Player1(team1.players[0].name);
+            setTeam1Player2(team1.players[1].name);
+            setTeam1Player3(team1.players[2].name);
+            setTeam1Player4(team1.players[3].name);
+            setTeam1Player5(team1.players[4].name);
+            setTeam2Player1(team2.players[0].name);
+            setTeam2Player2(team2.players[1].name);
+            setTeam2Player3(team2.players[2].name);
+            setTeam2Player4(team2.players[3].name);
+            setTeam2Player5(team2.players[4].name);
 
-            setTeam1Ban1(match.team1.bans[0].name);
-            setTeam1Ban2(match.team1.bans[1].name);
-            setTeam1Ban3(match.team1.bans[2].name);
-            setTeam1Ban4(match.team1.bans[3].name);
-            setTeam1Ban5(match.team1.bans[4].name);
-            setTeam2Ban1(match.team2.bans[0].name);
-            setTeam2Ban2(match.team2.bans[1].name);
-            setTeam2Ban3(match.team2.bans[2].name);
-            setTeam2Ban4(match.team2.bans[3].name);
-            setTeam2Ban5(match.team2.bans[4].name);
+            setTeam1Champion1(team1.players[0].champion.name);
+            setTeam1Champion2(team1.players[1].champion.name);
+            setTeam1Champion3(team1.players[2].champion.name);
+            setTeam1Champion4(team1.players[3].champion.name);
+            setTeam1Champion5(team1.players[4].champion.name);
+            setTeam2Champion1(team2.players[0].champion.name);
+            setTeam2Champion2(team2.players[1].champion.name);
+            setTeam2Champion3(team2.players[2].champion.name);
+            setTeam2Champion4(team2.players[3].champion.name);
+            setTeam2Champion5(team2.players[4].champion.name);
+
+            setTeam1Ban1(team1.bans[0].name);
+            setTeam1Ban2(team1.bans[1].name);
+            setTeam1Ban3(team1.bans[2].name);
+            setTeam1Ban4(team1.bans[3].name);
+            setTeam1Ban5(team1.bans[4].name);
+            setTeam2Ban1(team2.bans[0].name);
+            setTeam2Ban2(team2.bans[1].name);
+            setTeam2Ban3(team2.bans[2].name);
+            setTeam2Ban4(team2.bans[3].name);
+            setTeam2Ban5(team2.bans[4].name);
         }
     }, [matchHistory]);
 
