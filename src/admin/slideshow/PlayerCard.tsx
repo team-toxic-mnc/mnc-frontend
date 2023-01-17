@@ -185,7 +185,7 @@ export const PlayerCard = (props: { player: Player }) => {
                             fontFamily: 'bahnschrift, sans-serif',
                         }}
                     >
-                        MMR
+                        SPR
                     </h1>
                     <h1 style={mmrTextStyle}>
                         {Math.round(props.player.glicko ?? 0)}

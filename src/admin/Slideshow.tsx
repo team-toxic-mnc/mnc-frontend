@@ -125,7 +125,8 @@ export const Slideshow = React.memo(function Slideshow({
     const playersResponse = ToxicDataService.usePlayers(SEASON_NUMBER);
     const players = playersResponse.data ?? [];
 
-    const championsResponse = ToxicDataService.useChampions(SEASON_NUMBER);
+    // do not limit champion win rate data to a single season (there simply aren't enough games)
+    const championsResponse = ToxicDataService.useChampions();
     const champions = Array.from(Object.values(championsResponse.data ?? {}));
 
     const [slideNo, setSlideNo] = useState(0);
@@ -154,8 +155,7 @@ export const Slideshow = React.memo(function Slideshow({
     // sort the champions by win rate
     const sortedChampions = champions
         ? champions
-              // ignore the placements filter
-              //.filter((value) => value.totalGames >= 10)
+              .filter((value) => value.totalGames >= 10)
               .sort((a, b) => b.winPercentage - a.winPercentage)
         : [];
 
