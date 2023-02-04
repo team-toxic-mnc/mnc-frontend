@@ -5,6 +5,14 @@ export type NewsCardData = {
     id: string;
 };
 
+export const article_4: NewsCardData = {
+    id: '4',
+    title: 'End of Season 1 & Monday Night Classic',
+    date: 'Februrary 4, 2023',
+    content:
+        'The end of season 1 is approaching, and a very small peek into the upcoming Monday Night Classic event!',
+};
+
 export const article_3: NewsCardData = {
     id: '3',
     title: 'ARAM Clash 2022 Accolade',
@@ -29,4 +37,4 @@ export const article_1: NewsCardData = {
         "The Monday Night Customs team is excited to announce several new and exciting changes coming with our first ever season! From new Season Power Rankings to Season Rewards, you won't want to miss this update!",
 };
 
-export const ARTICLES = [article_3, article_2, article_1];
+export const ARTICLES = [article_4, article_3, article_2, article_1];
