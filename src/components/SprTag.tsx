@@ -17,7 +17,7 @@ export const SprTag = ({
         if (typeof value === 'number') {
             spr = value;
         } else if (typeof value === 'object') {
-            isQualified = (value.wins ?? 0) + (value.losses ?? 0) >= 30;
+            isQualified = (value.wins ?? 0) + (value.losses ?? 0) >= 20;
             spr = getSprValue(value);
         }
     }

@@ -141,11 +141,11 @@ export const Slideshow = React.memo(function Slideshow({
               .sort((a, b) => {
                   // put all qualified players at the beginning of the leaderboard
                   const aValue =
-                      (a.wins ?? 0) + (a.losses ?? 0) >= 30
+                      (a.wins ?? 0) + (a.losses ?? 0) >= 20
                           ? (a.glicko ?? 0) * 1000
                           : a.glicko ?? 0;
                   const bValue =
-                      (b.wins ?? 0) + (b.losses ?? 0) >= 30
+                      (b.wins ?? 0) + (b.losses ?? 0) >= 20
                           ? (b.glicko ?? 0) * 1000
                           : b.glicko ?? 0;
                   return bValue - aValue;

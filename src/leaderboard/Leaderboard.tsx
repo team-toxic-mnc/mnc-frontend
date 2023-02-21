@@ -43,11 +43,11 @@ const processPlayers = (
               .sort((a, b) => {
                   // put all players who have completed their qualifying games to the top of the leaderboard
                   const playerASpr =
-                      (a.wins ?? 0) + (a.losses ?? 0) >= 30
+                      (a.wins ?? 0) + (a.losses ?? 0) >= 20
                           ? getSprValue(a) * 1000
                           : getSprValue(a);
                   const playerBSpr =
-                      (b.wins ?? 0) + (b.losses ?? 0) >= 30
+                      (b.wins ?? 0) + (b.losses ?? 0) >= 20
                           ? getSprValue(b) * 1000
                           : getSprValue(b);
 
