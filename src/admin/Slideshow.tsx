@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getSprColor } from '../utils/sprHelpers';
+import { getSprColor, MIN_GAMES_REQUIRED } from '../utils/sprHelpers';
 
 import CSS from 'csstype';
 import { PlayerCard } from './slideshow/PlayerCard';
@@ -141,11 +141,11 @@ export const Slideshow = React.memo(function Slideshow({
               .sort((a, b) => {
                   // put all qualified players at the beginning of the leaderboard
                   const aValue =
-                      (a.wins ?? 0) + (a.losses ?? 0) >= 30
+                      (a.wins ?? 0) + (a.losses ?? 0) >= MIN_GAMES_REQUIRED
                           ? (a.glicko ?? 0) * 1000
                           : a.glicko ?? 0;
                   const bValue =
-                      (b.wins ?? 0) + (b.losses ?? 0) >= 30
+                      (b.wins ?? 0) + (b.losses ?? 0) >= MIN_GAMES_REQUIRED
                           ? (b.glicko ?? 0) * 1000
                           : b.glicko ?? 0;
                   return bValue - aValue;

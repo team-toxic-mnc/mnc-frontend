@@ -1,7 +1,7 @@
 import { GlickoHistoryItem } from '../types/domain/GlickoHistoryItem';
 import { Player } from '../types/domain/Player';
 
-const MIN_GAMES_REQUIRED = 30;
+export const MIN_GAMES_REQUIRED = 20;
 const MAXIMUM_VALUE = 1800;
 
 export function getSprValue(player: Player): number {

@@ -2,7 +2,11 @@ import { Text, Tooltip } from '@chakra-ui/react';
 import { Tag, TagLeftIcon } from '@chakra-ui/tag';
 import { GiWingedSword } from 'react-icons/gi';
 import { Player } from '../types/domain/Player';
-import { getSprColor, getSprValue } from '../utils/sprHelpers';
+import {
+    getSprColor,
+    getSprValue,
+    MIN_GAMES_REQUIRED,
+} from '../utils/sprHelpers';
 
 export const SprTag = ({
     value,
@@ -17,7 +21,8 @@ export const SprTag = ({
         if (typeof value === 'number') {
             spr = value;
         } else if (typeof value === 'object') {
-            isQualified = (value.wins ?? 0) + (value.losses ?? 0) >= 30;
+            isQualified =
+                (value.wins ?? 0) + (value.losses ?? 0) >= MIN_GAMES_REQUIRED;
             spr = getSprValue(value);
         }
     }

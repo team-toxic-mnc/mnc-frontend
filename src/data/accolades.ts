@@ -28,3 +28,14 @@ export const CLASH_2022_PARTICIPANTS = [
     'kash4null',
     'namelrrelevant',
 ];
+
+export const SEASON_1_QUALIFERS = [
+    'pioushippo',
+    'dwyane',
+    'kash4null',
+    'dropitlikeitsbox',
+];
+
+export const SEASON_1_TOP_5 = ['hector1747', 'doomgeek', 'lumenadi', 'haley'];
+
+export const SEASON_1_TOP_1 = ['yahboiduane'];
