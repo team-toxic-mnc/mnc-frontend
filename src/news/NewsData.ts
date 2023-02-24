@@ -9,7 +9,8 @@ export const article_5: NewsCardData = {
     id: '5',
     title: 'Season 1 Complete!',
     date: 'Februrary 24, 2023',
-    content: 'Season 1 is finally over, congratulations!',
+    content:
+        'Season 1 is finally over, congratulations to our qualifiers and top players!',
 };
 
 export const article_4: NewsCardData = {
