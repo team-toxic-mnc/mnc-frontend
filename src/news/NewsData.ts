@@ -5,6 +5,13 @@ export type NewsCardData = {
     id: string;
 };
 
+export const article_5: NewsCardData = {
+    id: '5',
+    title: 'Season 1 Complete!',
+    date: 'Februrary 24, 2023',
+    content: 'Season 1 is finally over, congratulations!',
+};
+
 export const article_4: NewsCardData = {
     id: '4',
     title: 'End of Season 1 & Monday Night Classic',
@@ -37,4 +44,4 @@ export const article_1: NewsCardData = {
         "The Monday Night Customs team is excited to announce several new and exciting changes coming with our first ever season! From new Season Power Rankings to Season Rewards, you won't want to miss this update!",
 };
 
-export const ARTICLES = [article_4, article_3, article_2, article_1];
+export const ARTICLES = [article_5, article_4, article_3, article_2, article_1];
