@@ -16,6 +16,7 @@ import {
     getSprTrendingChange,
     mapSprHistoryCollectionToPlayerSprHistoryMap,
     getSprValue,
+    MIN_GAMES_REQUIRED,
 } from '../utils/sprHelpers';
 
 type PlayerTableData = {
@@ -43,11 +44,11 @@ const processPlayers = (
               .sort((a, b) => {
                   // put all players who have completed their qualifying games to the top of the leaderboard
                   const playerASpr =
-                      (a.wins ?? 0) + (a.losses ?? 0) >= 20
+                      (a.wins ?? 0) + (a.losses ?? 0) >= MIN_GAMES_REQUIRED
                           ? getSprValue(a) * 1000
                           : getSprValue(a);
                   const playerBSpr =
-                      (b.wins ?? 0) + (b.losses ?? 0) >= 20
+                      (b.wins ?? 0) + (b.losses ?? 0) >= MIN_GAMES_REQUIRED
                           ? getSprValue(b) * 1000
                           : getSprValue(b);
 

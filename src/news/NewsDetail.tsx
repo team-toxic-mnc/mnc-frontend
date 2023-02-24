@@ -10,6 +10,7 @@ import ARTICLE_10_20_2022 from './articles/2022/10_20_2022';
 import ARTICLE_11_18_2022 from './articles/2022/11_18_2022';
 import ARTICLE_12_15_2022 from './articles/2022/12_15_2022';
 import ARTICLE_02_04_2023 from './articles/2023/02_04_2023';
+import ARTICLE_02_24_2023 from './articles/2023/02_24_2023';
 
 export async function loader(data: { params: any }) {
     return data.params.newsId;
@@ -25,6 +26,8 @@ function articleLookup(articleId: string) {
             return <ARTICLE_12_15_2022 />;
         case '4':
             return <ARTICLE_02_04_2023 />;
+        case '5':
+            return <ARTICLE_02_24_2023 />;
         default:
             return null;
     }
