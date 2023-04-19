@@ -1,7 +1,6 @@
 import {
     Button,
     Flex,
-    ResponsiveValue,
     Table,
     TableContainer,
     Tbody,
@@ -11,9 +10,8 @@ import {
     Tr,
     useToast,
 } from '@chakra-ui/react';
-import { TextAlign } from 'chart.js';
 import { Player } from '../types/domain/Player';
-import { getMmrValue, INITIAL_MMR } from '../utils/mmrHelpers';
+import { INITIAL_MMR, getMmrValue } from '../utils/mmrHelpers';
 
 const getTeamMmr = (team: readonly Player[]): number => {
     return Math.round(
@@ -53,9 +51,9 @@ export const MatchTable = ({
     };
 
     const copyMatchToClipboard = () => {
-        const text = `Blue Team:\n${writeTeamToString(
+        const text = `Team 1:\n${writeTeamToString(
             blueTeam
-        )}\n\nRedTeam:\n${writeTeamToString(redTeam)}`;
+        )}\n\nTeam 2:\n${writeTeamToString(redTeam)}`;
         navigator.clipboard.writeText(text);
     };
 
@@ -78,10 +76,10 @@ export const MatchTable = ({
                         <Thead>
                             <Tr>
                                 <Th color='blue.500'>
-                                    Blue Team ({getTeamMmr(blueTeam)})
+                                    Team 1 ({getTeamMmr(blueTeam)})
                                 </Th>
                                 <Th color='red.600' textAlign='right'>
-                                    Red Team ({getTeamMmr(redTeam)})
+                                    Team 2 ({getTeamMmr(redTeam)})
                                 </Th>
                             </Tr>
                         </Thead>
