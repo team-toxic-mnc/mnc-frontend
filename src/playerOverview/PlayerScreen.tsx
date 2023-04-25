@@ -103,7 +103,7 @@ export const PlayerScreen = React.memo(function PlayerScreen() {
     const playerId = useLoaderData() as string;
 
     const [season, setSeason] = useState<SeasonSelectOption | null>(
-        formatSeasonSelectOption(Seasons.SEASON_ONE)
+        formatSeasonSelectOption(Seasons.ALL_SEASONS)
     );
 
     const playerResponse = ToxicDataService.usePlayer(playerId ?? '');
