@@ -220,4 +220,5 @@ export const ChampionClassMap: { [id: string]: ChampionClass[] } = {
     Shen: [ChampionClass.Warden],
     'Tahm Kench': [ChampionClass.Warden],
     "K'Sante": [ChampionClass.Warden, ChampionClass.Skirmishers],
+    Milio: [ChampionClass.Enchanter],
 };
