@@ -55,6 +55,9 @@ export const Matchmaker = () => {
             team1.push(...playerPool.splice(0, 3));
             team2.push(...playerPool.splice(0, 3));
 
+            randomizePlayers(team1);
+            randomizePlayers(team2);
+
             if (Math.random() < 0.5) {
                 setBlueTeam(team1);
                 setRedTeam(team2);
