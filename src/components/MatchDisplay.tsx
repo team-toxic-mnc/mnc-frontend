@@ -51,28 +51,33 @@ const MatchPlayerCard = React.memo(
                     padding={1}
                     size='md'
                 >
-                    <Image src={player.champion.images.portrait} />
+                    {player.champion.images.portrait.indexOf('undefined') ===
+                    -1 ? (
+                        <Image src={player.champion.images.portrait} />
+                    ) : null}
                 </Button>
-                <Button
-                    variant='ghost'
-                    onClick={playerNav}
-                    alignSelf={'stretch'}
-                    backgroundColor={backgroundColor}
-                    borderColor={borderColor}
-                    borderWidth={borderColor ? 5 : undefined}
-                    size='md'
-                >
-                    <Text
-                        style={{
-                            fontStyle: 'italic',
-                            fontWeight: 'bold',
-                            color: textColor,
-                        }}
+                {player.name !== '' ? (
+                    <Button
+                        variant='ghost'
                         onClick={playerNav}
+                        alignSelf={'stretch'}
+                        backgroundColor={backgroundColor}
+                        borderColor={borderColor}
+                        borderWidth={borderColor ? 5 : undefined}
+                        size='md'
                     >
-                        {player.name.toUpperCase()}
-                    </Text>
-                </Button>
+                        <Text
+                            style={{
+                                fontStyle: 'italic',
+                                fontWeight: 'bold',
+                                color: textColor,
+                            }}
+                            onClick={playerNav}
+                        >
+                            {player.name.toUpperCase()}
+                        </Text>
+                    </Button>
+                ) : null}
             </Flex>
         );
     }
@@ -128,44 +133,44 @@ export const MatchDisplay = React.memo(function MatchDisplay({
     title?: string;
     casterMode?: boolean;
 }) {
-    const team1Cards = team1.map((player) => {
+    const team1Cards = team1.map((player, index) => {
         return (
             <MatchPlayerCard
                 player={player}
                 textColor={casterMode ? 'white' : undefined}
                 backgroundColor={casterMode ? 'rgb(0,0,0,0.8)' : undefined}
                 borderColor={casterMode ? TEAM_1_COLOR : undefined}
-                key={'MatchPlayerCard_' + player.name}
+                key={'MatchPlayerCard1_' + index}
             />
         );
     });
 
-    const team1BansCards = team1Bans.map((champion) => {
+    const team1BansCards = team1Bans.map((champion, index) => {
         return (
             <BannedChampion
                 champion={champion}
-                key={'BannedChampion_' + champion.name}
+                key={'BannedChampion1_' + index}
             />
         );
     });
 
-    const team2Cards = team2.map((player) => {
+    const team2Cards = team2.map((player, index) => {
         return (
             <MatchPlayerCard
                 player={player}
                 textColor={casterMode ? 'white' : undefined}
                 backgroundColor={casterMode ? 'rgb(0,0,0,0.8)' : undefined}
                 borderColor={casterMode ? TEAM_2_COLOR : undefined}
-                key={'MatchPlayerCard_' + player.name}
+                key={'MatchPlayerCard2_' + index}
             />
         );
     });
 
-    const team2BansCards = team2Bans.map((champion) => {
+    const team2BansCards = team2Bans.map((champion, index) => {
         return (
             <BannedChampion
                 champion={champion}
-                key={'BannedChampion_' + champion.name}
+                key={'BannedChampion2_' + index}
             />
         );
     });
