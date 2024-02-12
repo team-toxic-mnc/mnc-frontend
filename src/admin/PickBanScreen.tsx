@@ -115,11 +115,12 @@ export const PickBanScreen = React.memo(function PickBanScreen() {
     };
 
     useEffect(() => {
-        const match = pickBanScreenParams.matchId
-            ? matchHistory.find(
-                  (value) => value.id === pickBanScreenParams.matchId
-              )
-            : undefined;
+        const match =
+            pickBanScreenParams && pickBanScreenParams.matchId
+                ? matchHistory.find(
+                      (value) => value.id === pickBanScreenParams.matchId
+                  )
+                : undefined;
 
         if (match) {
             // check the swap teams parameter
@@ -163,7 +164,7 @@ export const PickBanScreen = React.memo(function PickBanScreen() {
             setTeam2Ban4(team2.bans[3].name);
             setTeam2Ban5(team2.bans[4].name);
         }
-    }, [matchHistory]);
+    }, [matchHistory, pickBanScreenParams]);
 
     const team1: MatchDisplayPlayer[] = [
         {
@@ -455,68 +456,85 @@ export const PickBanScreen = React.memo(function PickBanScreen() {
                         {championOptions}
                     </select>
                 </Flex>
-                <Flex direction='row'>
-                    <select
-                        id={'t1p1select'}
-                        onChange={(e) => {
-                            setTeam1Player1(
-                                (document.getElementById('t1p1select') as any)
-                                    .value
-                            );
-                        }}
-                        style={{ width: 175 }}
-                    >
-                        {playerOptions}
-                    </select>
-                    <select
-                        id={'t1p2select'}
-                        onChange={(e) => {
-                            setTeam1Player2(
-                                (document.getElementById('t1p2select') as any)
-                                    .value
-                            );
-                        }}
-                        style={{ width: 175 }}
-                    >
-                        {playerOptions}
-                    </select>
-                    <select
-                        id={'t1p3select'}
-                        onChange={(e) => {
-                            setTeam1Player3(
-                                (document.getElementById('t1p3select') as any)
-                                    .value
-                            );
-                        }}
-                        style={{ width: 175 }}
-                    >
-                        {playerOptions}
-                    </select>
-                    <select
-                        id={'t1p4select'}
-                        onChange={(e) => {
-                            setTeam1Player4(
-                                (document.getElementById('t1p4select') as any)
-                                    .value
-                            );
-                        }}
-                        style={{ width: 175 }}
-                    >
-                        {playerOptions}
-                    </select>
-                    <select
-                        id={'t1p5select'}
-                        onChange={(e) => {
-                            setTeam1Player5(
-                                (document.getElementById('t1p5select') as any)
-                                    .value
-                            );
-                        }}
-                        style={{ width: 175 }}
-                    >
-                        {playerOptions}
-                    </select>
-                </Flex>
+                {pickBanScreenParams !== undefined ? (
+                    <Flex direction='row'>
+                        <select
+                            id={'t1p1select'}
+                            onChange={(e) => {
+                                setTeam1Player1(
+                                    (
+                                        document.getElementById(
+                                            't1p1select'
+                                        ) as any
+                                    ).value
+                                );
+                            }}
+                            style={{ width: 175 }}
+                        >
+                            {playerOptions}
+                        </select>
+                        <select
+                            id={'t1p2select'}
+                            onChange={(e) => {
+                                setTeam1Player2(
+                                    (
+                                        document.getElementById(
+                                            't1p2select'
+                                        ) as any
+                                    ).value
+                                );
+                            }}
+                            style={{ width: 175 }}
+                        >
+                            {playerOptions}
+                        </select>
+                        <select
+                            id={'t1p3select'}
+                            onChange={(e) => {
+                                setTeam1Player3(
+                                    (
+                                        document.getElementById(
+                                            't1p3select'
+                                        ) as any
+                                    ).value
+                                );
+                            }}
+                            style={{ width: 175 }}
+                        >
+                            {playerOptions}
+                        </select>
+                        <select
+                            id={'t1p4select'}
+                            onChange={(e) => {
+                                setTeam1Player4(
+                                    (
+                                        document.getElementById(
+                                            't1p4select'
+                                        ) as any
+                                    ).value
+                                );
+                            }}
+                            style={{ width: 175 }}
+                        >
+                            {playerOptions}
+                        </select>
+                        <select
+                            id={'t1p5select'}
+                            onChange={(e) => {
+                                setTeam1Player5(
+                                    (
+                                        document.getElementById(
+                                            't1p5select'
+                                        ) as any
+                                    ).value
+                                );
+                            }}
+                            style={{ width: 175 }}
+                        >
+                            {playerOptions}
+                        </select>
+                    </Flex>
+                ) : null}
             </Flex>
             <Flex direction={'column'} backgroundColor={'white'}>
                 <h1>TEAM 2 BANS: </h1>
@@ -645,68 +663,85 @@ export const PickBanScreen = React.memo(function PickBanScreen() {
                         {championOptions}
                     </select>
                 </Flex>
-                <Flex direction='row'>
-                    <select
-                        id={'t2p1select'}
-                        onChange={(e) => {
-                            setTeam2Player1(
-                                (document.getElementById('t2p1select') as any)
-                                    .value
-                            );
-                        }}
-                        style={{ width: 175 }}
-                    >
-                        {playerOptions}
-                    </select>
-                    <select
-                        id={'t2p2select'}
-                        onChange={(e) => {
-                            setTeam2Player2(
-                                (document.getElementById('t2p2select') as any)
-                                    .value
-                            );
-                        }}
-                        style={{ width: 175 }}
-                    >
-                        {playerOptions}
-                    </select>
-                    <select
-                        id={'t2p3select'}
-                        onChange={(e) => {
-                            setTeam2Player3(
-                                (document.getElementById('t2p3select') as any)
-                                    .value
-                            );
-                        }}
-                        style={{ width: 175 }}
-                    >
-                        {playerOptions}
-                    </select>
-                    <select
-                        id={'t2p4select'}
-                        onChange={(e) => {
-                            setTeam2Player4(
-                                (document.getElementById('t2p4select') as any)
-                                    .value
-                            );
-                        }}
-                        style={{ width: 175 }}
-                    >
-                        {playerOptions}
-                    </select>
-                    <select
-                        id={'t2p5select'}
-                        onChange={(e) => {
-                            setTeam2Player5(
-                                (document.getElementById('t2p5select') as any)
-                                    .value
-                            );
-                        }}
-                        style={{ width: 175 }}
-                    >
-                        {playerOptions}
-                    </select>
-                </Flex>
+                {pickBanScreenParams !== undefined ? (
+                    <Flex direction='row'>
+                        <select
+                            id={'t2p1select'}
+                            onChange={(e) => {
+                                setTeam2Player1(
+                                    (
+                                        document.getElementById(
+                                            't2p1select'
+                                        ) as any
+                                    ).value
+                                );
+                            }}
+                            style={{ width: 175 }}
+                        >
+                            {playerOptions}
+                        </select>
+                        <select
+                            id={'t2p2select'}
+                            onChange={(e) => {
+                                setTeam2Player2(
+                                    (
+                                        document.getElementById(
+                                            't2p2select'
+                                        ) as any
+                                    ).value
+                                );
+                            }}
+                            style={{ width: 175 }}
+                        >
+                            {playerOptions}
+                        </select>
+                        <select
+                            id={'t2p3select'}
+                            onChange={(e) => {
+                                setTeam2Player3(
+                                    (
+                                        document.getElementById(
+                                            't2p3select'
+                                        ) as any
+                                    ).value
+                                );
+                            }}
+                            style={{ width: 175 }}
+                        >
+                            {playerOptions}
+                        </select>
+                        <select
+                            id={'t2p4select'}
+                            onChange={(e) => {
+                                setTeam2Player4(
+                                    (
+                                        document.getElementById(
+                                            't2p4select'
+                                        ) as any
+                                    ).value
+                                );
+                            }}
+                            style={{ width: 175 }}
+                        >
+                            {playerOptions}
+                        </select>
+                        <select
+                            id={'t2p5select'}
+                            onChange={(e) => {
+                                setTeam2Player5(
+                                    (
+                                        document.getElementById(
+                                            't2p5select'
+                                        ) as any
+                                    ).value
+                                );
+                            }}
+                            style={{ width: 175 }}
+                        >
+                            {playerOptions}
+                        </select>
+                    </Flex>
+                ) : null}
             </Flex>
             <Flex
                 borderWidth={1}

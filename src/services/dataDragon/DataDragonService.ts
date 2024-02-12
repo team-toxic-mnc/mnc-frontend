@@ -3,8 +3,9 @@ import axios from 'axios';
 import { Champions } from '../../types/service/dataDragon/DataDragonChampions';
 import { mapChampions } from './dataMapper';
 
-const championDataEndpoint =
-    'https://ddragon.leagueoflegends.com/cdn/12.22.1/data/en_US/champion.json';
+const LEAGUE_PATCH_NUMBER = '14.3.1';
+
+const championDataEndpoint = `https://ddragon.leagueoflegends.com/cdn/${LEAGUE_PATCH_NUMBER}/data/en_US/champion.json`;
 
 const fetchChampions = () =>
     axios

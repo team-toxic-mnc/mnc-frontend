@@ -83,7 +83,7 @@ export const router = createBrowserRouter([
                 element: <PlayerCardScreen />,
             },
             {
-                path: '/barghest',
+                path: '/barghest2',
                 element: <PickBanScreen />,
             },
             {

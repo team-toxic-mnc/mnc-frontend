@@ -1,6 +1,8 @@
 import { ChampionImages } from '../types/domain/ChampionImages';
 import { Match } from '../types/domain/Match';
 
+const LEAGUE_PATCH_NUMBER = '14.3.1';
+
 /**
  * Gets the champion image url given a data dragon champion id.
  * @param championId Data dragon champion id
@@ -8,7 +10,7 @@ import { Match } from '../types/domain/Match';
 export function getChampionImage(championId: string): ChampionImages {
     return {
         portrait: `http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${championId}_0.jpg`,
-        square: `https://ddragon.leagueoflegends.com/cdn/12.22.1/img/champion/${championId}.png`,
+        square: `https://ddragon.leagueoflegends.com/cdn/${LEAGUE_PATCH_NUMBER}/img/champion/${championId}.png`,
     };
 }
 
