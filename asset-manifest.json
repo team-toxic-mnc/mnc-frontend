@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/static/css/main.504ec260.css",
-    "main.js": "/static/js/main.a985637b.js",
-    "static/js/787.36d6cc22.chunk.js": "/static/js/787.36d6cc22.chunk.js",
-    "static/media/background.webp": "/static/media/background.a3ba4e0cac2de693ae9d.webp",
-    "static/media/season_1_transparent.png": "/static/media/season_1_transparent.1d8cccecbb029e35757d.png",
-    "static/media/mnc_text_logo.png": "/static/media/mnc_text_logo.fca44afbe6051b6b48f1.png",
-    "index.html": "/index.html",
-    "main.504ec260.css.map": "/static/css/main.504ec260.css.map",
-    "main.a985637b.js.map": "/static/js/main.a985637b.js.map",
-    "787.36d6cc22.chunk.js.map": "/static/js/787.36d6cc22.chunk.js.map"
+    "main.css": "/mnc-frontend/static/css/main.504ec260.css",
+    "main.js": "/mnc-frontend/static/js/main.001dc094.js",
+    "static/js/787.36d6cc22.chunk.js": "/mnc-frontend/static/js/787.36d6cc22.chunk.js",
+    "static/media/background.webp": "/mnc-frontend/static/media/background.a3ba4e0cac2de693ae9d.webp",
+    "static/media/season_1_transparent.png": "/mnc-frontend/static/media/season_1_transparent.1d8cccecbb029e35757d.png",
+    "static/media/mnc_text_logo.png": "/mnc-frontend/static/media/mnc_text_logo.fca44afbe6051b6b48f1.png",
+    "index.html": "/mnc-frontend/index.html",
+    "main.504ec260.css.map": "/mnc-frontend/static/css/main.504ec260.css.map",
+    "main.001dc094.js.map": "/mnc-frontend/static/js/main.001dc094.js.map",
+    "787.36d6cc22.chunk.js.map": "/mnc-frontend/static/js/787.36d6cc22.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.504ec260.css",
-    "static/js/main.a985637b.js"
+    "static/js/main.001dc094.js"
   ]
 }
