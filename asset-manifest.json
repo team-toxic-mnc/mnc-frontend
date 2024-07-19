@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/static/css/main.504ec260.css",
+    "main.js": "/static/js/main.f19680c2.js",
+    "static/js/787.36d6cc22.chunk.js": "/static/js/787.36d6cc22.chunk.js",
+    "static/media/background.webp": "/static/media/background.a3ba4e0cac2de693ae9d.webp",
+    "static/media/season_1_transparent.png": "/static/media/season_1_transparent.1d8cccecbb029e35757d.png",
+    "static/media/mnc_text_logo.png": "/static/media/mnc_text_logo.fca44afbe6051b6b48f1.png",
+    "index.html": "/index.html",
+    "main.504ec260.css.map": "/static/css/main.504ec260.css.map",
+    "main.f19680c2.js.map": "/static/js/main.f19680c2.js.map",
+    "787.36d6cc22.chunk.js.map": "/static/js/787.36d6cc22.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.504ec260.css",
+    "static/js/main.f19680c2.js"
+  ]
+}
