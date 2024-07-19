@@ -1,5 +1,6 @@
 {
     "name": "mnc-matchmaker",
+    "hompage": "https://team-toxic-mnc.github.io/mnc-frontend/",
     "version": "0.1.0",
     "private": true,
     "dependencies": {
@@ -26,6 +27,7 @@
         "chart.js": "^3.9.1",
         "csstype": "^3.1.1",
         "framer-motion": "^6.5.1",
+        "gh-pages": "^6.1.1",
         "react": "^18.2.0",
         "react-chartjs-2": "^4.3.1",
         "react-dom": "^18.2.0",
@@ -46,7 +48,9 @@
         "eject": "react-scripts eject",
         "lint": "eslint -c eslint.config.json --fix",
         "format": "prettier --config .prettierrc.yaml \"src/**/*.{js,jsx,ts,tsx,css,md,json}\" --write",
-        "prepare": "husky install"
+        "prepare": "husky install",
+        "predeploy": "npm run build",
+        "deploy": "gh-pages -d build"
     },
     "lint-staged": {
         "*.+(js|jsx|ts|tsx)": "eslint -c eslint.config.json --fix"
