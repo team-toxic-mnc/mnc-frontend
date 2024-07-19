@@ -1,6 +1,6 @@
 {
     "name": "mnc-matchmaker",
-    "hompage": "https://team-toxic-mnc.github.io/mnc-frontend/",
+    "homepage": "https://team-toxic-mnc.github.io/mnc-frontend/",
     "version": "0.1.0",
     "private": true,
     "dependencies": {

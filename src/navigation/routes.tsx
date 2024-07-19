@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, createHashRouter } from 'react-router-dom';
 
 import { PlayerOverview } from '../playerOverview/PlayerOverview';
 import Home from '../home/Home';
@@ -27,7 +27,7 @@ import { loader as newsLoader, NewsDetail } from '../news/NewsDetail';
 import NewsOverview from '../news/NewsOverview';
 import { PlayerCardScreen } from '../admin/PlayerCardScreen';
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
     {
         path: '/',
         element: <Root />,
